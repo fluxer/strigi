@@ -1,0 +1,6 @@
+add_subdirectory(endplugins)
+add_subdirectory(eventplugins)
+add_subdirectory(lineplugins)
+add_subdirectory(saxplugins)
+add_subdirectory(throughplugins)
+add_subdirectory(indexers)

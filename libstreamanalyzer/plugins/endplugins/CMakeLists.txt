@@ -1,0 +1,40 @@
+MACRO(ADD_STRIGIEA libname files)
+  if(WIN32)
+    # this is needed to have mingw, cygwin and msvc libs installed in one directory
+    if(MSVC)
+      set(prefix msvc_strigiea_)
+    elseif(CYGWIN)  
+      set(prefix cyg_strigiea_)
+    elseif(MINGW)
+      # mingw
+      set(prefix mingw_strigiea_)
+    endif()
+
+  else()
+    set(prefix strigiea_)
+  endif()
+  add_library(${libname} MODULE ${files})
+  set_target_properties(${libname} PROPERTIES
+    PREFIX ${prefix})
+  target_link_libraries(${libname} streamanalyzer)
+  install(TARGETS ${libname} LIBRARY DESTINATION ${LIB_DESTINATION}/strigi)
+ENDMACRO(ADD_STRIGIEA)
+
+if(EXIV2_FOUND)
+  include_directories( ${EXIV2_INCLUDE_DIR} )
+  ADD_STRIGIEA(jpeg jpegendanalyzer.cpp)
+  target_link_libraries(jpeg ${EXIV2_LIBRARIES})
+endif()
+
+if(XINE_FOUND)
+  ADD_STRIGIEA(xine xineendanalyzer.cpp)
+  target_link_libraries(xine ${XINE_LIBRARY})
+endif()
+
+if(FFMPEG_FOUND)
+  include_directories( ${FFMPEG_INCLUDE_DIRS} )
+  add_definitions(-D__STDC_CONSTANT_MACROS)
+  ADD_STRIGIEA(ffmpeg ffmpegendanalyzer.cpp)
+  #set_target_properties( ffmpeg PROPERTIES COMPILE_FLAGS "${FFMPEG_DEFINITIONS}" )
+  target_link_libraries(ffmpeg ${FFMPEG_LIBRARIES})
+endif()
