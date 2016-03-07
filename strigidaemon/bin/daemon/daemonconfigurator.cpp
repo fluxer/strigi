@@ -81,7 +81,11 @@ DaemonConfigurator::DaemonConfigurator (const string& confFile)
         }
         r.a_indexdir = strigidir + "/clucene";
         r.a_writeable = true;
+#ifdef HAVE_CLUCENE_NG
+        r.a_type = "cluceneng";
+#else
         r.a_type = "clucene";
+#endif
         r.a_pollingInterval = DEFAULT_POLLING_INTERVAL;
 
         Path p;

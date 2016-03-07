@@ -83,6 +83,10 @@ IF (ENABLE_LOG4CXX AND LOG4CXX_FOUND)
 ENDIF (ENABLE_LOG4CXX AND LOG4CXX_FOUND)
 
 
+IF (ENABLE_CLUCENE_NG AND CLUCENE1_FOUND)
+    add_definitions(-DHAVE_CLUCENE_NG)
+ENDIF (ENABLE_CLUCENE_NG AND CLUCENE1_FOUND)
+
 ##### building and testing #####
 
 configure_file(${strigidaemon_SOURCE_DIR}/strigi_thread.h.cmake
