@@ -19,7 +19,11 @@
  */
 #include "histogram.h"
 #include <QPainter>
+#ifndef QT_KATIE
 #include <QMouseEvent>
+#else
+#include <QEvent>
+#endif
 #include <QScrollBar>
 #include <QtCore/QDebug>
 

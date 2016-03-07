@@ -27,7 +27,14 @@ set(CMAKE_INSTALL_RPATH                ${LIB_DESTINATION} )
 
 
 ##### environment inspection #####
-find_optional_dep(Qt4 ENABLE_QT4 QT4_FOUND "Qt4 GUI client")
+find_optional_dep(Katie ENABLE_QT4 KATIE_FOUND "Qt4 GUI client")
+if(KATIE_FOUND)
+    include_directories(${QT_INCLUDES})
+    add_definitions(${QT_DEFINITIONS})
+    set(QT4_FOUND TRUE)
+else(KATIE_FOUND)
+    find_optional_dep(Qt4 ENABLE_QT4 QT4_FOUND "Qt4 GUI client")
+endif(KATIE_FOUND)
 if(QT4_FOUND)
   # properly set up compile flags (QT_DEBUG/QT_NO_DEBUG, ...)
   include(${QT_USE_FILE})

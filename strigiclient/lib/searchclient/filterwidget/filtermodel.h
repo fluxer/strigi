@@ -21,8 +21,12 @@
 #ifndef FILTERMODEL_H
 #define FILTERMODEL_H
 
-#include <QAbstractListModel>
 #include <QPair>
+#ifndef QT_KATIE
+#include <QAbstractListModel>
+#else
+#include <QStringListModel>
+#endif
 
 class FilterModel : public QAbstractListModel {
 public:

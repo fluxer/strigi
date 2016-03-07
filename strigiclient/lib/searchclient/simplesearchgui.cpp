@@ -24,7 +24,9 @@
 #include "histogram.h"
 #include "searchview.h"
 #include <QtGui/QListWidget>
+#ifndef QT_KATIE
 #include <QtGui/QListWidgetItem>
+#endif
 #include <QtGui/QLineEdit>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QStackedWidget>
