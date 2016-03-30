@@ -242,7 +242,7 @@ FFMPEGEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
   pd.buf_size = headersize;
   pd.filename ="";
 // 2014-07-29 - 80a3a66 / 3a19405 - lavf 56.01.100 / 56.01.0 - avformat.h
-#if (LIBAVFORMAT_VERSION_MAJOR > 50)
+#if (LIBAVFORMAT_VERSION_MAJOR > 55)
   pd.mime_type = "";
 #endif
   int max_score;
@@ -337,7 +337,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
   pd.buf_size = buff_size;
   pd.buf = (unsigned char*)buf;
 // 2014-07-29 - 80a3a66 / 3a19405 - lavf 56.01.100 / 56.01.0 - avformat.h
-#if (LIBAVFORMAT_VERSION_MAJOR > 50)
+#if (LIBAVFORMAT_VERSION_MAJOR > 55)
   pd.mime_type = "";
 #endif
   in->reset(0);
