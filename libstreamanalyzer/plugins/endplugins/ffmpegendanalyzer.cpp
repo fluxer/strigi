@@ -329,8 +329,12 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
 #endif
   AVProbeData pd;
   const char *buf;
+  const int buff_size = in->read(buf,262144,262144) - AVPROBE_PADDING_SIZE;
+  if (buff_size <= 0) {
+    return -1;
+  }
   pd.filename ="";
-  pd.buf_size = in->read(buf,262144,262144) - AVPROBE_PADDING_SIZE;
+  pd.buf_size = buff_size;
   pd.buf = (unsigned char*)buf;
 // 2014-07-29 - 80a3a66 / 3a19405 - lavf 56.01.100 / 56.01.0 - avformat.h
 #if (LIBAVFORMAT_VERSION_MAJOR > 50)
