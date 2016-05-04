@@ -367,7 +367,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
 #endif
 
   if(fc->bit_rate)
-    ar.addValue(factory->bitrateProperty, fc->bit_rate);
+    ar.addValue(factory->bitrateProperty, (uint32_t)fc->bit_rate);
   else if (fc->duration!= no_bitrate && fc->duration > 0) {
     cout<<"Trying to estimate bitrate\n";
     int64_t size;
@@ -467,7 +467,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
           outs << codec.sample_rate;
           ar.addTriplet(streamuri, sampleratePropertyName, outs.str());
         }
-        if (codec.sample_fmt != SAMPLE_FMT_NONE) {}//FIXME sample format
+        // if (codec.sample_fmt != SAMPLE_FMT_NONE) {}//FIXME sample format
           
       } else { // video stream
         
@@ -498,7 +498,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
           outs << stream.r_frame_rate.num / stream.r_frame_rate.den;
           ar.addTriplet(streamuri, frameRatePropertyName, outs.str());
         }
-        if (codec.pix_fmt != PIX_FMT_NONE) {}//FIXME pixel format
+        // if (codec.pix_fmt != AV_PIX_FMT_NONE) {}//FIXME pixel format
       }
       
     }
