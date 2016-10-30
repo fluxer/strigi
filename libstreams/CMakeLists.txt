@@ -127,6 +127,7 @@ install(FILES
       ${STRIGI_HEADERS}
       ${strigi_config_output}
       ${strigi_extra_config_output}
+      ${CMAKE_CURRENT_BINARY_DIR}/strigi_export.h
         DESTINATION ${INCLUDE_DESTINATION}/strigi
 )
 
