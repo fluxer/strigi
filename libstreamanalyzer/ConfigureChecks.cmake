@@ -24,7 +24,7 @@ CHECK_INCLUDE_FILES(strings.h     HAVE_STRINGS_H)                      # various
 #test for some functions that are missing on a particular system
 INCLUDE(CheckFunctionExists)
 CHECK_FUNCTION_EXISTS(fchdir HAVE_FCHDIR)               # unused !
-CHECK_FUNCTION_EXISTS(gettimeofday HAVE_GETTIMEOFDAY)   # src/luceneindexer/cluceneindexmanager.cpp, src/luceneindexer/cluceneindexreader.cpp, src/streams/strigi/timeofday.h
+CHECK_FUNCTION_EXISTS(gettimeofday HAVE_GETTIMEOFDAY)   # src/streams/strigi/timeofday.h
 CHECK_FUNCTION_EXISTS(isblank HAVE_ISBLANK)             # src/streams/mailinputstream.cpp, src/streams/strigi/compat.cpp
 CHECK_FUNCTION_EXISTS(mkstemp HAVE_MKSTEMP)             # src/streamanalyzer/helperendanalyzer.cpp
 CHECK_FUNCTION_EXISTS(nanosleep HAVE_NANOSLEEP)         # src/storage/sqlitestorage.cpp, src/daemon/indexscheduler.cpp, src/searchclient/cmdlinestrigi.cpp

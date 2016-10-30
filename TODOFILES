@@ -173,19 +173,6 @@ README.win32
 ./tests/daemon/dbus/xesam/xesamdbus.cpp
 ./tests/daemon/dbus/xesam/xesamdbus.h
 ./tests/daemon/dbus/xesam/xesamtypes.h
-./tests/indextesters/clucenetests.cpp
-- tests/indextesters/estraiertests.cpp
-./tests/indextesters/indexmanagertester.cpp
-./tests/indextesters/indexmanagertester.h
-./tests/indextesters/indexreadertester.cpp
-./tests/indextesters/indexreadertester.h
-./tests/indextesters/indexsearchtester.cpp
-./tests/indextesters/indexsearchtester.h
-./tests/indextesters/indextest.cpp
-./tests/indextesters/indextest.h
-./tests/indextesters/indexwritertester.cpp
-./tests/indextesters/indexwritertester.h
-- tests/indextesters/sqlitetests.cpp
 ./tests/streamanalyzer/diranalyzertester.cpp
 ./tests/streamanalyzer/diranalyzertester.h
 ./tests/streamanalyzer/xesam/xesam2strigitest.cpp

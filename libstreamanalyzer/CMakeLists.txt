@@ -42,9 +42,6 @@ option(ENABLE_FFMPEG
        "enable FFMPEG support. This adds support for a larger number of media formats(testing)." ON)
 option(ENABLE_EXIV2
        "enable exiv2 support. This allows you to index EXIF/IPTC metadata." ON)
-set(CLUCENE_MIN_VERSION "0.9.21")
-option(ENABLE_CLUCENE "enable CLucene support (recommended)" ON)
-option(ENABLE_CLUCENE_NG "enable clucene-ng (version 1+) support (testing)" ON)
 
 # (Absolute) paths definitions
 set(LIB_DESTINATION     "${CMAKE_INSTALL_FULL_LIBDIR}")
@@ -102,8 +99,6 @@ set_package_properties(Iconv PROPERTIES
                       )
 
 
-find_optional_dep(CLucene ENABLE_CLUCENE CLucene_FOUND "CLucene backend")
-find_optional_dep(CLucene1 ENABLE_CLUCENE_NG CLUCENE1_FOUND "CLucene Version 1+ backend")
 find_optional_dep(Exiv2 ENABLE_EXIV2 EXIV2_FOUND "indexing of EXIF/IPTC metadata")
 find_optional_dep(FFmpeg ENABLE_FFMPEG FFMPEG_FOUND "indexing FFMPEG" COMPONENTS AVCODEC AVFORMAT AVUTIL SWSCALE)
 find_package(XAttr)
