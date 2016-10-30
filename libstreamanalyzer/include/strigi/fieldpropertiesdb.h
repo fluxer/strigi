@@ -37,7 +37,7 @@ class FieldProperties;
  * The implemntation of this class might use a performance enhanced binary cache
  * of the property files.
  **/
-class STREAMANALYZER_EXPORT FieldPropertiesDb {
+class STRIGI_EXPORT FieldPropertiesDb {
 private:
     class Private;
     Private* const p;

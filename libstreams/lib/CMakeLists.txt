@@ -1,6 +1,3 @@
-# This directory builds only the library libstreams
-add_definitions(-DMAKE_STREAMS_LIB)
-
 set(streams_SRCS
 	archivereader.cpp
 	archiveentrycache.cpp
@@ -46,15 +43,10 @@ endif()
 #add the compatibility files
 set(streams_SRCS ${streams_SRCS} compat.cpp)
 
-add_library(streamsstatic STATIC ${streams_SRCS})
-set_target_properties(streamsstatic PROPERTIES DEFINE_SYMBOL MAKE_STREAMS_LIB)
-target_link_libraries(streamsstatic ${ZLIB_LIBRARIES} ${BZIP2_LIBRARIES} ${ICONV_LIBRARIES})
-
 add_library(streams SHARED ${streams_SRCS})
 set_target_properties(streams PROPERTIES
 	VERSION ${STRIGI_VERSION_STRING}
 	SOVERSION ${STRIGI_VERSION_MAJOR}
-	DEFINE_SYMBOL MAKE_STREAMS_LIB
 )
 target_link_libraries(streams ${ZLIB_LIBRARIES} ${BZIP2_LIBRARIES} ${ICONV_LIBRARIES})
 install(TARGETS streams EXPORT StreamsExport

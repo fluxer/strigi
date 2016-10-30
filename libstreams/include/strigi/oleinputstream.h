@@ -31,7 +31,7 @@ namespace Strigi {
  * Partial implementation of the ole file format according to
  * http://jakarta.apache.org/poi/poifs/fileformat.html
  **/
-class STREAMS_EXPORT OleInputStream : public SubStreamProvider {
+class STRIGI_EXPORT OleInputStream : public SubStreamProvider {
 public:
     class Private;
 private:

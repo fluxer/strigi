@@ -1,5 +1,5 @@
 # allow use of internal api from shared test code
-add_definitions(-DSTRIGI_INTERNAL_TEST -DSTREAMS_EXPORT=)
+add_definitions(-DSTRIGI_INTERNAL_TEST -DSTRIGI_EXPORT=)
 
 set(streamtests
 	testrunner.cpp
@@ -12,7 +12,7 @@ create_test_sourcelist(TESTS ${streamtests})
 
 add_executable(testrunner-libstreams-internal ${TESTS}
 	../sharedtestcode/inputstreamtests.cpp)
-target_link_libraries(testrunner-libstreams-internal streamsstatic)
+target_link_libraries(testrunner-libstreams-internal streams)
 
 set(TESTSTORUN ${TESTS})
 list(REMOVE_ITEM TESTSTORUN testrunner.cpp)

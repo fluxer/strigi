@@ -33,7 +33,7 @@ class StringTerminatedSubStream;
  * archives. It allows one to read the email body and email attachements as
  * streams.
  **/
-class STREAMS_EXPORT MailInputStream : public SubStreamProvider {
+class STRIGI_EXPORT MailInputStream : public SubStreamProvider {
 private:
     class Private;
     int64_t old1;

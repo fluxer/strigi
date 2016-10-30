@@ -24,7 +24,7 @@
 
 namespace Strigi {
 
-class STREAMS_EXPORT ArInputStream : public SubStreamProvider {
+class STRIGI_EXPORT ArInputStream : public SubStreamProvider {
 private:
     // information relating to the current entry
     std::string gnufilenames;

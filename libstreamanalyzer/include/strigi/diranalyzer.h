@@ -28,13 +28,13 @@ namespace Strigi {
 class IndexManager;
 class AnalyzerConfiguration;
 
-class STREAMANALYZER_EXPORT AnalysisCaller {
+class STRIGI_EXPORT AnalysisCaller {
 public:
     virtual ~AnalysisCaller() {}
     virtual bool continueAnalysis() = 0;
 };
 
-class STREAMANALYZER_EXPORT DirAnalyzer {
+class STRIGI_EXPORT DirAnalyzer {
 public:
     class Private;
 private:

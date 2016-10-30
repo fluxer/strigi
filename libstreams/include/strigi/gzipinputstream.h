@@ -24,7 +24,7 @@
 
 namespace Strigi {
 
-class STREAMS_EXPORT GZipInputStream : public BufferedInputStream {
+class STRIGI_EXPORT GZipInputStream : public BufferedInputStream {
 private:
     class Private;
     Private* const p;

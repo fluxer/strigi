@@ -27,7 +27,7 @@
 
 namespace Strigi {
 
-class STREAMANALYZER_EXPORT ClassProperties {
+class STRIGI_EXPORT ClassProperties {
 public:
     class Private;
 private:

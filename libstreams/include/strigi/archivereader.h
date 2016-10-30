@@ -30,7 +30,7 @@ namespace Strigi {
  * @brief Abstract class that defines an interface for opening streams and statting
  * files.
  */
-class STREAMS_EXPORT StreamOpener {
+class STRIGI_EXPORT StreamOpener {
 public:
     /** Default constructor: doesn't do anything */
     virtual ~StreamOpener() {}
@@ -68,7 +68,7 @@ public:
  * can be passed to an ArchiveReader to tell it how to access files
  * on the filesystem.
  */
-class STREAMS_EXPORT ArchiveReader : public StreamOpener {
+class STRIGI_EXPORT ArchiveReader : public StreamOpener {
 private:
     class ArchiveReaderPrivate;
     ArchiveReaderPrivate* const p;
@@ -77,7 +77,7 @@ public:
     /**
      * @brief Lists the contents of a directory
      */
-    class STREAMS_EXPORT DirLister {
+    class STRIGI_EXPORT DirLister {
     public:
         /**
          * @brief Internal helper class.
@@ -226,7 +226,7 @@ public:
     bool canHandle(const std::string& url);
 };
 
-class STREAMS_EXPORT FileStreamOpener : public StreamOpener {
+class STRIGI_EXPORT FileStreamOpener : public StreamOpener {
 public:
     ~FileStreamOpener() {}
     /**

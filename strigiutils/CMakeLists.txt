@@ -2,9 +2,8 @@ project (strigiutils)
 
 ##### cmake settings #####
 
-cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-#include(MacroCheckGccVisibility)
 #include(MacroFindOptionalDep)
 enable_testing()
 

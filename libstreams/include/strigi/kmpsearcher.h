@@ -31,7 +31,7 @@ namespace Strigi {
  * Code based on the example on
  * http://en.wikipedia.org/wiki/Knuth-Morris-Pratt_algorithm
  **/
-class STREAMS_EXPORT KmpSearcher {
+class STRIGI_EXPORT KmpSearcher {
 private:
     std::string m_query;
     int32_t* table;

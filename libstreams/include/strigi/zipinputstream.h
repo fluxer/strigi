@@ -35,7 +35,7 @@ namespace Strigi {
  * - files using other compression as deflated
  * - encrypted files
  **/
-class STREAMS_EXPORT ZipInputStream : public SubStreamProvider {
+class STRIGI_EXPORT ZipInputStream : public SubStreamProvider {
 private:
     // information relating to the current entry
     InputStream* compressedEntryStream;

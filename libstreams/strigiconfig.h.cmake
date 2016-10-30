@@ -22,6 +22,8 @@
 #ifndef STRIGICONFIG_H
 #define STRIGICONFIG_H
 
+#include "strigi_export.h"
+
 #define STRIGI_VERSION_STRING "@STRIGI_VERSION_STRING@"
 
 /// @brief The major Strigi version number at compile time
@@ -179,42 +181,6 @@
   #endif
   #define _SIZE_T_DEFINED 1     // kdewin32 define
  #endif
-#endif
-
-#cmakedefine __STRIGI_HAVE_GCC_VISIBILITY
-
-/**
- * @def STRIGI_EXPORT
- *
- * The STRIGI_EXPORT macro marks the symbol of the given variable
- * to be visible, so it can be used from outside the resulting library.
- *
- */
-#ifdef __STRIGI_HAVE_GCC_VISIBILITY
-#define STRIGI_EXPORT __attribute__ ((visibility("default")))
-#define STRIGI_IMPORT
-#elif defined(_WIN32) || defined(_WIN64)
-#define STRIGI_EXPORT __declspec(dllexport)
-#define STRIGI_IMPORT __declspec(dllimport)
-#else
-#define STRIGI_EXPORT
-#define STRIGI_IMPORT
-#endif
-
-#ifndef STREAMS_EXPORT
-# ifdef MAKE_STREAMS_LIB
-#  define STREAMS_EXPORT STRIGI_EXPORT
-# else
-#  define STREAMS_EXPORT STRIGI_IMPORT
-# endif
-#endif
-
-#ifndef STREAMANALYZER_EXPORT
-# ifdef MAKE_STREAMANALYZER_LIB
-#  define STREAMANALYZER_EXPORT STRIGI_EXPORT
-# else
-#  define STREAMANALYZER_EXPORT STRIGI_IMPORT
-# endif
 #endif
 
 #endif //STRIGICONFIG_H

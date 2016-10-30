@@ -1,9 +1,8 @@
 project (libstreams)
 
 ##### cmake settings #####
-cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-include(MacroCheckGccVisibility)
 enable_testing()
 
 # Used to report found packages
@@ -14,6 +13,9 @@ include(CMakePackageConfigHelpers)
 
 # Used to set some generic paths
 include(GNUInstallDirs)
+
+# Used to create strigi_export header
+include(GenerateExportHeader)
 
 ##### global variables #####
 
@@ -42,9 +44,6 @@ if(NOT MSVC AND NOT MINGW AND NOT CMAKE_SYSTEM MATCHES "SunOS-5*.")
 endif()
 
 ##### environment inspection #####
-
-# check for visibility support
-macro_check_gcc_visibility(__STRIGI_HAVE_GCC_VISIBILITY)
 
 # Generate include/strigi/strigiconfig.h and lib/config.h
 include(ConfigureChecks.cmake)
@@ -115,6 +114,10 @@ write_basic_package_version_file(${libstreams_BINARY_DIR}/LibStreamsConfigVersio
                                 )
 
 
+# Create strigi_export header
+generate_export_header(streams BASE_NAME strigi)
+configure_file(${CMAKE_CURRENT_BINARY_DIR}/strigi_export.h include/strigi/strigi_export.h)
+
 ##### installing #####
 
 # all installed files are listed here
@@ -139,7 +142,5 @@ install(EXPORT StreamsExport FILE LibStreamsTargets.cmake
         DESTINATION ${LIB_DESTINATION}/cmake/LibStreams)
 
 # library
-if(NOT WIN32)
-      install(FILES ${CMAKE_CURRENT_BINARY_DIR}/lib/libstreams.pc
-              DESTINATION ${LIB_DESTINATION}/pkgconfig)
-endif()
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/lib/libstreams.pc
+        DESTINATION ${LIB_DESTINATION}/pkgconfig)

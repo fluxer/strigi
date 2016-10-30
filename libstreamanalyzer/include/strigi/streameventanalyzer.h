@@ -25,7 +25,7 @@
 namespace Strigi {
 class AnalysisResult;
 
-class STREAMANALYZER_EXPORT StreamEventAnalyzer {
+class STRIGI_EXPORT StreamEventAnalyzer {
 public:
     virtual ~StreamEventAnalyzer() {}
     virtual const char* name() const = 0;
@@ -40,7 +40,7 @@ public:
     virtual bool isReadyWithStream() = 0;
 };
 
-class STREAMANALYZER_EXPORT StreamEventAnalyzerFactory
+class STRIGI_EXPORT StreamEventAnalyzerFactory
         : public StreamAnalyzerFactory {
 public:
     virtual StreamEventAnalyzer* newInstance() const = 0;

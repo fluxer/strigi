@@ -35,7 +35,7 @@ class Query;
  * IndexManager::indexReader() and should not be used from threads other
  * than the thread that called IndexManager::indexReader().
  **/
-class STREAMANALYZER_EXPORT IndexReader {
+class STRIGI_EXPORT IndexReader {
 public:
     virtual ~IndexReader() {}
     /**

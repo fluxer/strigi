@@ -28,7 +28,7 @@ class AnalysisResult;
 template <class T> class StreamBase;
 typedef StreamBase<char> InputStream;
 
-class STREAMANALYZER_EXPORT StreamEndAnalyzer {
+class STRIGI_EXPORT StreamEndAnalyzer {
 protected:
     std::string m_error;
 public:
@@ -39,7 +39,7 @@ public:
     virtual const char* name() const = 0;
 };
 
-class STREAMANALYZER_EXPORT StreamEndAnalyzerFactory
+class STRIGI_EXPORT StreamEndAnalyzerFactory
         : public StreamAnalyzerFactory {
 public:
     virtual StreamEndAnalyzer* newInstance() const = 0;

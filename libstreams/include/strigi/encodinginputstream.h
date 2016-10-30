@@ -27,7 +27,7 @@ namespace Strigi {
 /**
  *
  */
-class STREAMS_EXPORT EncodingInputStream : public BufferedInputStream {
+class STRIGI_EXPORT EncodingInputStream : public BufferedInputStream {
 private:
     class Private;
     Private* const p;

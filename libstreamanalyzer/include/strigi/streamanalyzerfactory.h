@@ -33,7 +33,7 @@ class RegisteredField;
 /**
  * The StreamAnalyzerFactory class
  */
-class STREAMANALYZER_EXPORT StreamAnalyzerFactory {
+class STRIGI_EXPORT StreamAnalyzerFactory {
 private:
     class Private;
     Private* const p;

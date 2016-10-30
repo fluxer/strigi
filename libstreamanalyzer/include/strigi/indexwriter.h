@@ -56,7 +56,7 @@ class RegisteredField;
  * Where the functions have default implementations, they
  * do not do anything.
  */
-class STREAMANALYZER_EXPORT IndexWriter {
+class STRIGI_EXPORT IndexWriter {
 friend class AnalysisResult;
 public:
     /**

@@ -25,7 +25,7 @@
 
 namespace Strigi {
 
-class STREAMS_EXPORT CpioInputStream : public SubStreamProvider {
+class STRIGI_EXPORT CpioInputStream : public SubStreamProvider {
 private:
     static const char unsigned* magic;
     char padding;

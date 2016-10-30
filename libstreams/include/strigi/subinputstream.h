@@ -39,7 +39,7 @@ namespace Strigi {
  * stream, preventing data from being read past a certain
  * point even if the underlying stream has more data.
  */
-class STREAMS_EXPORT SubInputStream : public InputStream {
+class STRIGI_EXPORT SubInputStream : public InputStream {
 private:
     const int64_t m_offset;
     InputStream *m_input;

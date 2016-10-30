@@ -34,7 +34,7 @@ class AnalysisResult;
  * (However, this class can still be used for that purpose, it just isn't the
  * best choice.)
  */
-class STREAMANALYZER_EXPORT StreamLineAnalyzer {
+class STRIGI_EXPORT StreamLineAnalyzer {
 public:
     /**
      * Destructor. Clean up your room :-)
@@ -81,7 +81,7 @@ public:
 /**
  * This is the factory for the creation of a StreamLineAnalyzer.
  */
-class STREAMANALYZER_EXPORT StreamLineAnalyzerFactory
+class STRIGI_EXPORT StreamLineAnalyzerFactory
         : public StreamAnalyzerFactory {
 public:
     /**

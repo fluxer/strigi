@@ -2,7 +2,7 @@ project (libstreamanalyzer)
 
 ##### cmake settings #####
 
-cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 
 cmake_policy(VERSION 2.6.0)
 if(POLICY CMP0017)
@@ -10,7 +10,6 @@ if(POLICY CMP0017)
 endif()
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-include(MacroCheckGccVisibility)
 include(MacroFindOptionalDep)
 enable_testing()
 
@@ -62,9 +61,6 @@ if(NOT WIN32 AND NOT CMAKE_SYSTEM MATCHES "SunOS-5*.")
 endif()
 
 ##### environment inspection #####
-
-# check for visibility support
-macro_check_gcc_visibility(__STRIGI_HAVE_GCC_VISIBILITY)
 
 # check for required packages
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})

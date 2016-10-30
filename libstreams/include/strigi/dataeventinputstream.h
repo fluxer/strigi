@@ -34,7 +34,7 @@ namespace Strigi {
  * See the DataEventInputStream documentation for
  * more information.
  */
-class STREAMS_EXPORT DataEventHandler {
+class STRIGI_EXPORT DataEventHandler {
 public:
     /** Destructor */
     virtual ~DataEventHandler() {}
@@ -91,7 +91,7 @@ public:
  * int nRead = handlerStream3.read(start, min, max);
  * @endcode
  */
-class STREAMS_EXPORT DataEventInputStream : public InputStream {
+class STRIGI_EXPORT DataEventInputStream : public InputStream {
 private:
     int64_t totalread;
     InputStream* input;

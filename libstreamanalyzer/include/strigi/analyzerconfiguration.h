@@ -41,7 +41,7 @@ class AnalyzerConfigurationPrivate;
  * It can be subclassed to provide finer control over the analysis
  * process.
  **/
-class STREAMANALYZER_EXPORT AnalyzerConfiguration {
+class STRIGI_EXPORT AnalyzerConfiguration {
 public:
 /**
  * @brief Provides hints about how the IndexWriter should store

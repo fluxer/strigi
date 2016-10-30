@@ -30,7 +30,7 @@ class AnalysisResult;
  * This class is well suited for analyzing XML based file formats, for example
  * SVG files.
  */
-class STREAMANALYZER_EXPORT StreamSaxAnalyzer {
+class STRIGI_EXPORT StreamSaxAnalyzer {
     class Private;
     Private* const p;
 public:
@@ -133,7 +133,7 @@ public:
 /**
  * This is the factory for the creation of a StreamSaxAnalyzer.
  */
-class STREAMANALYZER_EXPORT StreamSaxAnalyzerFactory
+class STRIGI_EXPORT StreamSaxAnalyzerFactory
         : public StreamAnalyzerFactory {
 public:
     /**

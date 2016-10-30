@@ -26,7 +26,7 @@
 namespace Strigi {
 
 class CpioInputStream;
-class STREAMS_EXPORT RpmInputStream : public SubStreamProvider {
+class STRIGI_EXPORT RpmInputStream : public SubStreamProvider {
 private:
     // information relating to the current entry
     InputStream* uncompressionStream;

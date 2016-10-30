@@ -25,12 +25,6 @@
 #include <strigi/strigiconfig.h>
 #include <strigi/streambase.h>
 
-#if defined(__GNUC__) && __GNUC__ >= 3 && __GNUC_MINOR__ >= 2
-#define STRIGI_DEPRECATED __attribute__((deprecated))
-#else
-#define STRIGI_DEPRECATED
-#endif
-
 /**
  * Strigi is the major namespace for all classes that are used in the analysis of streams.
  */
@@ -49,7 +43,7 @@ class StreamEndAnalyzer;
  * write data associated with a document to the index. The data is
  * automatically written do the index when ~AnalysisResult() is called.
  **/
-class STREAMANALYZER_EXPORT AnalysisResult {
+class STRIGI_EXPORT AnalysisResult {
 friend class StreamAnalyzerPrivate;
 private:
     class Private;

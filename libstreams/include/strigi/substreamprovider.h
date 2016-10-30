@@ -29,7 +29,7 @@ namespace Strigi {
 /**
  * @brief Provides information about the current substream
  */
-struct STREAMS_EXPORT EntryInfo {
+struct STRIGI_EXPORT EntryInfo {
     /**
      * @brief Name of the substream
      *
@@ -64,7 +64,7 @@ struct STREAMS_EXPORT EntryInfo {
  * and directories from a tar archive, or uncompressed data from
  * a gzipped data stream.
  */
-class STREAMS_EXPORT SubStreamProvider {
+class STRIGI_EXPORT SubStreamProvider {
 protected:
     /** The status of the SubStreamProvider */
     StreamStatus m_status;

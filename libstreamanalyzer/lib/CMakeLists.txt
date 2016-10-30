@@ -1,5 +1,3 @@
-add_definitions(-DMAKE_STREAMANALYZER_LIB)
-
 set(streamanalyzer_SRCS
 	analysisresult.cpp
 	analyzerconfiguration.cpp
@@ -69,19 +67,18 @@ else()
 	)
 endif()
 
-add_library(streamanalyzerstatic STATIC ${streamanalyzer_SRCS})
-
-set(streamanalyzer_libs ${LIBSTREAMS_LIBRARIES} ${LIBXML2_LIBRARIES} ${ICONV_LIBRARIES} ${CMAKE_DL_LIBS} )
-target_link_libraries(streamanalyzerstatic ${streamanalyzer_libs}
-	${CMAKE_THREAD_LIBS_INIT})
-
 add_library(streamanalyzer SHARED ${streamanalyzer_SRCS})
 set_target_properties(streamanalyzer PROPERTIES
 	VERSION ${LIBSTREAMANALYZER_VERSION}
 	SOVERSION ${LIBSTREAMANALYZER_SOVERSION}
-	DEFINE_SYMBOL MAKE_STREAMANALYZER_LIB
 )
-target_link_libraries(streamanalyzer streamanalyzerstatic)
+target_link_libraries(streamanalyzer
+    ${LIBSTREAMS_LIBRARIES}
+    ${LIBXML2_LIBRARIES}
+    ${ICONV_LIBRARIES}
+    ${CMAKE_DL_LIBS}
+    ${CMAKE_THREAD_LIBS_INIT}
+)
 
 install(TARGETS streamanalyzer
 	LIBRARY DESTINATION ${LIB_DESTINATION}

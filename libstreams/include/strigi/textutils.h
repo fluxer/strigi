@@ -26,21 +26,21 @@
 #ifdef __MINGW32__
  #define STREAMS_INLINE_EXPORT
 #else
- #define STREAMS_INLINE_EXPORT STREAMS_EXPORT
+ #define STREAMS_INLINE_EXPORT STRIGI_EXPORT
 #endif
 
 
 namespace Strigi {
 
-STREAMS_EXPORT const char* checkUtf8(const char* p, int32_t length, char& nb);
+STRIGI_EXPORT const char* checkUtf8(const char* p, int32_t length, char& nb);
  
-STREAMS_EXPORT const char* checkUtf8(const std::string&, char& nb);
+STRIGI_EXPORT const char* checkUtf8(const std::string&, char& nb);
 
-STREAMS_EXPORT bool checkUtf8(const char* p, int32_t length);
+STRIGI_EXPORT bool checkUtf8(const char* p, int32_t length);
 
-STREAMS_EXPORT bool checkUtf8(const std::string&);
+STRIGI_EXPORT bool checkUtf8(const std::string&);
 
-STREAMS_EXPORT void convertNewLines(char* p);
+STRIGI_EXPORT void convertNewLines(char* p);
 
 #ifdef __BIG_ENDIAN__
 inline STREAMS_INLINE_EXPORT int16_t  readBigEndianInt16(const char* c) {
@@ -61,12 +61,12 @@ inline STREAMS_INLINE_EXPORT int64_t  readBigEndianInt64(const char* c) {
 inline STREAMS_INLINE_EXPORT uint64_t readBigEndianUInt64(const char* c) {
     return *reinterpret_cast<const uint64_t*>(c);
 }
-STREAMS_EXPORT int16_t  readLittleEndianInt16(const char* c);
-STREAMS_EXPORT uint16_t readLittleEndianUInt16(const char* c);
-STREAMS_EXPORT int32_t  readLittleEndianInt32(const char* c);
-STREAMS_EXPORT uint32_t readLittleEndianUInt32(const char* c);
-STREAMS_EXPORT int64_t  readLittleEndianInt64(const char* c);
-STREAMS_EXPORT uint64_t readLittleEndianUInt64(const char* c);
+STRIGI_EXPORT int16_t  readLittleEndianInt16(const char* c);
+STRIGI_EXPORT uint16_t readLittleEndianUInt16(const char* c);
+STRIGI_EXPORT int32_t  readLittleEndianInt32(const char* c);
+STRIGI_EXPORT uint32_t readLittleEndianUInt32(const char* c);
+STRIGI_EXPORT int64_t  readLittleEndianInt64(const char* c);
+STRIGI_EXPORT uint64_t readLittleEndianUInt64(const char* c);
 #else
 inline STREAMS_INLINE_EXPORT int16_t  readLittleEndianInt16(const char* c) {
     return *reinterpret_cast<const int16_t*>(c);
@@ -86,12 +86,12 @@ inline STREAMS_INLINE_EXPORT int64_t  readLittleEndianInt64(const char* c) {
 inline STREAMS_INLINE_EXPORT uint64_t readLittleEndianUInt64(const char* c) {
     return *reinterpret_cast<const uint64_t*>(c);
 }
-STREAMS_EXPORT int16_t  readBigEndianInt16(const char* c);
-STREAMS_EXPORT uint16_t readBigEndianUInt16(const char* c);
-STREAMS_EXPORT int32_t  readBigEndianInt32(const char* c);
-STREAMS_EXPORT uint32_t readBigEndianUInt32(const char* c);
-STREAMS_EXPORT int64_t  readBigEndianInt64(const char* c);
-STREAMS_EXPORT uint64_t readBigEndianUInt64(const char* c);
+STRIGI_EXPORT int16_t  readBigEndianInt16(const char* c);
+STRIGI_EXPORT uint16_t readBigEndianUInt16(const char* c);
+STRIGI_EXPORT int32_t  readBigEndianInt32(const char* c);
+STRIGI_EXPORT uint32_t readBigEndianUInt32(const char* c);
+STRIGI_EXPORT int64_t  readBigEndianInt64(const char* c);
+STRIGI_EXPORT uint64_t readBigEndianUInt64(const char* c);
 #endif
 
 inline STREAMS_INLINE_EXPORT int16_t  readLittleEndianInt16(const unsigned char* c) {

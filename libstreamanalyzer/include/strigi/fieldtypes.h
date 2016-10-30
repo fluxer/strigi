@@ -131,7 +131,7 @@ public:
  * All fields that will be used by an analyzer should be registered
  * with a provided FieldRegister.
  */
-class STREAMANALYZER_EXPORT FieldRegister {
+class STRIGI_EXPORT FieldRegister {
 private:
     std::map<std::string, RegisteredField*> m_fields;
 public:

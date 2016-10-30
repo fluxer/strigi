@@ -36,7 +36,7 @@ namespace Strigi {
  * http://www.gnu.org/software/libc/manual/html_node/iconv-Examples.html and
  * http://tangentsoft.net/mysql++/doc/userman/html/unicode.html
  */
-class STREAMS_EXPORT InputStreamReader : public BufferedReader {
+class STRIGI_EXPORT InputStreamReader : public BufferedReader {
 private:
     iconv_t converter;
     bool finishedDecoding;

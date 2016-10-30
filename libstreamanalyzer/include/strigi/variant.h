@@ -33,7 +33,7 @@ class VariantPrivate;
 /**
  * Simple inefficient implementation of a variant type as needed by xesam
  **/
-class STREAMANALYZER_EXPORT Variant {
+class STRIGI_EXPORT Variant {
 public:
     enum Type {b_val, i_val, s_val, as_val, aas_val, u_val};
 private:

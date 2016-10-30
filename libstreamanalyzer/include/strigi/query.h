@@ -29,7 +29,7 @@ namespace Strigi {
 
 /** these classes capture the query capabilities of Xesam **/
 class TermPrivate;
-class STREAMANALYZER_EXPORT Term {
+class STRIGI_EXPORT Term {
 private:
     TermPrivate* const p;
 public:
@@ -65,7 +65,7 @@ public:
 };
 
 class QueryPrivate;
-class STREAMANALYZER_EXPORT Query {
+class STRIGI_EXPORT Query {
 private:
     QueryPrivate* const p;
 public:
@@ -103,6 +103,6 @@ public:
 };
 }
 
-STREAMANALYZER_EXPORT std::ostream &operator<<(std::ostream &stream, Strigi::Term term);
-STREAMANALYZER_EXPORT std::ostream &operator<<(std::ostream &stream, Strigi::Query query);
+STRIGI_EXPORT std::ostream &operator<<(std::ostream &stream, Strigi::Term term);
+STRIGI_EXPORT std::ostream &operator<<(std::ostream &stream, Strigi::Query query);
 #endif

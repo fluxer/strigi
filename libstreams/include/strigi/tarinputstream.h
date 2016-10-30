@@ -38,7 +38,7 @@ namespace Strigi {
  *
  * http://www.gnu.org/software/tar/manual/html_node/Standard.html
  **/
-class STREAMS_EXPORT TarInputStream : public SubStreamProvider {
+class STRIGI_EXPORT TarInputStream : public SubStreamProvider {
 private:
     // information relating to the current entry
     int32_t numPaddingBytes;

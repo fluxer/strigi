@@ -33,7 +33,7 @@ typedef StreamBase<char> InputStream;
  * This interface is not yet complete, it lacks good functions for retrieving
  * the results in other ways than just printing them.
  */
-class STREAMANALYZER_EXPORT StreamThroughAnalyzer {
+class STRIGI_EXPORT StreamThroughAnalyzer {
 public:
     virtual ~StreamThroughAnalyzer() {}
     /**
@@ -68,7 +68,7 @@ public:
 /**
  * The factory class for the StreamThroughAnalyzer
  */
-class STREAMANALYZER_EXPORT StreamThroughAnalyzerFactory
+class STRIGI_EXPORT StreamThroughAnalyzerFactory
         : public StreamAnalyzerFactory {
 public:
     virtual StreamThroughAnalyzer* newInstance() const = 0;

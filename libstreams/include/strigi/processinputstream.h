@@ -26,7 +26,7 @@
 
 namespace Strigi {
 
-class STREAMS_EXPORT ProcessInputStream : public BufferedInputStream {
+class STRIGI_EXPORT ProcessInputStream : public BufferedInputStream {
 private:
     InputStream *input;
     const char *const *args;
