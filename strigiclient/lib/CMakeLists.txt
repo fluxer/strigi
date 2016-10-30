@@ -1,6 +1,0 @@
-if(NOT WIN32)
-    add_subdirectory(htmlgui)
-endif(NOT WIN32)
-if(QT4_FOUND)
-    add_subdirectory(searchclient)
-endif(QT4_FOUND)
