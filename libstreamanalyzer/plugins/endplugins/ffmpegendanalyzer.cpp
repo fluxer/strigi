@@ -420,12 +420,17 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
         }
       }
       const AVCodec *p = avcodec_find_decoder(codec.codec_id);
+#if (LIBAVUTIL_VERSION_MAJOR >= 55 && LIBAVCODEC_VERSION_MINOR >= 11)
+      const char *codecName = avcodec_get_name(codec.codec_id);
+#else
+      const char *codecName = codec.codec_name;
+#endif
       if (p) {
         if (size_t len = strlen(p->name)) {
           ar.addTriplet(streamuri, codecPropertyName, string(p->name, len));
         }
-      } else if (size_t len = strlen(codec.codec_name)) {
-        ar.addTriplet(streamuri, codecPropertyName, string(codec.codec_name, len));
+      } else if (size_t len = strlen(codecName)) {
+        ar.addTriplet(streamuri, codecPropertyName, string(codecName, len));
       }
 /*
 00792     } else if (enc->codec_id == CODEC_ID_MPEG2TS) {
