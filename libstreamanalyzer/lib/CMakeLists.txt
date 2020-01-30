@@ -78,6 +78,7 @@ target_link_libraries(streamanalyzer
     ${ICONV_LIBRARIES}
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
+    ${FILE_LIBRARIES}
 )
 
 install(TARGETS streamanalyzer

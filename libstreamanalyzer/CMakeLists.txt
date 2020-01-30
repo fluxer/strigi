@@ -84,6 +84,12 @@ if(NOT CMAKE_USE_PTHREADS_INIT AND NOT CMAKE_USE_WIN32_THREADS_INIT)
   message(FATAL_ERROR "Strigi needs either pthreads or win32 threads, none was found.")
 endif()
 
+find_package(File)
+set_package_properties(File PROPERTIES
+                       URL "https://www.darwinsys.com/file/"
+                       TYPE REQUIRED
+                      )
+
 find_package(LibXml2)
 set_package_properties(LibXml2 PROPERTIES
                        URL "http://xmlsoft.org"
@@ -122,7 +128,7 @@ include_directories(${LIBSTREAMS_INCLUDE_DIRS}
                     ${EXIV2_INCLUDEDIR}
                     ${XINE_INCLUDE_DIR}
                     ${FFMPEG_INCLUDE_DIRS}
-                    ${MAGIC_INCLUDE_DIR}
+                    ${FILE_INCLUDE_DIR}
                     ${LIBXML2_INCLUDE_DIR}
 )
 if(XATTR_FOUND)
