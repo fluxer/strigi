@@ -35,8 +35,6 @@ set(LIBSTREAMANALYZER_SOVERSION ${LIBSTREAMANALYZER_VERSION_MAJOR})
 
 option(BUILD_UTILS "build luceneindexer, xmlindexer, rdfindexer, ontoprint utilities" ON)
 option(BUILD_DEEPTOOLS "build deep find and deepgrep tools" ON)
-option(ENABLE_XINE
-       "enable Xine support. This adds support for a larger number of media formats(highly unstable)." OFF)
 option(ENABLE_FFMPEG
        "enable FFMPEG support. This adds support for a larger number of media formats(testing)." ON)
 option(ENABLE_EXIV2

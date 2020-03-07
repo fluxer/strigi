@@ -26,11 +26,6 @@ if(EXIV2_FOUND)
   target_link_libraries(jpeg ${EXIV2_LIBRARIES})
 endif()
 
-if(XINE_FOUND)
-  ADD_STRIGIEA(xine xineendanalyzer.cpp)
-  target_link_libraries(xine ${XINE_LIBRARY})
-endif()
-
 if(FFMPEG_FOUND)
   include_directories( ${FFMPEG_INCLUDE_DIRS} )
   add_definitions(-D__STDC_CONSTANT_MACROS)
