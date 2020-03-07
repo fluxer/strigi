@@ -1,20 +1,14 @@
-if(NOT HAVE_REGEX_H)
-  set(REGEX_INCLUDE_DIR ${strigi_SOURCE_DIR}/src/streams/strigi/regex)
-  set(REGEX_SOURCES ${REGEX_INCLUDE_DIR}/regex.c)
-  # TODO: install copyright file !
-endif(NOT HAVE_REGEX_H)
-
 add_executable(dummyindexer dummyindexer.cpp)
 target_link_libraries(dummyindexer ${LIBSTREAMANALYZER_LIBRARIES})
 
 add_library(libdeepfind STATIC deepfind.cpp)
 target_link_libraries(libdeepfind ${LIBSTREAMANALYZER_LIBRARIES})
 
-add_library(grepindexer STATIC grepindexreader.cpp grepindexmanager.cpp
-    grepindexwriter.cpp ${REGEX_SOURCES})
-
-add_library(libdeepgrep STATIC deepgrep.cpp)
-target_link_libraries(libdeepgrep grepindexer ${LIBSTREAMANALYZER_LIBRARIES} ${REGEX_LIBRARIES})
+if(HAVE_REGEX_H)
+    add_library(libdeepgrep STATIC deepgrep.cpp grepindexreader.cpp grepindexmanager.cpp
+        grepindexwriter.cpp)
+    target_link_libraries(libdeepgrep ${LIBSTREAMANALYZER_LIBRARIES})
+endif(HAVE_REGEX_H)
 
 add_executable(greptest grepindexreader.cpp)
 target_link_libraries(greptest streamanalyzer)
