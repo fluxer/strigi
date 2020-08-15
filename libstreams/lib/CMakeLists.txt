@@ -23,7 +23,6 @@ set(streams_SRCS
     sdfinputstream.cpp
     # signatureinputstream.cpp # not done yet
     skippingfileinputstream.cpp
-    skippingfileinputstream2.cpp
     stringterminatedsubstream.cpp
     subinputstream.cpp
     substreamproviderprovider.cpp

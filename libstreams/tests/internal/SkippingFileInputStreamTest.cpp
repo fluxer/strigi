@@ -17,7 +17,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#include "skippingfileinputstream2.h"
+#include "skippingfileinputstream.h"
 #include "../sharedtestcode/inputstreamtests.h"
 
 using namespace Strigi;
@@ -29,7 +29,7 @@ SkippingFileInputStreamTest(int argc, char* argv[]) {
     VERIFY(chdir(argv[1]) == 0);
 
     for (int i=0; i<ninputstreamtests; ++i) {
-        SkippingFileInputStream2 file("a.zip");
+        SkippingFileInputStream file("a.zip");
         charinputstreamtests[i](&file);
     }
     return founderrors;

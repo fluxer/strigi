@@ -20,7 +20,6 @@
 #include <strigi/fileinputstream.h>
 #include "mmapfileinputstream.h"
 #include "skippingfileinputstream.h"
-#include "skippingfileinputstream2.h"
 #include <config.h>
 #include <strigi/strigiconfig.h>
 #include <iostream>
