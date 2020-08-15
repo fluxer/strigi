@@ -54,7 +54,7 @@ set(DATA_DESTINATION    "${CMAKE_INSTALL_FULL_DATAROOTDIR}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH  TRUE)
 set(CMAKE_INSTALL_RPATH                ${LIB_DESTINATION} )
 
-if(NOT WIN32 AND NOT CMAKE_SYSTEM MATCHES "SunOS-5*.")
+if(NOT CMAKE_SYSTEM MATCHES "SunOS-5*.")
   add_definitions(-fPIC)
 endif()
 
@@ -77,10 +77,6 @@ set_package_properties(Threads PROPERTIES
                        DESCRIPTION "The thread library of the system"
                        TYPE REQUIRED
                       )
-
-if(NOT CMAKE_USE_PTHREADS_INIT AND NOT CMAKE_USE_WIN32_THREADS_INIT)
-  message(FATAL_ERROR "Strigi needs either pthreads or win32 threads, none was found.")
-endif()
 
 find_package(File)
 set_package_properties(File PROPERTIES
@@ -170,10 +166,8 @@ install(FILES ${STRIGI_ONTOLOGIES}
 )
 
 # library
-if(NOT WIN32)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/lib/libstreamanalyzer.pc.cmake
-                  ${CMAKE_CURRENT_BINARY_DIR}/lib/libstreamanalyzer.pc)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/lib/libstreamanalyzer.pc.cmake
+               ${CMAKE_CURRENT_BINARY_DIR}/lib/libstreamanalyzer.pc)
 
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/lib/libstreamanalyzer.pc
-          DESTINATION ${LIB_DESTINATION}/pkgconfig)
-endif()
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/lib/libstreamanalyzer.pc
+        DESTINATION ${LIB_DESTINATION}/pkgconfig)

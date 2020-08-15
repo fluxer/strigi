@@ -21,45 +21,22 @@
 #ifndef STRIGI_THREAD_H
 #define STRIGI_THREAD_H
 
-#cmakedefine CMAKE_USE_PTHREADS_INIT 1
-#cmakedefine CMAKE_USE_WIN32_THREADS_INIT 1
+#include <pthread.h>
 
-#if defined(CMAKE_USE_PTHREADS_INIT)
-    #include <pthread.h>
-    #define STRIGI_MUTEX_DEFINE(x) pthread_mutex_t x
-    #define STRIGI_MUTEX_INIT(x) pthread_mutex_init(x, 0)
-    #define STRIGI_MUTEX_DESTROY(x) pthread_mutex_destroy(x)
-    #define STRIGI_MUTEX_LOCK(x) pthread_mutex_lock(x)
-    #define STRIGI_MUTEX_TRY_LOCK(x) pthread_mutex_trylock(x)
-    #define STRIGI_MUTEX_UNLOCK(x) pthread_mutex_unlock(x)
+#define STRIGI_MUTEX_DEFINE(x) pthread_mutex_t x
+#define STRIGI_MUTEX_INIT(x) pthread_mutex_init(x, 0)
+#define STRIGI_MUTEX_DESTROY(x) pthread_mutex_destroy(x)
+#define STRIGI_MUTEX_LOCK(x) pthread_mutex_lock(x)
+#define STRIGI_MUTEX_TRY_LOCK(x) pthread_mutex_trylock(x)
+#define STRIGI_MUTEX_UNLOCK(x) pthread_mutex_unlock(x)
 
-    #define STRIGI_THREAD_DEFINE(x) pthread_t x
-    #define STRIGI_THREAD_TYPE pthread_t
-    #define STRIGI_THREAD_CREATE(threadObject, function, data) pthread_create(threadObject, NULL, function, data)
-    #define STRIGI_THREAD_FUNCTION(functionName, param) void* functionName(void *param)
-    #define STRIGI_THREAD_JOIN(object) pthread_join(object,0)
-    #define STRIGI_THREAD_EXIT(ret) pthread_exit(ret)
-    #define STRIGI_THREAD_SELF() pthread_self()
-#elif defined(CMAKE_USE_WIN32_THREADS_INIT)
-    #include <windows.h>
-    #define STRIGI_MUTEX_DEFINE(x) CRITICAL_SECTION x;
-    #define STRIGI_MUTEX_INIT(x) InitializeCriticalSection(x)
-    #define STRIGI_MUTEX_DESTROY(x) DeleteCriticalSection(x)
-    #define STRIGI_MUTEX_LOCK(x) EnterCriticalSection(x)
-    #define STRIGI_MUTEX_TRY_LOCK(x) TryEnterCriticalSection(x)
-    #define STRIGI_MUTEX_UNLOCK(x) LeaveCriticalSection(x)
-
-    #define STRIGI_THREAD_DEFINE(x) HANDLE x
-    #define STRIGI_THREAD_TYPE HANDLE
-    #define STRIGI_THREAD_CREATE(threadObject, rfunction, data) ((*(threadObject)=CreateThread( NULL, 0, (LPTHREAD_START_ROUTINE)rfunction,  data, 0, NULL))==NULL?-1:0)
-    #define STRIGI_THREAD_FUNCTION(functionName, param) DWORD WINAPI functionName(LPVOID param)
-    #define STRIGI_THREAD_JOIN(object) WaitForSingleObject (object, INFINITE)
-    #define STRIGI_THREAD_EXIT(ret) ExitThread(ret)
-    #define STRIGI_THREAD_SELF() GetCurrentThread()
-#endif //mutex types
-
-#undef CMAKE_USE_PTHREADS_INIT
-#undef CMAKE_USE_WIN32_THREADS_INIT
+#define STRIGI_THREAD_DEFINE(x) pthread_t x
+#define STRIGI_THREAD_TYPE pthread_t
+#define STRIGI_THREAD_CREATE(threadObject, function, data) pthread_create(threadObject, NULL, function, data)
+#define STRIGI_THREAD_FUNCTION(functionName, param) void* functionName(void *param)
+#define STRIGI_THREAD_JOIN(object) pthread_join(object,0)
+#define STRIGI_THREAD_EXIT(ret) pthread_exit(ret)
+#define STRIGI_THREAD_SELF() pthread_self()
 
 class StrigiMutex{
 private:

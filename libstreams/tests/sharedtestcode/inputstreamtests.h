@@ -19,11 +19,7 @@
  */
 #ifndef STRIGI_INPUTSTREAMTESTS
 #define STRIGI_INPUTSTREAMTESTS
-#ifdef _WIN32
-#include <direct.h>
-#else
 #include <unistd.h>
-#endif
 
 namespace Strigi {
     template <class T> class StreamBase;

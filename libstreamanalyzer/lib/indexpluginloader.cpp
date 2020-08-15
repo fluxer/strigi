@@ -25,24 +25,9 @@
 #include <string.h>
 #include "stgdirent.h"
 #include <sys/stat.h>
+#include <dlfcn.h>
 using namespace std;
 using namespace Strigi;
-
-#ifndef _WIN32
-#include <dlfcn.h>
-#define DLSYM dlsym
-#define DLCLOSE dlclose
-#else
-#define DLSYM GetProcAddress
-#define DLCLOSE FreeLibrary
-#endif
-
-#ifndef _WIN32
-typedef void* StgModuleType;
-#else
-#include <windows.h>
-typedef HMODULE StgModuleType;
-#endif
 
 vector<string> getdirs(const string& direnv) {
     vector<string> dirs;
@@ -61,17 +46,17 @@ vector<string> getdirs(const string& direnv) {
 namespace {
     class Module {
     private:
-        const StgModuleType mod;
+        void* mod;
         Module(const Module&);
         void operator=(const Module&);
     public:
         Strigi::IndexManager* (*create)(const char*);
         void (*destroy)(Strigi::IndexManager*);
-        Module(StgModuleType m)
+        Module(void* m)
             :mod(m) {}
         ~Module() {
 // TODO: figure out why we get segfaults when cleaning up nicely
-            DLCLOSE(mod);
+            dlclose(mod);
         }
     };
     class ModuleList {
@@ -127,44 +112,26 @@ namespace {
         if (i != modules.end()) {
             return;
         }
-        StgModuleType handle;
-#if defined(HAVE_DLFCN_H) && !defined(_WIN32)
         // do not use RTLD_GLOBAL here
         // note: If neither RTLD_GLOBAL nor RTLD_LOCAL are specified,
         // the default is RTLD_LOCAL.
-        handle = dlopen(lib.c_str(), RTLD_LOCAL | RTLD_NOW);
-#else
-        handle = LoadLibrary(lib.c_str());
-#endif
+        void *handle = dlopen(lib.c_str(), RTLD_LOCAL | RTLD_NOW);
         if (!handle) {
-#if defined(HAVE_DLFCN_H) && !defined(_WIN32)
             cerr << "Could not load '" << lib << "':" << dlerror() << endl;
-#else
-            cerr << "Could not load '" << lib << "': GetLastError(): "
-                << GetLastError() << endl;
-#endif
             return;
         }
         IndexManager*(*create)(const char*) = (IndexManager*(*)(const char*))
-            DLSYM(handle, "createIndexManager");
+            dlsym(handle, "createIndexManager");
         if (!create) {
-#ifndef WIN32
             fprintf(stderr, "%s\n", dlerror());
-#else
-            fprintf(stderr, "GetLastError: %d\n", GetLastError());
-#endif
-            DLCLOSE(handle);
+            dlclose(handle);
             return;
         }
         void(*destroy)(IndexManager*) = (void(*)(IndexManager*))
-            DLSYM(handle, "deleteIndexManager");
+            dlsym(handle, "deleteIndexManager");
         if (!destroy) {
-#ifndef WIN32
             fprintf(stderr, "%s\n", dlerror());
-#else
-            fprintf(stderr, "GetLastError: %d\n", GetLastError());
-#endif
-            DLCLOSE(handle);
+            dlclose(handle);
             return;
         }
         Module* module = new Module(handle);
@@ -182,11 +149,7 @@ IndexPluginLoader::loadPlugins(const char* d) {
     }
     struct dirent* ent = readdir(dir);
     string prefix("strigiindex_");
-#ifdef WIN32
-    string suffix(".dll");
-#else
     string suffix(".so");
-#endif
     while(ent) {
         size_t len = strlen(ent->d_name);
         const char* prepos = strstr(ent->d_name, prefix.c_str());

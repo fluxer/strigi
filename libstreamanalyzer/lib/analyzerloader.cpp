@@ -27,23 +27,8 @@
 #include <assert.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "stgdirent.h"
-
-#ifndef _WIN32
 #include <dlfcn.h>
-#define DLSYM dlsym
-#define DLCLOSE dlclose
-#else
-#define DLSYM GetProcAddress
-#define DLCLOSE FreeLibrary
-#endif
-
-#ifndef _WIN32
-typedef void* StgModuleType;
-#else
-#include <windows.h>
-typedef HMODULE StgModuleType;
-#endif
+#include "stgdirent.h"
 
 using namespace std;
 using namespace Strigi;
@@ -52,9 +37,9 @@ class AnalyzerLoader::Private {
 public:
     class Module {
     private:
-        const StgModuleType mod;
+        void* mod;
     public:
-        Module(StgModuleType m, const AnalyzerFactoryFactory* f)
+        Module(void* m, const AnalyzerFactoryFactory* f)
             :mod(m), factory(f) {}
         ~Module();
         const AnalyzerFactoryFactory* factory;
@@ -84,11 +69,11 @@ AnalyzerLoader::Private::ModuleList::~ModuleList() {
 AnalyzerLoader::Private::Module::~Module() {
     void(*f)(const AnalyzerFactoryFactory*)
         = (void(*)(const AnalyzerFactoryFactory*))
-        DLSYM(mod, "deleteStrigiAnalyzerFactory");
+        dlsym(mod, "deleteStrigiAnalyzerFactory");
     if (f) {
         f(factory);
     }
-    DLCLOSE(mod);
+    dlclose(mod);
 }
 
 void
@@ -99,31 +84,12 @@ AnalyzerLoader::loadPlugins(const char* d) {
         return;
     }
     struct dirent* ent = readdir(dir);
-    int iOffset = 0;
-#ifdef WIN32
-# ifdef _MSC_VER
-    iOffset = 5;    // strlen("msvc_")
-# else
-    iOffset = 6;    // strlen("mingw_")
-# endif
-#endif
     while(ent) {
         size_t len = strlen(ent->d_name);
-        if ((strncmp(ent->d_name + iOffset, "strigita_", 9) == 0
-                || strncmp(ent->d_name + iOffset, "strigiea_", 9) == 0
-                || strncmp(ent->d_name + iOffset, "strigila_", 9) == 0)
-#ifdef WIN32
-                && strcmp(ent->d_name+len-4, ".dll") == 0
-# if defined(_MSC_VER)
-                && strncmp(ent->d_name, "msvc_", 5) == 0) {
-#elif defined(__CYGWIN__)
-                && strncmp(ent->d_name, "cyg_", 4) == 0) {
-# else
-                && strncmp(ent->d_name, "mingw_", 6) == 0) {
-# endif
-#else
+        if ((strncmp(ent->d_name, "strigita_", 9) == 0
+                || strncmp(ent->d_name, "strigiea_", 9) == 0
+                || strncmp(ent->d_name, "strigila_", 9) == 0)
                 && strcmp(ent->d_name+len-3, ".so") == 0) {
-#endif
             string plugin = d;
             if (plugin[plugin.length()-1] != '/') {
                 plugin.append("/");
@@ -147,30 +113,17 @@ AnalyzerLoader::Private::loadModule(const char* lib) {
         return;
     }
     // cerr << lib << endl;
-    StgModuleType handle;
-#if defined(HAVE_DLFCN_H) && !defined(_WIN32)
     // do not use RTLD_GLOBAL here
-    handle = dlopen(lib, RTLD_LAZY); //note: If neither RTLD_GLOBAL nor RTLD_LOCAL are specified, the default is RTLD_LOCAL.
-#else
-    handle = LoadLibrary(lib);
-#endif
+    void* handle = dlopen(lib, RTLD_LAZY); //note: If neither RTLD_GLOBAL nor RTLD_LOCAL are specified, the default is RTLD_LOCAL.
     if (!handle) {
-#if defined(HAVE_DLFCN_H) && !defined(_WIN32)
         cerr << "Could not load '" << lib << "':" << dlerror() << endl;
-#else
-        cerr << "Could not load '" << lib << "': GetLastError(): " << GetLastError() << endl;
-#endif
         return;
     }
     const AnalyzerFactoryFactory* (*f)() = (const AnalyzerFactoryFactory* (*)())
-        DLSYM(handle, "strigiAnalyzerFactory");
+        dlsym(handle, "strigiAnalyzerFactory");
     if (!f) {
-#ifndef WIN32
         fprintf(stderr, "%s\n", dlerror());
-#else
-        fprintf(stderr, "GetLastError: %d\n", GetLastError());
-#endif
-        DLCLOSE(handle);
+        dlclose(handle);
         return;
     }
     AnalyzerLoader::Private::modulelist.modules[lib] = new Module(handle, f());

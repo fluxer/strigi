@@ -58,11 +58,7 @@ void M3uLineAnalyzer::startAnalysis(Strigi::AnalysisResult* i)
 std::string M3uLineAnalyzer::constructAbsolutePath(const std::string &relative) const
 {
     if(char* buf = realpath(analysisResult->path().c_str(), 0)) {
-#ifdef _WIN32
-        static const char s_pathSeparator = '\\';
-#else
         static const char s_pathSeparator = '/';
-#endif
         std::string path(buf);
         free(buf);
         return path.substr(0, path.rfind(s_pathSeparator)+1) + relative;

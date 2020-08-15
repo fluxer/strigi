@@ -20,15 +20,11 @@ set(streamtests
 	SubInputStreamTest.cpp
 	TarInputStreamTest.cpp
 	ZipInputStreamTest.cpp
+    ArchiveReaderTest.cpp
+    ProcessInputStreamTest.cpp
+    StringStreamTest.cpp    # this maybe works with mingw
+    stat64bitTest.cpp
 )
-if(NOT WIN32)
-        set(streamtests ${streamtests}
-                ArchiveReaderTest.cpp
-                ProcessInputStreamTest.cpp
-                StringStreamTest.cpp    # this maybe works with mingw
-                stat64bitTest.cpp
-        )
-endif()
 
 CREATE_TEST_SOURCELIST(Tests ${streamtests})
 

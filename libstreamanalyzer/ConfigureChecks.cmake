@@ -2,12 +2,10 @@
 INCLUDE(CheckIncludeFileCXX)
 CHECK_INCLUDE_FILE_CXX(direct.h HAVE_DIRECT_H)          # src/streamindexer/filelister.cpp
 CHECK_INCLUDE_FILE_CXX(dirent.h HAVE_DIRENT_H)          # src/streams/strigi/stgdirent.cpp/.h
-CHECK_INCLUDE_FILE_CXX(dlfcn.h HAVE_DLFCN_H)            # src/streamindexer/analyzerloader.cpp/.h - do we really need it in .h?
 CHECK_INCLUDE_FILE_CXX(ndir.h HAVE_NDIR_H)              # src/streams/strigi/stgdirent.cpp/.h
 CHECK_INCLUDE_FILE_CXX(stddef.h HAVE_STDDEF_H)          # unused !
 CHECK_INCLUDE_FILE_CXX(sys/dir.h HAVE_SYS_DIR_H)        # src/streams/strigi/stgdirent.cpp/.h
 CHECK_INCLUDE_FILE_CXX(sys/ndir.h HAVE_SYS_NDIR_H)      # src/streams/strigi/stgdirent.cpp/.h
-CHECK_INCLUDE_FILE_CXX(windows.h HAVE_WINDOWS_H)        # src/streamindexer/filelister.cpp
 
 # files that may define the u?int{8,16,32,54}_t types
 CHECK_INCLUDE_FILE_CXX(socket.h HAVE_SOCKET_H)

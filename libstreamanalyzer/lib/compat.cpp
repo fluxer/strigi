@@ -131,11 +131,6 @@ int isblank(char c){
 #endif
 
 #ifndef HAVE_MKSTEMP
-#ifdef _WIN32
- #include <fcntl.h>
- #include <sys/stat.h>
-#endif
-
 int mkstemp(char *tmpl)
 {
    mktemp(tmpl);

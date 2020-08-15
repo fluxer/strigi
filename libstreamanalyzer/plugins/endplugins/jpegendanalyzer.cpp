@@ -34,13 +34,7 @@
 #include <math.h>
 #include <time.h>
 
-#ifdef _MSC_VER
-// at least MSVC2008 needs this define for defines like M_LN2
-#define _USE_MATH_DEFINES
-#include <cmath>
-#endif
-
-#if defined(__sun) || defined(sun) || defined(_MSC_VER)
+#if defined(__sun) || defined(sun)
 #define HUGE_VALF HUGE_VAL
 #endif
 

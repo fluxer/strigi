@@ -1,47 +1,40 @@
 set(streams_SRCS
-	archivereader.cpp
-	archiveentrycache.cpp
-	listinginprogress.cpp
-	arinputstream.cpp
-	base64inputstream.cpp
-	bz2inputstream.cpp
-	cpioinputstream.cpp
-        dataeventinputstream.cpp
-	dostime.cpp
-	encodinginputstream.cpp
-	fileinputstream.cpp
-	filestreamopener.cpp
-	gzipcompressstream.cpp
-	gzipinputstream.cpp
-	inputstreamreader.cpp
-	kmpsearcher.cpp
-        lzma/LzmaDec.c
-        lzmainputstream.cpp
-	mailinputstream.cpp
-	oleinputstream.cpp
-	rpminputstream.cpp
-	sdfinputstream.cpp
-#	signatureinputstream.cpp # not done yet
-	skippingfileinputstream.cpp
-	skippingfileinputstream2.cpp
-	stringterminatedsubstream.cpp
-	subinputstream.cpp
-	substreamproviderprovider.cpp
-	tarinputstream.cpp
-	textutils.cpp
-	zipinputstream.cpp
+    archivereader.cpp
+    archiveentrycache.cpp
+    listinginprogress.cpp
+    arinputstream.cpp
+    base64inputstream.cpp
+    bz2inputstream.cpp
+    cpioinputstream.cpp
+    dataeventinputstream.cpp
+    dostime.cpp
+    encodinginputstream.cpp
+    fileinputstream.cpp
+    filestreamopener.cpp
+    gzipcompressstream.cpp
+    gzipinputstream.cpp
+    inputstreamreader.cpp
+    kmpsearcher.cpp
+    lzma/LzmaDec.c
+    lzmainputstream.cpp
+    mailinputstream.cpp
+    oleinputstream.cpp
+    rpminputstream.cpp
+    sdfinputstream.cpp
+    # signatureinputstream.cpp # not done yet
+    skippingfileinputstream.cpp
+    skippingfileinputstream2.cpp
+    stringterminatedsubstream.cpp
+    subinputstream.cpp
+    substreamproviderprovider.cpp
+    tarinputstream.cpp
+    textutils.cpp
+    zipinputstream.cpp
     strigiconfig.cpp
+    processinputstream.cpp
+    mmapfileinputstream.cpp
+    compat.cpp
 )
-
-if(NOT WIN32)
-set(streams_SRCS ${streams_SRCS}
-	processinputstream.cpp
-	mmapfileinputstream.cpp
-)
-endif()
-
-#add the compatibility files
-set(streams_SRCS ${streams_SRCS} compat.cpp)
 
 add_library(streams SHARED ${streams_SRCS})
 set_target_properties(streams PROPERTIES
@@ -56,6 +49,4 @@ install(TARGETS streams EXPORT StreamsExport
 )
 
 
-if(NOT WIN32)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libstreams.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libstreams.pc)
-endif()
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libstreams.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libstreams.pc)

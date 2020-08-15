@@ -57,9 +57,6 @@
 #include "saxanalyzers/htmlsaxanalyzer.h"
 #include <strigi/indexpluginloader.h>
 #include <sys/stat.h>
-#ifdef WIN32
- //#include "ifilterendanalyzer.h"
-#endif
 #include <iostream>
 #include <config.h>
 
@@ -329,9 +326,7 @@ StreamAnalyzerPrivate::initializeEndFactories() {
     addFactory(new PdfEndAnalyzerFactory());
     addFactory(new SdfEndAnalyzerFactory());
     addFactory(new LzmaEndAnalyzerFactory());
-#ifndef _MSC_VER
     addFactory(new HelperEndAnalyzerFactory());
-#endif
     addFactory(new TextEndAnalyzerFactory());
 }
 void

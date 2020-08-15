@@ -122,9 +122,7 @@ FileInputStream::open(const char* filepath, StreamTypeHint hint,
     case Buffered:
         return new FileInputStream(filepath, buffersize);
     case MMap:
-#ifndef _WIN32
         return new MMapFileInputStream(filepath);
-#endif
     case Unbuffered:
     case Automatic:
     default:
