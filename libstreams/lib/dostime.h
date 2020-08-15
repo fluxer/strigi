@@ -23,6 +23,5 @@
 #include <time.h>
 
 time_t dos2unixtime(unsigned long dostime);
-unsigned long unix2dostime(time_t*);
 
 #endif
