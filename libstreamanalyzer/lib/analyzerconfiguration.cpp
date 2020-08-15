@@ -19,9 +19,9 @@
  */
 #include <strigi/analyzerconfiguration.h>
 #include <strigi/strigiconfig.h>
-#include "strigi_fnmatch.h"
 #include <strigi/fieldproperties.h>
 #include <strigi/fieldpropertiesdb.h>
+#include <fnmatch.h>
 using namespace std;
 using namespace Strigi;
 

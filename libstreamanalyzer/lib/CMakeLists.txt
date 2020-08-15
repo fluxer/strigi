@@ -9,7 +9,6 @@ set(streamanalyzer_SRCS
 	fieldpropertiesdb.cpp
 	fieldtypes.cpp
 	filelister.cpp
-	fnmatch.cpp
 	indexpluginloader.cpp
 	lineeventanalyzer.cpp
 	pdf/pdfparser.cpp
@@ -21,7 +20,6 @@ set(streamanalyzer_SRCS
 	streamsaxanalyzer.cpp
 	throughanalyzers/oggthroughanalyzer.cpp
 	variant.cpp
-        indexreader.cpp
 	endanalyzers/arendanalyzer.cpp
 	endanalyzers/bmpendanalyzer.cpp
 	endanalyzers/bz2endanalyzer.cpp
