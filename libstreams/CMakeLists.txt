@@ -125,8 +125,7 @@ configure_file(${CMAKE_CURRENT_BINARY_DIR}/strigi_export.h include/strigi/strigi
 file(GLOB STRIGI_HEADERS include/strigi/*.h)
 install(FILES
       ${STRIGI_HEADERS}
-      ${strigi_config_output}
-      ${strigi_extra_config_output}
+      ${libstreams_BINARY_DIR}/include/strigi/strigiconfig.h
       ${CMAKE_CURRENT_BINARY_DIR}/strigi_export.h
         DESTINATION ${INCLUDE_DESTINATION}/strigi
 )
