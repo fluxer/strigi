@@ -18,7 +18,7 @@
  * Boston, MA 02110-1301, USA.
  */
 #ifndef TAGMAPPING_H
-#define TAGMAPPPING_H
+#define TAGMAPPING_H
 
 #include <map>
 #include <string>

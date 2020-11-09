@@ -145,9 +145,6 @@ DirAnalyzer::Private::update(StreamAnalyzer* analyzer) {
         // loop over all files that exist in the index
         int r = dirlister.nextDir(path, dirfiles);
         while (r >= 0 && (caller == 0 || caller->continueAnalysis())) {
-            if (r < 0) {
-                continue;
-            }
             // get the files that are in the current database
             reader->getChildren(path, dbdirfiles);
 
