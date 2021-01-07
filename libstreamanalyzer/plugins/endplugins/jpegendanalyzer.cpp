@@ -27,12 +27,10 @@
 #include <strigi/fieldtypes.h>
 #include <strigi/stringstream.h>
 #include <strigi/textutils.h>
-#include <exiv2/exif.hpp>
-#include <exiv2/image.hpp>
-#include <exiv2/jpgimage.hpp>
-#include <exiv2/error.hpp>
+#include <exiv2/exiv2.hpp>
 #include <math.h>
 #include <time.h>
+#include <iostream>
 
 #if defined(__sun) || defined(sun)
 #define HUGE_VALF HUGE_VAL
@@ -326,7 +324,7 @@ JpegEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
             }
         }
     }
-#if (EXIV2_TEST_VERSION(0,17,91))
+#if EXIV2_TEST_VERSION(0,17,91)
     Exiv2::ExifThumbC thumb(exif);
     Exiv2::DataBuf thumbnail = thumb.copy();
 #else
@@ -336,7 +334,7 @@ JpegEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
     if (data) {
         StringInputStream thumbstream(data, (int32_t)thumbnail.size_, false);
         string thumbname("thumbnail");
-#if (EXIV2_TEST_VERSION(0,17,91))
+#if EXIV2_TEST_VERSION(0,17,91)
         ar.indexChild(thumbname + thumb.extension(), ar.mTime(),
             &thumbstream);
         ar.finishIndexChild();
