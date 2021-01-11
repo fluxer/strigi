@@ -99,10 +99,9 @@ find_optional_dep(Exiv2 ENABLE_EXIV2 EXIV2_FOUND "indexing of EXIF/IPTC metadata
 find_optional_dep(FFmpeg ENABLE_FFMPEG FFMPEG_FOUND "indexing FFMPEG" COMPONENTS AVCODEC AVFORMAT AVUTIL SWSCALE)
 find_package(XAttr)
 
-feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
-
-
 include(ConfigureChecks.cmake)
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 ##### building and testing #####
 

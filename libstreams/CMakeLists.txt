@@ -45,9 +45,6 @@ endif()
 
 ##### environment inspection #####
 
-# Generate include/strigi/strigiconfig.h and lib/config.h
-include(ConfigureChecks.cmake)
-
 # check for required packages
 find_package(ZLIB)
 set_package_properties(ZLIB PROPERTIES
@@ -73,6 +70,9 @@ set_package_properties(Threads PROPERTIES
                        DESCRIPTION "The thread library of the system"
                        TYPE REQUIRED
                       )
+
+# Generate include/strigi/strigiconfig.h and lib/config.h
+include(ConfigureChecks.cmake)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
