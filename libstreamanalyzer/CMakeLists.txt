@@ -4,7 +4,6 @@ project (libstreamanalyzer)
 
 cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 
-cmake_policy(VERSION 2.6.0)
 if(POLICY CMP0017)
   cmake_policy(SET CMP0017 NEW)
 endif()
