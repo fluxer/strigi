@@ -23,7 +23,6 @@ set(streamtests
     ArchiveReaderTest.cpp
     ProcessInputStreamTest.cpp
     StringStreamTest.cpp    # this maybe works with mingw
-    stat64bitTest.cpp
 )
 
 CREATE_TEST_SOURCELIST(Tests ${streamtests})
