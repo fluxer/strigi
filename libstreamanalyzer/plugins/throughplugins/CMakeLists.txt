@@ -1,12 +1,13 @@
 MACRO(ADD_STRIGITA libname files)
-  add_library(${libname} MODULE ${files})
-  set_target_properties(${libname} PROPERTIES
-    PREFIX strigita_)
-  target_link_libraries(${libname} streamanalyzer)
-  install(TARGETS ${libname} LIBRARY DESTINATION ${LIB_DESTINATION}/strigi)
+    add_library(${libname} MODULE ${files})
+    set_target_properties(${libname} PROPERTIES
+        PREFIX strigita_
+    )
+    target_link_libraries(${libname} streamanalyzer)
+    install(TARGETS ${libname} LIBRARY DESTINATION ${LIB_DESTINATION}/strigi)
 ENDMACRO(ADD_STRIGITA)
 
-if (XATTR_FOUND)
+if(XATTR_FOUND)
 #  ADD_STRIGITA(xattr xattrthroughanalyzer.cpp)
 endif ()
 
