@@ -24,7 +24,7 @@
 using namespace Strigi;
 using namespace std;
 
-GZipCompressInputStream::GZipCompressInputStream(InputStream* input, int level) {
+GZipCompressInputStream::GZipCompressInputStream(InputStream* is, int level) {
     // initialize values that signal state
     m_status = Ok;
     zstream = 0;
@@ -32,7 +32,7 @@ GZipCompressInputStream::GZipCompressInputStream(InputStream* input, int level) 
         level = Z_DEFAULT_COMPRESSION;
     }
 
-    this->input = input;
+    input = is;
 
     // initialize the z_stream
     zstream = (z_stream_s*)malloc(sizeof(z_stream_s));
@@ -100,8 +100,7 @@ GZipCompressInputStream::fillBuffer(char* start, int32_t space) {
         } else if (zstream->avail_in == 0) {
             r = deflate(zstream, Z_FINISH);
             int32_t nwritten = space - zstream->avail_out;
-            cerr << "GZCI end " << this << " " << nwritten << " " << m_status
-<< endl;
+            cerr << "GZCI end " << this << " " << nwritten << " " << m_status << endl;
             if (r != Z_OK) {
                 cerr << "GZCI streamend " << r << endl;
                 dealloc();
