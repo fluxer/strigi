@@ -7,13 +7,11 @@ project (strigi)
 cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 
 if(POLICY CMP0017)
-  cmake_policy(SET CMP0017 NEW)
+    cmake_policy(SET CMP0017 NEW)
 endif()
 
 # Used to report found packages
 include(FeatureSummary)
-# Used to create config files
-include(CMakePackageConfigHelpers)
 # Used to set some generic paths
 include(GNUInstallDirs)
 # Used to create strigi_export header
@@ -33,7 +31,7 @@ set(DATA_DESTINATION    "${CMAKE_INSTALL_FULL_DATAROOTDIR}")
 # RPATH directories outside the current CMAKE_BINARY_DIR and also the library
 # install directory. Alex
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH  TRUE)
-set(CMAKE_INSTALL_RPATH                ${LIB_DESTINATION} )
+set(CMAKE_INSTALL_RPATH                ${LIB_DESTINATION})
 
 # due to a bug in libxml2, we only get thread support if _REENTRANT is defined
 add_definitions(-D_REENTRANT)
@@ -108,8 +106,8 @@ set_package_properties(XAttr PROPERTIES
 
 # creater after packages lookup because some of the variables are stored in config.h
 configure_file(
-  ${CMAKE_SOURCE_DIR}/config.h.cmake
-  ${CMAKE_BINARY_DIR}/config.h
+    ${CMAKE_SOURCE_DIR}/config.h.cmake
+    ${CMAKE_BINARY_DIR}/config.h
 )
 
 # for testing to work in cmake, this command must be called in the root src dir
