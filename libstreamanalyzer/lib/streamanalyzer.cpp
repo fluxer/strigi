@@ -27,6 +27,8 @@
 #include "endanalyzers/bz2endanalyzer.h"
 #include "endanalyzers/lzmaendanalyzer.h"
 #include "eventanalyzers/mimeeventanalyzer.h"
+#include "eventanalyzers/digesteventanalyzer.h"
+#include "eventanalyzers/riffeventanalyzer.h"
 #include "endanalyzers/bmpendanalyzer.h"
 #include "endanalyzers/textendanalyzer.h"
 #include "endanalyzers/tarendanalyzer.h"
@@ -41,12 +43,24 @@
 #include "endanalyzers/pngendanalyzer.h"
 #include "endanalyzers/gzipendanalyzer.h"
 #include "lineanalyzers/m3ustreamanalyzer.h"
+#include "lineanalyzers/cpplineanalyzer.h"
+#include "lineanalyzers/deblineanalyzer.h"
+#include "lineanalyzers/txtlineanalyzer.h"
+#include "lineanalyzers/xpmlineanalyzer.h"
 #include "endanalyzers/mailendanalyzer.h"
 #include "endanalyzers/mpegendanalyzer.h"
 #include "endanalyzers/helperendanalyzer.h"
 #include <strigi/dataeventinputstream.h>
 #include "endanalyzers/id3endanalyzer.h"
 #include "throughanalyzers/oggthroughanalyzer.h"
+#include "throughanalyzers/authroughanalyzer.h"
+#include "throughanalyzers/ddsthroughanalyzer.h"
+#include "throughanalyzers/gifthroughanalyzer.h"
+#include "throughanalyzers/icothroughanalyzer.h"
+#include "throughanalyzers/pcxthroughanalyzer.h"
+#include "throughanalyzers/rgbthroughanalyzer.h"
+#include "throughanalyzers/sidthroughanalyzer.h"
+#include "throughanalyzers/xbmthroughanalyzer.h"
 #include "endanalyzers/flacendanalyzer.h"
 #include <strigi/analysisresult.h>
 #include <strigi/indexwriter.h>
@@ -55,6 +69,7 @@
 #include "analyzerloader.h"
 #include "eventthroughanalyzer.h"
 #include "saxanalyzers/htmlsaxanalyzer.h"
+#include "saxanalyzers/namespaceharvestersaxanalyzer.h"
 #include <strigi/indexpluginloader.h>
 #include <sys/stat.h>
 #include <iostream>
@@ -226,6 +241,7 @@ StreamAnalyzerPrivate::initializeSaxFactories() {
         addFactory(*i);
     }
     addFactory(new HtmlSaxAnalyzerFactory());
+    addFactory(new NamespaceHarvesterSaxAnalyzerFactory());
 }
 void
 StreamAnalyzerPrivate::initializeLineFactories() {
@@ -237,6 +253,10 @@ StreamAnalyzerPrivate::initializeLineFactories() {
     }
 //    addFactory(new OdfMimeTypeLineAnalyzerFactory());
     addFactory(new M3uLineAnalyzerFactory());
+    addFactory(new CppLineAnalyzerFactory());
+    addFactory(new DebLineAnalyzerFactory());
+    addFactory(new TxtLineAnalyzerFactory());
+    addFactory(new XpmLineAnalyzerFactory());
 }
 void
 StreamAnalyzerPrivate::initializeEventFactories() {
@@ -244,6 +264,8 @@ StreamAnalyzerPrivate::initializeEventFactories() {
         = moduleLoader->streamEventAnalyzerFactories();
     list<StreamEventAnalyzerFactory*>::iterator i;
     addFactory(new MimeEventAnalyzerFactory());
+    addFactory(new DigestEventAnalyzerFactory());
+    addFactory(new RiffEventAnalyzerFactory());
     for (i = plugins.begin(); i != plugins.end(); ++i) {
         addFactory(*i);
     }

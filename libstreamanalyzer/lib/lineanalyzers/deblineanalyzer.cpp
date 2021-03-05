@@ -103,15 +103,3 @@ DebLineAnalyzer::isReadyWithStream()
     // analysis is finished after all 6 fields were found (name, summary, version, deps, maintainer, section)
     return finished==6; 
 }
-
-class Factory : public AnalyzerFactoryFactory {
-public:
-    list<StreamLineAnalyzerFactory*> 
-    streamLineAnalyzerFactories() const {
-        list<StreamLineAnalyzerFactory*> af;
-        af.push_back(new DebLineAnalyzerFactory());
-        return af;
-    }
-};
-
-STRIGI_ANALYZER_FACTORY(Factory)

@@ -18,6 +18,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include "gifthroughanalyzer.h"
 #include <strigi/strigiconfig.h>
 #include <strigi/analysisresult.h>
 #include <strigi/fieldtypes.h>
@@ -36,40 +37,6 @@ using namespace Strigi;
 namespace Strigi {
     class RegisteredField;
 }
-class GifThroughAnalyzerFactory;
-
-class STRIGI_PLUGIN_API GifThroughAnalyzer
-    : public Strigi::StreamThroughAnalyzer {
-private:
-    Strigi::AnalysisResult* analysisResult;
-    const GifThroughAnalyzerFactory* factory;
-public:
-    GifThroughAnalyzer(const GifThroughAnalyzerFactory* f) :factory(f) {}
-    ~GifThroughAnalyzer() {}
-    void setIndexable(Strigi::AnalysisResult* i);
-    Strigi::InputStream *connectInputStream(Strigi::InputStream *in);
-    bool isReadyWithStream();
-    const char* name() const { return "GifThroughAnalyzer"; }
-};
-
-class GifThroughAnalyzerFactory
-    : public Strigi::StreamThroughAnalyzerFactory {
-friend class GifThroughAnalyzer;
-private:
-    const Strigi::RegisteredField* colorDepthField;
-    const Strigi::RegisteredField* widthField;
-    const Strigi::RegisteredField* heightField;
-
-    const Strigi::RegisteredField* typeField;
-
-    const char* name() const {
-        return "GifThroughAnalyzer";
-    }
-    Strigi::StreamThroughAnalyzer* newInstance() const {
-        return new GifThroughAnalyzer(this);
-    }
-    void registerFields(Strigi::FieldRegister&);
-};
 
 // AnalyzerFactory
 
@@ -126,16 +93,3 @@ bool
 GifThroughAnalyzer::isReadyWithStream() {
     return true;
 }
-
-//Factory
-class Factory : public AnalyzerFactoryFactory {
-public:
-    list<StreamThroughAnalyzerFactory*>
-    streamThroughAnalyzerFactories() const {
-        list<StreamThroughAnalyzerFactory*> af;
-        af.push_back(new GifThroughAnalyzerFactory());
-        return af;
-    }
-};
-
-STRIGI_ANALYZER_FACTORY(Factory)

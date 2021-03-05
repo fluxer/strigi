@@ -81,16 +81,3 @@ void
 NamespaceHarvesterSaxAnalyzer::characters(const char *data, uint32_t length) {
     assert(analysisResult != 0);
 }
-
-//Factory
-class Factory : public AnalyzerFactoryFactory {
-public:
-    list<StreamSaxAnalyzerFactory*>
-    streamSaxAnalyzerFactories() const {
-        list<StreamSaxAnalyzerFactory*> af;
-        af.push_back(new NamespaceHarvesterSaxAnalyzerFactory());
-        return af;
-    }
-};
-
-STRIGI_ANALYZER_FACTORY(Factory)

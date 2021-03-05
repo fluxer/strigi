@@ -11,15 +11,6 @@ if(XATTR_FOUND)
 #  ADD_STRIGITA(xattr xattrthroughanalyzer.cpp)
 endif ()
 
-ADD_STRIGITA(pcx pcxthroughanalyzer.cpp)
-ADD_STRIGITA(xbm xbmthroughanalyzer.cpp)
-ADD_STRIGITA(au  authroughanalyzer.cpp)
-ADD_STRIGITA(gif gifthroughanalyzer.cpp)
-ADD_STRIGITA(ico icothroughanalyzer.cpp)
-ADD_STRIGITA(sid sidthroughanalyzer.cpp)
-ADD_STRIGITA(rgb rgbthroughanalyzer.cpp)
-ADD_STRIGITA(dds ddsthroughanalyzer.cpp)
-
 # Bug 164296: these two analyzers are dummy leftovers.They make sure that
 # possible original, broken analyzers are overwritten/neutralized.
 ADD_STRIGITA(avi dummy.cpp)

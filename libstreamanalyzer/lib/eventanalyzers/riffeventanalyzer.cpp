@@ -21,95 +21,19 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include <strigi/streameventanalyzer.h>
-#include <strigi/analyzerplugin.h>
-#include <stack>
+#include "riffeventanalyzer.h"
 #include <iostream>
 #include "rdfnamespaces.h"
-
-const std::string
-    videoClassName( NFO "Video"),
-    audioClassName( NFO "Audio");
-
-namespace Strigi {
-    class RegisteredField;
-    class FieldRegister;
-}
-
-class RiffEventAnalyzerFactory;
-class RiffEventAnalyzer : public Strigi::StreamEventAnalyzer {
-private:
-    class RiffChunk {
-    public:
-        uint32_t type;
-        uint32_t size;
-        uint64_t start;
-    };
-    enum State {
-        StartOfChunkHeader, StartOfChunkList, ChunkBody
-    };
-
-    Strigi::AnalysisResult* analysisresult;
-    const RiffEventAnalyzerFactory* const factory;
-    char* left;
-    uint32_t leftSize;
-    uint32_t nLeft;
-    uint64_t offset;
-    bool valid;
-    State state;
-    std::stack<RiffChunk> chunks;
-    char chunkBuffer[56];
-    bool inAudioStream;
-    uint32_t bytes_per_second;
-
-    const char* name() const { return "RiffEventAnalyzer"; }
-    void startAnalysis(Strigi::AnalysisResult*);
-    void endAnalysis(bool complete);
-    void handleData(const char* data, uint32_t length);
-    bool isReadyWithStream();
-
-    bool processAvih();
-    bool processStrh();
-    bool processStrf();
-    bool processFmt();
-    void handleChunkData(uint64_t off, const char* data, uint32_t length);
-    void appendData(const char* data, uint32_t length);
-public:
-    RiffEventAnalyzer(const RiffEventAnalyzerFactory*);
-    ~RiffEventAnalyzer();
-};
-
-class RiffEventAnalyzerFactory
-        : public Strigi::StreamEventAnalyzerFactory {
-friend class RiffEventAnalyzer;
-public:
-    const Strigi::RegisteredField* shafield;
-private:
-    const char* name() const {
-        return "RiffEventAnalyzer";
-    }
-    const Strigi::RegisteredField* typeField;
-    const Strigi::RegisteredField* lengthField;
-    const Strigi::RegisteredField* resolutionHeightField;
-    const Strigi::RegisteredField* resolutionWidthField;
-    const Strigi::RegisteredField* frameRateField;
-    const Strigi::RegisteredField* videoCodecField;
-    const Strigi::RegisteredField* audioCodecField;
-    const Strigi::RegisteredField* sampleSizeField;
-    const Strigi::RegisteredField* sampleRateField;
-    const Strigi::RegisteredField* channelsField;
-    void registerFields(Strigi::FieldRegister&);
-    Strigi::StreamEventAnalyzer* newInstance() const {
-        return new RiffEventAnalyzer(this);
-    }
-};
-
 #include <strigi/textutils.h>
 #include <strigi/strigiconfig.h>
 #include <strigi/analysisresult.h>
 #include <strigi/fieldtypes.h>
 #include <cstring>
 #include <cstdlib>
+
+const std::string
+    videoClassName( NFO "Video"),
+    audioClassName( NFO "Audio");
 
 using namespace std;
 using namespace Strigi;
@@ -416,18 +340,3 @@ RiffEventAnalyzerFactory::registerFields(Strigi::FieldRegister& reg) {
     addField(videoCodecField);
     addField(audioCodecField);
 }
-
-// Analyzer
-
-//Factory
-class Factory : public AnalyzerFactoryFactory {
-public:
-    list<StreamEventAnalyzerFactory*>
-    streamEventAnalyzerFactories() const {
-        list<StreamEventAnalyzerFactory*> af;
-        af.push_back(new RiffEventAnalyzerFactory());
-        return af;
-    }
-};
-
-STRIGI_ANALYZER_FACTORY(Factory)

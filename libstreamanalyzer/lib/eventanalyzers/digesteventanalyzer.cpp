@@ -18,45 +18,13 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "SHA1.h"
-#include <strigi/streameventanalyzer.h>
-#include <strigi/analyzerplugin.h>
+#include "digesteventanalyzer.h"
 #include <strigi/analysisresult.h>
 #include <strigi/fieldtypes.h>
 #include <list>
+
 using namespace std;
 using namespace Strigi;
-
-class DigestEventAnalyzerFactory;
-class DigestEventAnalyzer : public Strigi::StreamEventAnalyzer {
-private:
-    CSHA1 sha1;
-    string hash;
-    Strigi::AnalysisResult* analysisresult;
-    const DigestEventAnalyzerFactory* const factory;
-public:
-    DigestEventAnalyzer(const DigestEventAnalyzerFactory*);
-    ~DigestEventAnalyzer();
-    const char* name() const { return "DigestEventAnalyzer"; }
-    void startAnalysis(Strigi::AnalysisResult*);
-    void endAnalysis(bool complete);
-    void handleData(const char* data, uint32_t length);
-    bool isReadyWithStream();
-};
-
-class DigestEventAnalyzerFactory
-        : public Strigi::StreamEventAnalyzerFactory {
-public:
-    const Strigi::RegisteredField* shafield;
-private:
-    const char* name() const {
-        return "DigestEventAnalyzer";
-    }
-    void registerFields(Strigi::FieldRegister&);
-    Strigi::StreamEventAnalyzer* newInstance() const {
-        return new DigestEventAnalyzer(this);
-    }
-};
 
 DigestEventAnalyzer::DigestEventAnalyzer(const DigestEventAnalyzerFactory* f)
         :factory(f) {
@@ -114,19 +82,5 @@ DigestEventAnalyzerFactory::registerFields(FieldRegister& reg) {
         "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#hasHash");
     addField(shafield);
 }
-// Analyzer
-
-//Factory
-class Factory : public AnalyzerFactoryFactory {
-public:
-    list<StreamEventAnalyzerFactory*>
-    streamEventAnalyzerFactories() const {
-        list<StreamEventAnalyzerFactory*> af;
-        af.push_back(new DigestEventAnalyzerFactory());
-        return af;
-    }
-};
-
-STRIGI_ANALYZER_FACTORY(Factory)
 
 #include "SHA1.cpp"

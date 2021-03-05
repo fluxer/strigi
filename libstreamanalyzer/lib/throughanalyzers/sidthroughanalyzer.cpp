@@ -163,16 +163,3 @@ bool
 SidThroughAnalyzer::isReadyWithStream() {
     return true;
 }
-
-//Factory
-class Factory : public AnalyzerFactoryFactory {
-public:
-    list<StreamThroughAnalyzerFactory*>
-    streamThroughAnalyzerFactories() const {
-        list<StreamThroughAnalyzerFactory*> af;
-        af.push_back(new SidThroughAnalyzerFactory());
-        return af;
-    }
-};
-
-STRIGI_ANALYZER_FACTORY(Factory)

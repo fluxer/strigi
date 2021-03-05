@@ -154,16 +154,3 @@ bool
 XbmThroughAnalyzer::isReadyWithStream() {
     return true;
 }
-
-//Factory
-class Factory : public AnalyzerFactoryFactory {
-public:
-    list<StreamThroughAnalyzerFactory*>
-    streamThroughAnalyzerFactories() const {
-        list<StreamThroughAnalyzerFactory*> af;
-        af.push_back(new XbmThroughAnalyzerFactory());
-        return af;
-    }
-};
-
-STRIGI_ANALYZER_FACTORY(Factory)

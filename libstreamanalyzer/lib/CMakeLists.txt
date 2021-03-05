@@ -18,8 +18,16 @@ set(streamanalyzer_SRCS
     streamanalyzer.cpp
     streamanalyzerfactory.cpp
     streamsaxanalyzer.cpp
-    throughanalyzers/oggthroughanalyzer.cpp
     variant.cpp
+    throughanalyzers/oggthroughanalyzer.cpp
+    throughanalyzers/pcxthroughanalyzer.cpp
+    throughanalyzers/xbmthroughanalyzer.cpp
+    throughanalyzers/authroughanalyzer.cpp
+    throughanalyzers/gifthroughanalyzer.cpp
+    throughanalyzers/icothroughanalyzer.cpp
+    throughanalyzers/sidthroughanalyzer.cpp
+    throughanalyzers/rgbthroughanalyzer.cpp
+    throughanalyzers/ddsthroughanalyzer.cpp
     endanalyzers/arendanalyzer.cpp
     endanalyzers/bmpendanalyzer.cpp
     endanalyzers/bz2endanalyzer.cpp
@@ -42,11 +50,18 @@ set(streamanalyzer_SRCS
     endanalyzers/zipexeendanalyzer.cpp
     endanalyzers/helperendanalyzer.cpp
     eventanalyzers/mimeeventanalyzer.cpp
+    eventanalyzers/riffeventanalyzer.cpp
+    eventanalyzers/digesteventanalyzer.cpp
     helperanalyzers/odfcontenthelperanalyzer.cpp
     helperanalyzers/odfmetahelperanalyzer.cpp
     helperanalyzers/saxhelperanalyzer.cpp
     lineanalyzers/m3ustreamanalyzer.cpp
+    lineanalyzers/xpmlineanalyzer.cpp
+    lineanalyzers/deblineanalyzer.cpp
+    lineanalyzers/cpplineanalyzer.cpp
+    lineanalyzers/txtlineanalyzer.cpp
     saxanalyzers/htmlsaxanalyzer.cpp
+    saxanalyzers/namespaceharvestersaxanalyzer.cpp
     xmlparser/libxmlstream.cpp
     xmlparser/xmlstream.cpp
     xesamparser.cpp

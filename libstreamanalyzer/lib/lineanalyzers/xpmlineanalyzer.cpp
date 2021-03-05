@@ -109,16 +109,3 @@ bool
 XpmLineAnalyzer::isReadyWithStream() {
     return ready;
 }
-
-//Factory
-class Factory : public AnalyzerFactoryFactory {
-public:
-    list<StreamLineAnalyzerFactory*>
-    streamLineAnalyzerFactories() const {
-        list<StreamLineAnalyzerFactory*> af;
-        af.push_back(new XpmLineAnalyzerFactory());
-        return af;
-    }
-};
-
-STRIGI_ANALYZER_FACTORY(Factory)

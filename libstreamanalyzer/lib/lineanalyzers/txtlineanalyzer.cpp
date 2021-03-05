@@ -116,16 +116,3 @@ bool
 TxtLineAnalyzer::isReadyWithStream() {
     return ready;
 }
-
-//Factory
-class Factory : public AnalyzerFactoryFactory {
-public:
-    list<StreamLineAnalyzerFactory*>
-    streamLineAnalyzerFactories() const {
-        list<StreamLineAnalyzerFactory*> af;
-        af.push_back(new TxtLineAnalyzerFactory());
-        return af;
-    }
-};
-
-STRIGI_ANALYZER_FACTORY(Factory)
