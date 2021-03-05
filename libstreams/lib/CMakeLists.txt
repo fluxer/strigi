@@ -36,16 +36,30 @@ set(streams_SRCS
 )
 
 add_library(streams SHARED ${streams_SRCS})
+
 set_target_properties(streams PROPERTIES
-	VERSION ${STRIGI_VERSION_STRING}
-	SOVERSION ${STRIGI_VERSION_MAJOR}
+    VERSION ${STRIGI_VERSION_STRING}
+    SOVERSION ${STRIGI_VERSION_MAJOR}
 )
-target_link_libraries(streams ${ZLIB_LIBRARIES} ${BZIP2_LIBRARIES} ${ICONV_LIBRARIES})
+
+target_link_libraries(streams
+    ${ZLIB_LIBRARIES}
+    ${BZIP2_LIBRARIES}
+    ${ICONV_LIBRARIES}
+)
+
 install(TARGETS streams EXPORT StreamsExport
-	LIBRARY DESTINATION ${LIB_DESTINATION}
-	RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-	ARCHIVE DESTINATION ${LIB_DESTINATION}
+    LIBRARY DESTINATION ${LIB_DESTINATION}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+    ARCHIVE DESTINATION ${LIB_DESTINATION}
 )
 
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/libstreams.pc.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/libstreams.pc
+)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libstreams.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libstreams.pc)
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/libstreams.pc
+    DESTINATION ${LIB_DESTINATION}/pkgconfig
+)

@@ -6,6 +6,7 @@ CHECK_INCLUDE_FILE_CXX(ndir.h HAVE_NDIR_H)              # src/streams/strigi/stg
 CHECK_INCLUDE_FILE_CXX(stddef.h HAVE_STDDEF_H)          # unused !
 CHECK_INCLUDE_FILE_CXX(sys/dir.h HAVE_SYS_DIR_H)        # src/streams/strigi/stgdirent.cpp/.h
 CHECK_INCLUDE_FILE_CXX(sys/ndir.h HAVE_SYS_NDIR_H)      # src/streams/strigi/stgdirent.cpp/.h
+CHECK_INCLUDE_FILE_CXX(regex.h HAVE_REGEX_H)            # src/dummyindexer/*
 
 # files that may define the u?int{8,16,32,54}_t types
 CHECK_INCLUDE_FILE_CXX(socket.h HAVE_SOCKET_H)
@@ -16,7 +17,6 @@ CHECK_INCLUDE_FILE_CXX(stdint.h HAVE_STDINT_H)          # config.h, strigiconfig
 
 INCLUDE(CheckIncludeFiles)
 CHECK_INCLUDE_FILES(strings.h     HAVE_STRINGS_H)                      # various
-
 
 #test for some functions that are missing on a particular system
 INCLUDE(CheckFunctionExists)
@@ -101,11 +101,7 @@ MACRO_BOOL_TO_01(HAVE_STDDEF_H     STRIGI_HAVE_STDDEF_H)
 #now write out our configuration....
 ADD_DEFINITIONS(-DHAVE_CONFIG_H)
 CONFIGURE_FILE(
-  ${libstreams_SOURCE_DIR}/lib/config.h.cmake
-  ${libstreams_BINARY_DIR}/lib/config.h
+    ${CMAKE_SOURCE_DIR}/config.h.cmake
+    ${CMAKE_BINARY_DIR}/config.h
 )
 
-CONFIGURE_FILE(
-  ${libstreams_SOURCE_DIR}/strigiconfig.h.cmake
-  ${libstreams_BINARY_DIR}/include/strigi/strigiconfig.h
-)
