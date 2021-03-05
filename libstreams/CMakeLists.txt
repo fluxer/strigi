@@ -28,7 +28,9 @@ include_directories(
 )
 
 add_subdirectory(lib)
-add_subdirectory(tests)
+if(ENABLE_TESTING)
+    add_subdirectory(tests)
+endif()
 
 # Create strigi_export header
 generate_export_header(streams BASE_NAME strigi)

@@ -6,9 +6,6 @@ project (strigi)
 
 cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 
-# for testing to work in cmake, this command must be called in the root src dir
-enable_testing()
-
 if(POLICY CMP0017)
   cmake_policy(SET CMP0017 NEW)
 endif()
@@ -55,15 +52,15 @@ add_definitions(-DHAVE_CONFIG_H)
 # dependencies
 find_package(ZLIB)
 set_package_properties(ZLIB PROPERTIES
-    DESCRIPTION "Support for gzip compressed files and data streams"
-    URL "http://www.zlib.net"
+    DESCRIPTION "Massively spiffy yet delicately unobtrusive compression library"
+    URL "http://www.zlib.net/"
     TYPE REQUIRED
 )
 
 find_package(BZip2)
 set_package_properties(BZip2 PROPERTIES
-    DESCRIPTION "Support for BZip2 compressed files and data streams"
-    URL "http://www.bzip.org"
+    DESCRIPTION "High-quality data compression program"
+    URL "http://www.bzip.org/"
     TYPE REQUIRED
 )
 
@@ -75,32 +72,49 @@ set_package_properties(Threads PROPERTIES
 
 find_package(File)
 set_package_properties(File PROPERTIES
+    DESCRIPTION "File type identification utility"
     URL "https://www.darwinsys.com/file/"
     TYPE REQUIRED
 )
 
 find_package(LibXml2)
 set_package_properties(LibXml2 PROPERTIES
-    URL "http://xmlsoft.org"
+    DESCRIPTION "XML C parser and toolkit"
+    URL "http://www.xmlsoft.org/"
     TYPE REQUIRED
 )
 
 find_package(Iconv)
 set_package_properties(Iconv PROPERTIES
+    DESCRIPTION "Text conversion library"
+    URL "https://www.gnu.org/software/libiconv/"
     TYPE REQUIRED
 )
 
 find_package(Exiv2)
 set_package_properties(Exiv2 PROPERTIES
+    DESCRIPTION "C++ library and a command line utility to manage image metadata"
+    URL "https://exiv2.org/"
     TYPE OPTIONAL
 )
 
 find_package(FFmpeg COMPONENTS AVCODEC AVFORMAT AVUTIL SWSCALE)
 set_package_properties(FFmpeg PROPERTIES
+    DESCRIPTION "Solution to record, convert and stream audio and video"
+    URL "https://www.ffmpeg.org/"
     TYPE OPTIONAL
 )
 
 find_package(XAttr)
+set_package_properties(XAttr PROPERTIES
+    DESCRIPTION "Extended attribute support library for ACL support"
+    TYPE OPTIONAL
+)
+
+# for testing to work in cmake, this command must be called in the root src dir
+if(ENABLE_TESTING)
+    enable_testing()
+endif()
 
 # sub-projects
 add_subdirectory(libstreams) # Must be first
