@@ -37,8 +37,7 @@ Bz2EndAnalyzerFactory::registerFields(FieldRegister& reg) {
 
 bool
 Bz2EndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
-    bool v = BZ2InputStream::checkHeader(header, headersize);
-    return v;
+    return BZ2InputStream::checkHeader(header, headersize);
 }
 signed char
 Bz2EndAnalyzer::analyze(AnalysisResult& idx, InputStream* in) {
