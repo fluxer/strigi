@@ -40,14 +40,11 @@
 #ifdef HAVE_UNISTD_H
  #include <unistd.h>
 #endif
-#ifdef HAVE_DIRECT_H
- #include <direct.h>
-#endif
-
 #include <sstream>
 #include <iostream>
 #include <fstream>
 #include <set>
+
 using namespace Strigi;
 using namespace std;
 

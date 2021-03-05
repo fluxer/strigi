@@ -6,28 +6,19 @@
 //////////////////////////////
 // headers
 //////////////////////////////
-#cmakedefine HAVE_DIRECT_H 1
-#cmakedefine HAVE_DIRENT_H 1
-#cmakedefine HAVE_NDIR_H 1
 #cmakedefine HAVE_STDINT_H 1
-#cmakedefine HAVE_SYS_DIR_H 1
-#cmakedefine HAVE_SYS_NDIR_H 1
 #cmakedefine HAVE_SYS_SOCKET_H 1
 #cmakedefine HAVE_SYS_TYPES_H 1
 #cmakedefine HAVE_SOCKET_H 1
 #cmakedefine HAVE_STDDEF_H 1
-#cmakedefine HAVE_STDINT_H 1
 #cmakedefine HAVE_STRINGS_H 1
 #cmakedefine HAVE_UNISTD_H 1
 
 //////////////////////////////
 // functions
 //////////////////////////////
-#cmakedefine HAVE_FCHDIR 1
-#cmakedefine HAVE_GETTIMEOFDAY 1
 #cmakedefine HAVE_ISBLANK 1
 #cmakedefine HAVE_MKSTEMP 1
-#cmakedefine HAVE_NANOSLEEP 1
 #cmakedefine HAVE_SETENV 1
 #cmakedefine HAVE_STRCASECMP 1
 #cmakedefine HAVE_STRCASESTR 1
@@ -83,8 +74,6 @@
 #define BINARYDIR "${CMAKE_CURRENT_BINARY_DIR}"
 
 #define INSTALLDIR "${CMAKE_INSTALL_PREFIX}"
-
-#define MIMEINSTALLDIR "${MIMEINSTALLDIR}"
 
 // Definition of types that are used internally
 

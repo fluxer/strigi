@@ -41,11 +41,6 @@ add_definitions(-D_REENTRANT)
 # environment inspection
 include(ConfigureChecks.cmake)
 
-configure_file(
-  ${CMAKE_SOURCE_DIR}/config.h.cmake
-  ${CMAKE_BINARY_DIR}/config.h
-)
-
 include_directories(${CMAKE_BINARY_DIR})
 add_definitions(-DHAVE_CONFIG_H)
 
@@ -109,6 +104,12 @@ find_package(XAttr)
 set_package_properties(XAttr PROPERTIES
     DESCRIPTION "Extended attribute support library for ACL support"
     TYPE OPTIONAL
+)
+
+# creater after packages lookup because some of the variables are stored in config.h
+configure_file(
+  ${CMAKE_SOURCE_DIR}/config.h.cmake
+  ${CMAKE_BINARY_DIR}/config.h
 )
 
 # for testing to work in cmake, this command must be called in the root src dir

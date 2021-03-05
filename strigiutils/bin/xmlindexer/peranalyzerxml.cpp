@@ -42,13 +42,11 @@
  #include <unistd.h>
 #endif
 #include <stdlib.h>
-#ifdef HAVE_DIRECT_H
- #include <direct.h>
-#endif
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <set>
+
 using namespace Strigi;
 using namespace std;
 

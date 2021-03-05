@@ -17,15 +17,21 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include <strigi/indexpluginloader.h>
 #include <strigi/indexmanager.h>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "stgdirent.h"
+#include <dirent.h>
 #include <sys/stat.h>
 #include <dlfcn.h>
+
 using namespace std;
 using namespace Strigi;
 

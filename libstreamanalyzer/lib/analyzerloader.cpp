@@ -17,6 +17,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #include "analyzerloader.h"
 #include <strigi/analyzerplugin.h>
 #include <string>
@@ -28,7 +29,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dlfcn.h>
-#include "stgdirent.h"
+#include <dirent.h>
 
 using namespace std;
 using namespace Strigi;

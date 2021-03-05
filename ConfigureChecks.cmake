@@ -1,11 +1,6 @@
 #need to find a few default headers:
 INCLUDE(CheckIncludeFileCXX)
-CHECK_INCLUDE_FILE_CXX(direct.h HAVE_DIRECT_H)          # src/streamindexer/filelister.cpp
-CHECK_INCLUDE_FILE_CXX(dirent.h HAVE_DIRENT_H)          # src/streams/strigi/stgdirent.cpp/.h
-CHECK_INCLUDE_FILE_CXX(ndir.h HAVE_NDIR_H)              # src/streams/strigi/stgdirent.cpp/.h
-CHECK_INCLUDE_FILE_CXX(stddef.h HAVE_STDDEF_H)          # unused !
-CHECK_INCLUDE_FILE_CXX(sys/dir.h HAVE_SYS_DIR_H)        # src/streams/strigi/stgdirent.cpp/.h
-CHECK_INCLUDE_FILE_CXX(sys/ndir.h HAVE_SYS_NDIR_H)      # src/streams/strigi/stgdirent.cpp/.h
+CHECK_INCLUDE_FILE_CXX(stddef.h HAVE_STDDEF_H)          # strigiconfig.h
 CHECK_INCLUDE_FILE_CXX(regex.h HAVE_REGEX_H)            # src/dummyindexer/*
 
 # files that may define the u?int{8,16,32,54}_t types
@@ -20,11 +15,8 @@ CHECK_INCLUDE_FILES(strings.h     HAVE_STRINGS_H)                      # various
 
 #test for some functions that are missing on a particular system
 INCLUDE(CheckFunctionExists)
-CHECK_FUNCTION_EXISTS(fchdir HAVE_FCHDIR)               # unused !
-CHECK_FUNCTION_EXISTS(gettimeofday HAVE_GETTIMEOFDAY)   # src/streams/strigi/timeofday.h
 CHECK_FUNCTION_EXISTS(isblank HAVE_ISBLANK)             # src/streams/mailinputstream.cpp, src/streams/strigi/compat.cpp
 CHECK_FUNCTION_EXISTS(mkstemp HAVE_MKSTEMP)             # src/streamanalyzer/helperendanalyzer.cpp
-CHECK_FUNCTION_EXISTS(nanosleep HAVE_NANOSLEEP)         # src/storage/sqlitestorage.cpp, src/daemon/indexscheduler.cpp, src/searchclient/cmdlinestrigi.cpp
 CHECK_FUNCTION_EXISTS(setenv HAVE_SETENV)               # src/xmlindexer/peranalyzerxml.cpp
 CHECK_FUNCTION_EXISTS(strcasecmp HAVE_STRCASECMP)       # src/streamindexer/expatsaxendanalyzer.cpp, src/streamindexer/saxendanalyzer.cpp
 CHECK_FUNCTION_EXISTS(strcasestr HAVE_STRCASESTR)       # src/streams/mailinputstream.cpp

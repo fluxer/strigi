@@ -30,11 +30,7 @@
 #include <sys/stat.h>
 #include <cstdlib>
 #include <cstring>
-#include "stgdirent.h" //dirent replacement (includes native if available)
-
-#ifdef HAVE_DIRECT_H
-#include <direct.h>
-#endif
+#include <dirent.h>
 #include <errno.h>
 
 using namespace std;

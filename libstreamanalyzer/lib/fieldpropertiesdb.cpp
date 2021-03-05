@@ -29,11 +29,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <sys/types.h>
-#ifdef HAVE_DIRENT_H
 #include <dirent.h>
-#else
-#include "stgdirent.h"
-#endif
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
