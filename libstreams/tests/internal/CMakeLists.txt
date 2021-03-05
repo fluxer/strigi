@@ -1,6 +1,3 @@
-# allow use of internal api from shared test code
-add_definitions(-DSTRIGI_INTERNAL_TEST -DSTRIGI_EXPORT=)
-
 set(streamtests
     testrunner.cpp
     Base64InputStreamTest.cpp
