@@ -24,6 +24,7 @@
 #cmakedefine HAVE_STRCASESTR 1
 #cmakedefine HAVE_STRLWR 1
 #cmakedefine HAVE_STRNCASECMP 1
+#cmakedefine HAVE_LOCALTIME_R 1
 
 //////////////////////////////
 //types

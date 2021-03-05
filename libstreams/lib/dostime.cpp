@@ -17,6 +17,10 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "dostime.h"
 
 #include <stddef.h>
@@ -45,7 +49,11 @@ dos2unixtime (unsigned long dostime)
   time_t now = time (NULL);
 
   /* Call localtime to initialize timezone in TIME.  */
+#ifdef HAVE_LOCALTIME_R
+  (void)localtime_r(&now, &ltime);
+#else
   ltime = *localtime (&now);
+#endif
 
   ltime.tm_year = (int)(dostime >> 25) + 80;
   ltime.tm_mon = ((int)(dostime >> 21) & 0x0f) - 1;

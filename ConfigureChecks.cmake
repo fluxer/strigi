@@ -22,6 +22,7 @@ CHECK_FUNCTION_EXISTS(strcasecmp HAVE_STRCASECMP)       # src/streamindexer/expa
 CHECK_FUNCTION_EXISTS(strcasestr HAVE_STRCASESTR)       # src/streams/mailinputstream.cpp
 CHECK_FUNCTION_EXISTS(strlwr HAVE_STRLWR)               # src/streamindexer/ifilterendanalyzer.cpp
 CHECK_FUNCTION_EXISTS(strncasecmp HAVE_STRNCASECMP)     # src/streams/mailinputstream.cpp
+CHECK_FUNCTION_EXISTS(localtime_r HAVE_LOCALTIME_R)     # src/streams/dostime.cpp
 
 #test for missing types
 INCLUDE(CheckTypeSize)
