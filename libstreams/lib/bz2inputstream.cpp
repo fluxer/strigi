@@ -48,9 +48,7 @@ BZ2InputStream::checkHeader(const char* data, int32_t datasize) {
 BZ2InputStream::BZ2InputStream(InputStream* input) :p(new Private(this, input)){
 }
 BZ2InputStream::Private::Private(BZ2InputStream* bis, InputStream* i)
-        :p(bis), input(i) {
-    // initialize values that signal state
-    this->input = input;
+    : p(bis), input(i) {
 
     // check first bytes of stream before allocating buffer
     if (!checkMagic()) {
