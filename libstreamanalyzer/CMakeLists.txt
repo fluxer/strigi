@@ -29,9 +29,6 @@ include_directories(
     ${FILE_INCLUDE_DIR}
     ${LIBXML2_INCLUDE_DIR}
 )
-if(XATTR_FOUND)
-    include_directories(${XATTR_INCLUDE_DIR})
-endif()
 
 add_subdirectory(lib)
 add_subdirectory(plugins)

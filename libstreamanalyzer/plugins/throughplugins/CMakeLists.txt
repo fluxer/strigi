@@ -8,8 +8,9 @@ MACRO(ADD_STRIGITA libname files)
 ENDMACRO(ADD_STRIGITA)
 
 if(XATTR_FOUND)
-#  ADD_STRIGITA(xattr xattrthroughanalyzer.cpp)
-endif ()
+    # include_directories(${XATTR_INCLUDE_DIR})
+    # ADD_STRIGITA(xattr xattrthroughanalyzer.cpp)
+endif()
 
 # Bug 164296: these two analyzers are dummy leftovers.They make sure that
 # possible original, broken analyzers are overwritten/neutralized.
