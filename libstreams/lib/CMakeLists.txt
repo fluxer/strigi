@@ -38,8 +38,8 @@ set(streams_SRCS
 add_library(streams SHARED ${streams_SRCS})
 
 set_target_properties(streams PROPERTIES
-    VERSION ${STRIGI_VERSION_STRING}
-    SOVERSION ${STRIGI_VERSION_MAJOR}
+    VERSION ${STRIGI_VERSION}
+    SOVERSION ${STRIGI_SOVERSION}
 )
 
 target_link_libraries(streams

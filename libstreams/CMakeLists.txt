@@ -1,12 +1,5 @@
 project (libstreams)
 
-# libstreams defines the definitions shared by the Strigi projects
-set(STRIGI_VERSION_MAJOR 0 CACHE INT "Major Strigi version number" FORCE)
-set(STRIGI_VERSION_MINOR 8 CACHE INT "Minor Strigi version number" FORCE)
-set(STRIGI_VERSION_PATCH 0 CACHE INT "Release Strigi version number" FORCE)
-set(STRIGI_VERSION_STRING "${STRIGI_VERSION_MAJOR}.${STRIGI_VERSION_MINOR}.${STRIGI_VERSION_PATCH}" CACHE STRING "Strigi version string" FORCE)
-set(LIBSTREAMS_VERSION ${STRIGI_VERSION_STRING})
-
 ##### environment inspection #####
 
 # Generate include/strigi/strigiconfig.h

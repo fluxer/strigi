@@ -72,8 +72,8 @@ set(streamanalyzer_SRCS
 add_library(streamanalyzer SHARED ${streamanalyzer_SRCS})
 
 set_target_properties(streamanalyzer PROPERTIES
-    VERSION ${LIBSTREAMANALYZER_VERSION}
-    SOVERSION ${LIBSTREAMANALYZER_SOVERSION}
+    VERSION ${STRIGI_VERSION}
+    SOVERSION ${STRIGI_SOVERSION}
 )
 target_link_libraries(streamanalyzer
     ${LIBXML2_LIBRARIES}

@@ -1,11 +1,5 @@
 project (libstreamanalyzer)
 
-set(LIBSTREAMANALYZER_VERSION_MAJOR 0)
-set(LIBSTREAMANALYZER_VERSION_MINOR 8)
-set(LIBSTREAMANALYZER_VERSION_PATCH 0)
-set(LIBSTREAMANALYZER_VERSION ${LIBSTREAMANALYZER_VERSION_MAJOR}.${LIBSTREAMANALYZER_VERSION_MINOR}.${LIBSTREAMANALYZER_VERSION_PATCH})
-set(LIBSTREAMANALYZER_SOVERSION ${LIBSTREAMANALYZER_VERSION_MAJOR})
-
 ##### building and testing #####
 
 configure_file(
@@ -39,15 +33,17 @@ add_subdirectory(plugins)
 # all installed files are listed here
 # headers
 file(GLOB STRIGI_HEADERS include/strigi/*.h)
-install(FILES
+install(
+    FILES
     ${STRIGI_HEADERS}
     ${libstreamanalyzer_BINARY_DIR}/include/strigi/strigi_thread.h
     DESTINATION ${INCLUDE_DESTINATION}/strigi
 )
 
 # ontologies
-file (GLOB STRIGI_ONTOLOGIES share/strigi/fieldproperties/*.rdfs)
-install(FILES ${STRIGI_ONTOLOGIES}
+file(GLOB STRIGI_ONTOLOGIES share/strigi/fieldproperties/*.rdfs)
+install(
+    FILES ${STRIGI_ONTOLOGIES}
     DESTINATION ${DATA_DESTINATION}/strigi/fieldproperties/
 )
 

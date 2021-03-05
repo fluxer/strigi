@@ -6,6 +6,6 @@ includedir=${INCLUDE_DESTINATION}
 Name: libstreamanalyzer
 Description: C++ library for extracting text and metadata from files and streams
 Requires: libstreams
-Version: ${LIBSTREAMANALYZER_VERSION}
+Version: ${STRIGI_VERSION}
 Libs: -L${LIB_DESTINATION} -lstreamanalyzer
 Cflags: -I${INCLUDE_DESTINATION}
