@@ -25,20 +25,10 @@
 
 #include <iostream>
 
-# if defined __cplusplus ? __GNUC_PREREQ (2, 6) : __GNUC_PREREQ (2, 4)
-#   define __LOGGING_FUNCTION    __PRETTY_FUNCTION__
-# else
-#  if defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
-#   define __LOGGING_FUNCTION    __func__
-#  else
-#   define __LOGGING_FUNCTION    ((__const char *) 0)
-#  endif
-# endif
-
 //FIXME this doesn't compile for some obscure reason
 //ostream *log_stream = &cerr;
 
-#define slog(x) std::cerr << __LOGGING_FUNCTION << ": " << x << std::endl
+#define slog(x) std::cerr << __PRETTY_FUNCTION__ << ": " << x << std::endl
 
 #else
 #define slog(x) (void)
