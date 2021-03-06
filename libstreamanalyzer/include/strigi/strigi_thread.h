@@ -27,7 +27,6 @@
 #define STRIGI_MUTEX_INIT(x) pthread_mutex_init(x, 0)
 #define STRIGI_MUTEX_DESTROY(x) pthread_mutex_destroy(x)
 #define STRIGI_MUTEX_LOCK(x) pthread_mutex_lock(x)
-#define STRIGI_MUTEX_TRY_LOCK(x) pthread_mutex_trylock(x)
 #define STRIGI_MUTEX_UNLOCK(x) pthread_mutex_unlock(x)
 
 #define STRIGI_THREAD_DEFINE(x) pthread_t x
