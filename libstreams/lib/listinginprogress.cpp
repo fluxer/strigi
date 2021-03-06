@@ -26,6 +26,14 @@
 using namespace Strigi;
 using namespace std;
 
+void freeStreamList(list<StreamPtr>& l) {
+    list<StreamPtr>::iterator i;
+    for (i=l.begin(); i!=l.end(); ++i) {
+        i->free();
+    }
+    l.clear();
+}
+
 namespace {
 /**
  * Add the entry @p se to the cache.
@@ -65,15 +73,6 @@ addEntry(ArchiveEntryCache::SubEntry* parent,
     // this is what we came for: add the entry to the parent
     parent->entries[name] = se;
 }
-}
-
-void
-free(list<StreamPtr>& l) {
-    list<StreamPtr>::iterator i;
-    for (i=l.begin(); i!=l.end(); ++i) {
-        i->free();
-    }
-    l.clear();
 }
 
 SubStreamProvider*
@@ -152,7 +151,7 @@ subStreamProvider(const Subs& subs, InputStream* input,
             s->reset(0);
         }
     }
-    free(streams);
+    freeStreamList(streams);
     return 0;
 }
 
@@ -176,7 +175,7 @@ ListingInProgress::ListingInProgress(const Subs& sbs,
 }
 ListingInProgress::~ListingInProgress() {
     for (size_t i=0; i<stack.size(); ++i) {
-        free(stack[i].streams);
+        freeStreamList(stack[i].streams);
     }
     delete root;
     delete stream;
@@ -228,7 +227,7 @@ ListingInProgress::nextEntry(int depth) {
         }
         addEntry(e->entry, ce->entry);
         if (!e->p->nextEntry()) {
-            free(e->streams);
+            freeStreamList(e->streams);
             e->p = 0;
         }
     }

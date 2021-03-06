@@ -193,7 +193,7 @@ ArchiveReader::ArchiveReaderPrivate::~ArchiveReaderPrivate() {
         cerr << openstreams.size() << " streams were not closed." << endl;
         OpenstreamsType::iterator i;
         for (i = openstreams.begin(); i != openstreams.end(); ++i) {
-            free(i->second);
+            freeStreamList(i->second);
         }
     }
     map<string, ListingInProgress*>::const_iterator end
@@ -247,7 +247,7 @@ ArchiveReader::ArchiveReaderPrivate::positionedProvider(const string& url) {
         // try to open the stream as a SubStreamProvider
         provider = subStreamProvider(subs, substream, streams);
         if (provider == 0) {
-            free(streams);
+            freeStreamList(streams);
             return 0;
         }
         // let sn point to the trailing part of the url
@@ -284,7 +284,7 @@ ArchiveReader::ArchiveReaderPrivate::positionedProvider(const string& url) {
     if (substream) {
         openstreams[substream] = streams;
     } else {
-        free(streams);
+        freeStreamList(streams);
     }
     return 0;
 }
@@ -341,7 +341,7 @@ ArchiveReader::ArchiveReaderPrivate::localStat(const std::string& url,
             if (provider) {
                 // this file contains substreams
                 e.type = (EntryInfo::Type)(EntryInfo::Dir|EntryInfo::File);
-                free(streams);
+                freeStreamList(streams);
 /*
                 // create an empty entry in the cache
                 ArchiveEntryCache::RootSubEntry* rse = cache.cache[url];
@@ -410,7 +410,7 @@ ArchiveReader::closeStream(InputStream* s) {
         delete s;
         return;
     }
-    free(i->second);
+    freeStreamList(i->second);
     p->openstreams.erase(i);
 }
 bool

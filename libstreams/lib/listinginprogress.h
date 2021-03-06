@@ -49,7 +49,7 @@ public:
 Strigi::SubStreamProvider*
 subStreamProvider(const Subs& subs, Strigi::InputStream* input,
          std::list<StreamPtr>& streams);
-void free(std::list<StreamPtr>& l);
+void freeStreamList(std::list<StreamPtr>& l);
 
 class StackEntry {
 public:

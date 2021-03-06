@@ -374,7 +374,7 @@ FieldPropertiesDb::Private::parseProperties(FILE* f) {
     nestedResource = false;
     
     ctxt = xmlCreateIOParserCtxt(&handler, this, strigi_xmlFileRead, strigi_xmlFileClose, f, XML_CHAR_ENCODING_NONE);
-    if (ctxt == 0) {
+    if (!ctxt) {
         saxError = true;
     } else {
         xmlCtxtUseOptions(ctxt, XML_PARSE_NOENT);
@@ -388,8 +388,10 @@ FieldPropertiesDb::Private::parseProperties(FILE* f) {
 //        cerr << "saxError in FieldPropertiesDB::parseProperties." << endl;
     }
 
-    xmlFreeDoc(ctxt->myDoc);
-    xmlFreeParserCtxt(ctxt);
+    if (ctxt) {
+        xmlFreeDoc(ctxt->myDoc);
+        xmlFreeParserCtxt(ctxt);
+    }
 
     for (map<std::string, xmlEntity>::iterator j=xmlEntities.begin();
             j!=xmlEntities.end(); ++j) {
