@@ -30,7 +30,7 @@ namespace Strigi {
 }
 class XbmThroughAnalyzerFactory;
 
-class STRIGI_PLUGIN_API XbmThroughAnalyzer
+class XbmThroughAnalyzer
     : public Strigi::StreamThroughAnalyzer {
 private:
     Strigi::AnalysisResult* analysisResult;

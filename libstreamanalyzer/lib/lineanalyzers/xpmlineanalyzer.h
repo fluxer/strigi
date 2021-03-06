@@ -28,7 +28,7 @@ namespace Strigi {
 }
 class XpmLineAnalyzerFactory;
 
-class STRIGI_PLUGIN_API XpmLineAnalyzer
+class XpmLineAnalyzer
     : public Strigi::StreamLineAnalyzer {
 private:
     Strigi::AnalysisResult* analysisResult;

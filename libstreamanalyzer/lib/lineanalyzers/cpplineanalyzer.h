@@ -28,7 +28,7 @@ namespace Strigi {
 }
 class CppLineAnalyzerFactory;
 
-class STRIGI_PLUGIN_API CppLineAnalyzer
+class CppLineAnalyzer
     : public Strigi::StreamLineAnalyzer {
 private:
     Strigi::AnalysisResult* analysisResult;

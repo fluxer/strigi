@@ -30,7 +30,7 @@ namespace Strigi {
 }
 class IcoThroughAnalyzerFactory;
 
-class STRIGI_PLUGIN_API IcoThroughAnalyzer
+class IcoThroughAnalyzer
     : public Strigi::StreamThroughAnalyzer {
 private:
     Strigi::AnalysisResult* analysisResult;

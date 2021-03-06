@@ -30,7 +30,7 @@ namespace Strigi {
 }
 class RgbThroughAnalyzerFactory;
 
-class STRIGI_PLUGIN_API RgbThroughAnalyzer
+class RgbThroughAnalyzer
     : public Strigi::StreamThroughAnalyzer {
 private:
     Strigi::AnalysisResult* analysisResult;

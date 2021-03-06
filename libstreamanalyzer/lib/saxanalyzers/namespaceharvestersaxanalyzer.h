@@ -33,7 +33,7 @@ namespace Strigi {
 }
 class NamespaceHarvesterSaxAnalyzerFactory;
 
-class STRIGI_PLUGIN_API NamespaceHarvesterSaxAnalyzer
+class NamespaceHarvesterSaxAnalyzer
     : public Strigi::StreamSaxAnalyzer {
 public:
     NamespaceHarvesterSaxAnalyzer(const NamespaceHarvesterSaxAnalyzerFactory *f) :factory(f) {}

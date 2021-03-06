@@ -28,7 +28,7 @@ namespace Strigi {
 }
 class TxtLineAnalyzerFactory;
 
-class STRIGI_PLUGIN_API TxtLineAnalyzer
+class TxtLineAnalyzer
     : public Strigi::StreamLineAnalyzer {
 private:
     Strigi::AnalysisResult* analysisResult;

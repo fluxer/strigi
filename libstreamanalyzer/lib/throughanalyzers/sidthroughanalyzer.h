@@ -30,7 +30,7 @@ namespace Strigi {
 }
 class SidThroughAnalyzerFactory;
 
-class STRIGI_PLUGIN_API SidThroughAnalyzer
+class SidThroughAnalyzer
     : public Strigi::StreamThroughAnalyzer {
 private:
     Strigi::AnalysisResult* analysisResult;

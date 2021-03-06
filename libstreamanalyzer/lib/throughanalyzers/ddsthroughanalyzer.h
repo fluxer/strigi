@@ -30,7 +30,7 @@ namespace Strigi {
 }
 class DdsThroughAnalyzerFactory;
 
-class STRIGI_PLUGIN_API DdsThroughAnalyzer
+class DdsThroughAnalyzer
     : public Strigi::StreamThroughAnalyzer {
 private:
     Strigi::AnalysisResult* analysisResult;

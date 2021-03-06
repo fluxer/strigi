@@ -32,7 +32,7 @@ namespace Strigi {
 
 class GifThroughAnalyzerFactory;
 
-class STRIGI_PLUGIN_API GifThroughAnalyzer
+class GifThroughAnalyzer
     : public Strigi::StreamThroughAnalyzer {
 private:
     Strigi::AnalysisResult* analysisResult;
