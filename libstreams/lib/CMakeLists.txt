@@ -48,9 +48,8 @@ target_link_libraries(streams
     ${ICONV_LIBRARIES}
 )
 
-install(TARGETS streams EXPORT StreamsExport
+install(TARGETS streams
     LIBRARY DESTINATION ${LIB_DESTINATION}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
     ARCHIVE DESTINATION ${LIB_DESTINATION}
 )
 

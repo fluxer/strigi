@@ -86,6 +86,5 @@ target_link_libraries(streamanalyzer
 
 install(TARGETS streamanalyzer
     LIBRARY DESTINATION ${LIB_DESTINATION}
-    RUNTIME DESTINATION bin
     ARCHIVE DESTINATION ${LIB_DESTINATION}
 )

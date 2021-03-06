@@ -28,7 +28,8 @@ set(streamtests
 CREATE_TEST_SOURCELIST(Tests ${streamtests})
 
 ADD_EXECUTABLE(testrunner-streams ${Tests}
-    ../sharedtestcode/inputstreamtests.cpp)
+    ../sharedtestcode/inputstreamtests.cpp
+)
 target_link_libraries(testrunner-streams streams)
 
 SET (TestsToRun ${Tests})

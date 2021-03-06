@@ -8,7 +8,8 @@ set(streamtests
 create_test_sourcelist(TESTS ${streamtests})
 
 add_executable(testrunner-libstreams-internal ${TESTS}
-    ../sharedtestcode/inputstreamtests.cpp)
+    ../sharedtestcode/inputstreamtests.cpp
+)
 target_link_libraries(testrunner-libstreams-internal streams)
 
 set(TESTSTORUN ${TESTS})

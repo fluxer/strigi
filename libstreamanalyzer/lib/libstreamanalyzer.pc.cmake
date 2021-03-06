@@ -1,5 +1,5 @@
 prefix=${CMAKE_INSTALL_PREFIX}
-exec_prefix=${CMAKE_INSTALL_PREFIX}/bin
+exec_prefix=${BIN_DESTINATION}
 libdir=${LIB_DESTINATION}
 includedir=${INCLUDE_DESTINATION}
 
