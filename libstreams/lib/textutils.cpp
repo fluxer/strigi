@@ -163,13 +163,13 @@ Strigi::convertNewLines(char* p) {
     }
 }
 
-#define swap16(x) \
+#define STRIGI_SWAP16(x) \
       ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8))
  
-#define swap32(x) \
+#define STRIGI_SWAP32(x) \
       ((((x) & 0xff000000) >> 24) | (((x) & 0x00ff0000) >>  8) \
      | (((x) & 0x0000ff00) <<  8) | (((x) & 0x000000ff) << 24))
-#define swap64(x) \
+#define STRIGI_SWAP64(x) \
       ((((x) & 0xff00000000000000ull) >> 56) \
      | (((x) & 0x00ff000000000000ull) >> 40) \
      | (((x) & 0x0000ff0000000000ull) >> 24) \
@@ -182,51 +182,51 @@ Strigi::convertNewLines(char* p) {
 #ifdef __BIG_ENDIAN__
 int16_t
 Strigi::readLittleEndianInt16(const char* c) {
-    return (int16_t)swap16(*reinterpret_cast<const int16_t*>(c));
+    return (int16_t)STRIGI_SWAP16(*reinterpret_cast<const int16_t*>(c));
 }
 uint16_t
 Strigi::readLittleEndianUInt16(const char* c) {
-    return swap16(*reinterpret_cast<const uint16_t*>(c));
+    return STRIGI_SWAP16(*reinterpret_cast<const uint16_t*>(c));
 }
 int32_t
 Strigi::readLittleEndianInt32(const char* c) {
-    return swap32(*reinterpret_cast<const int32_t*>(c));
+    return STRIGI_SWAP32(*reinterpret_cast<const int32_t*>(c));
 }
 uint32_t
 Strigi::readLittleEndianUInt32(const char* c) {
-    return swap32(*reinterpret_cast<const uint32_t*>(c));
+    return STRIGI_SWAP32(*reinterpret_cast<const uint32_t*>(c));
 }
 int64_t
 Strigi::readLittleEndianInt64(const char* c) {
-    return swap64(*reinterpret_cast<const int64_t*>(c));
+    return STRIGI_SWAP64(*reinterpret_cast<const int64_t*>(c));
 }
 uint64_t
 Strigi::readLittleEndianUInt64(const char* c) {
-    return swap64(*reinterpret_cast<const uint64_t*>(c));
+    return STRIGI_SWAP64(*reinterpret_cast<const uint64_t*>(c));
 }
 #else
 int16_t
 Strigi::readBigEndianInt16(const char* c) {
-    return (int16_t)swap16(*reinterpret_cast<const int16_t*>(c));
+    return (int16_t)STRIGI_SWAP16(*reinterpret_cast<const int16_t*>(c));
 }
 uint16_t
 Strigi::readBigEndianUInt16(const char* c) {
-    return (uint16_t)swap16(*reinterpret_cast<const uint16_t*>(c));
+    return (uint16_t)STRIGI_SWAP16(*reinterpret_cast<const uint16_t*>(c));
 }
 int32_t
 Strigi::readBigEndianInt32(const char* c) {
-    return swap32(*reinterpret_cast<const int32_t*>(c));
+    return STRIGI_SWAP32(*reinterpret_cast<const int32_t*>(c));
 }
 uint32_t
 Strigi::readBigEndianUInt32(const char* c) {
-    return swap32(*reinterpret_cast<const uint32_t*>(c));
+    return STRIGI_SWAP32(*reinterpret_cast<const uint32_t*>(c));
 }
 int64_t
 Strigi::readBigEndianInt64(const char* c) {
-    return swap64(*reinterpret_cast<const int64_t*>(c));
+    return STRIGI_SWAP64(*reinterpret_cast<const int64_t*>(c));
 }
 uint64_t
 Strigi::readBigEndianUInt64(const char* c) {
-    return swap64(*reinterpret_cast<const uint64_t*>(c));
+    return STRIGI_SWAP64(*reinterpret_cast<const uint64_t*>(c));
 }
 #endif
