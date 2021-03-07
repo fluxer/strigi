@@ -41,10 +41,6 @@ private:
     int mpeg_version;
     int audio_type;
 
-    long start_time;
-    long end_time;
-
-    
     // Frame-rate table from libmpeg3
     float frame_rate_table[16];
     

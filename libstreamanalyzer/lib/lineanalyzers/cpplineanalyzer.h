@@ -38,7 +38,6 @@ private:
     int includes;
     bool inComment;
     bool ready;
-    bool isCpp;
 public:
     CppLineAnalyzer(const CppLineAnalyzerFactory* f) :factory(f) {}
     ~CppLineAnalyzer() {}
@@ -57,7 +56,6 @@ private:
     const Strigi::RegisteredField* classField;
     const Strigi::RegisteredField* codeLinesField;
     const Strigi::RegisteredField* commentLinesField;
-    const Strigi::RegisteredField* totalLinesField;
     const Strigi::RegisteredField* includesField;
     const Strigi::RegisteredField* programmingLanguageField;
 

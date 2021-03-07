@@ -45,11 +45,6 @@ static const char* colors[] = {
 };
 */
 
-static const char* interlaceModes[] = {
-  "None",
-  "Adam7"
-};
-
 const string
     typeFieldName(
 	"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),

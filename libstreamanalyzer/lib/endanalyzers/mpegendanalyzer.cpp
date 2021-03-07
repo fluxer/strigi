@@ -308,9 +308,10 @@ bool MpegEndAnalyzer::parse_audio(InputStream* in)
             if(nread != 1) return false;
             byte = (uint8_t)*buf;
         
-            if ((byte & 0xe0) == 0xe0)
+            if ((byte & 0xe0) == 0xe0) {
                 sync_found = true;
                 break;
+            }
         }
     }
     if(!sync_found)

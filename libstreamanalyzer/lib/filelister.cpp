@@ -36,29 +36,6 @@
 using namespace std;
 using namespace Strigi;
 
-namespace
-{
-    /*!
-    * @param path string containing path to check
-    * Removes the terminating char to path.
-    * Under Windows that char is '\', '/' under *nix
-    */
-    string fixPath (string path)
-    {
-        if ( path.c_str() == NULL || path.length() == 0 )
-            return "";
-
-        string temp(path);
-
-        char separator = '/';
-
-        if (temp[temp.length() - 1 ] == separator)
-            return temp.substr(0, temp.size() - 1);
-
-        return temp;
-    }
-}
-
 class FileLister::Private {
 public:
     char path[10000];
