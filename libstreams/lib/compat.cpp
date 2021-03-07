@@ -26,47 +26,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-
-#ifndef HAVE_SETENV
-int setenv(const char *name, const char *value, int overwrite)
-{
-    int i, iRet;
-    char * a;
-
-    if (!overwrite && getenv(name)) return 0;
-
-    i = strlen(name) + strlen(value) + 2;
-    a = (char*)malloc(i);
-    if (!a) return 1;
-
-    strcpy(a, name);
-    strcat(a, "=");
-    strcat(a, value);
-
-    iRet = putenv(a);
-    free(a);
-    return iRet;
-}
-#endif
-
-#ifndef HAVE_STRCASECMP
-int strcasecmp(const char* sa, const char* sb){
-    char ca,cb;
-    if (sa == sb)
-        return 0;
-    int i=0;
-
-    do{
-        ca = tolower( (*(sa++)) );
-        cb = tolower( (*(sb++)) );
-
-        i++;
-    } while ( ca != L'\0' && (ca == cb) );
-
-    return (int)(ca - cb);
-}
-#endif
-
 #ifndef HAVE_STRNCASECMP
 int strncasecmp(const char* sa, const char* sb, int l){
     char ca,cb;
@@ -127,13 +86,5 @@ int isblank(char c){
      return 1;
 
     return 0;
-}
-#endif
-
-#ifndef HAVE_MKSTEMP
-int mkstemp(char *tmpl)
-{
-   mktemp(tmpl);
-   return open(tmpl,O_RDWR|O_BINARY|O_CREAT|O_EXCL|_O_SHORT_LIVED, _S_IREAD|_S_IWRITE);
 }
 #endif

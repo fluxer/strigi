@@ -27,24 +27,8 @@
 
 #include <strigi/strigiconfig.h>
 
-#ifndef HAVE_ISBLANK
-int isblank(char c);
-#endif
-
-#ifndef HAVE_SETENV
-int setenv(const char *name, const char *value, int overwrite);
-#endif
-
 #ifndef HAVE_STRCASECMP
 int strcasecmp(const char *s1, const char *s2);
-#endif
-
-#ifndef HAVE_STRNCASECMP
-int strncasecmp(const char *s1, const char *s2, int l);
-#endif
-
-#ifndef HAVE_STRCASESTR
-const char *strcasestr(const char *big, const char *little);
 #endif
 
 #ifndef HAVE_MKSTEMP
