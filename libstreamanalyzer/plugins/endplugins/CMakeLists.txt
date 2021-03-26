@@ -9,8 +9,8 @@ ENDMACRO(ADD_STRIGIEA)
 
 if(EXIV2_FOUND)
     include_directories(${EXIV2_INCLUDE_DIR})
-    ADD_STRIGIEA(jpeg jpegendanalyzer.cpp)
-    target_link_libraries(jpeg ${EXIV2_LIBRARIES})
+    ADD_STRIGIEA(exiv exivendanalyzer.cpp)
+    target_link_libraries(exiv ${EXIV2_LIBRARIES})
 endif()
 
 if(FFMPEG_FOUND)

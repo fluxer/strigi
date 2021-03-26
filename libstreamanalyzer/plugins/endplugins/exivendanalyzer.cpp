@@ -43,23 +43,23 @@ using namespace std;
 /*
  Declare the factory.
 */
-class JpegEndAnalyzerFactory;
+class ExivEndAnalyzerFactory;
 
 /*
 Define a class that inherits from StreamEndAnalyzer.
 The only function we really need to implement is connectInputStream()
 */
-class STRIGI_PLUGIN_API JpegEndAnalyzer : public StreamEndAnalyzer {
+class STRIGI_PLUGIN_API ExivEndAnalyzer : public StreamEndAnalyzer {
 private:
     AnalysisResult* result;
-    const JpegEndAnalyzerFactory* factory;
+    const ExivEndAnalyzerFactory* factory;
 
     //QDateTime parseDateTime(const QString& string);
 public:
-    JpegEndAnalyzer(const JpegEndAnalyzerFactory* f) :factory(f) {}
-    ~JpegEndAnalyzer() {}
+    ExivEndAnalyzer(const ExivEndAnalyzerFactory* f) :factory(f) {}
+    ~ExivEndAnalyzer() {}
     const char* name() const {
-        return "JpegEndAnalyzer";
+        return "ExivEndAnalyzer";
     }
     bool checkHeader(const char* header, int32_t headersize) const;
     signed char analyze(AnalysisResult& idx, ::InputStream* in);
@@ -71,15 +71,15 @@ private:
  Define a factory class the provides information about the fields that an
  analyzer can extract. This has a function similar to KFilePlugin::addItemInfo.
 */
-class STRIGI_PLUGIN_API JpegEndAnalyzerFactory : public StreamEndAnalyzerFactory {
-friend class JpegEndAnalyzer;
+class STRIGI_PLUGIN_API ExivEndAnalyzerFactory : public StreamEndAnalyzerFactory {
+friend class ExivEndAnalyzer;
 private:
     /* This is why this class is a factory. */
     StreamEndAnalyzer* newInstance() const {
-        return new JpegEndAnalyzer(this);
+        return new ExivEndAnalyzer(this);
     }
     const char* name() const {
-        return "JpegEndAnalyzer";
+        return "ExivEndAnalyzer";
     }
     void registerFields(FieldRegister& );
 
@@ -149,7 +149,7 @@ const string ISOSpeedRatingsFieldName(NEXIF "isoSpeedRatings");
  provides what information.
 */
 void
-JpegEndAnalyzerFactory::registerFields(FieldRegister& r) {
+ExivEndAnalyzerFactory::registerFields(FieldRegister& r) {
     commentField = r.registerField(commentFieldName);
     addField(commentField);
 
@@ -196,7 +196,7 @@ map<string, const RegisteredField*>::const_iterator i = exifFields.begin();
 }
 
 bool
-JpegEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
+ExivEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
     static const unsigned char jpgmagic[]
         = {0xFF, 0xD8, 0xFF};
     return headersize >= 3 &&  memcmp(header, jpgmagic, 3) == 0;
@@ -227,8 +227,8 @@ fnumberToApertureValue(string& fnumber) {
 }
 
 signed char
-JpegEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
-    // parse the jpeg file now
+ExivEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
+    // parse the file now
     Exiv2::Image::AutoPtr img;
     bool ok = false;
     if (ar.depth() == 0) {
@@ -257,7 +257,7 @@ JpegEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
         }
         in->reset(0);
         if (nread <= 0) {
-            m_error.assign("no valid jpeg");
+            m_error.assign("no valid image");
             return -1;
         }
 
@@ -291,9 +291,8 @@ JpegEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
     const Exiv2::ExifData& exif = img->exifData();
     // if there's exif data, this is a photo, otherwise just an image
     if( exif.empty() ) {
-      
         ar.addValue(factory->typeField, "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#RasterImage");
-	return 0;
+        return 0;
     }
 
     ar.addValue(factory->typeField, "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#Photo");
@@ -313,8 +312,7 @@ JpegEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
             if(sscanf(i->toString().c_str(), "%d:%d:%d %d:%d:%d", &date.tm_year, &date.tm_mon, &date.tm_mday, &date.tm_hour, &date.tm_min, &date.tm_sec) == 6) {
                 ar.addValue(factory->exifFields.find("Exif.Image.DateTime")->second, uint32_t(mktime(&date)));
             }
-        }
-        else if (i->key() != "Exif.Photo.PixelXDimension" && i->key() != "Exif.Photo.PixelYDimension") {
+        } else if (i->key() != "Exif.Photo.PixelXDimension" && i->key() != "Exif.Photo.PixelYDimension") {
             map<string,const RegisteredField*>::const_iterator f
                     = factory->exifFields.find(i->key());
             if (f != factory->exifFields.end() && f->second) {
@@ -581,7 +579,7 @@ JpegEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
         ar.addValue(factory->thumbnailField, ba.data(), ba.size());
     }*/
 
-            return 0;
+    return 0;
 }
 
 /*
@@ -594,7 +592,7 @@ public:
     list<StreamEndAnalyzerFactory*>
     streamEndAnalyzerFactories() const {
         list<StreamEndAnalyzerFactory*> af;
-        af.push_back(new JpegEndAnalyzerFactory());
+        af.push_back(new ExivEndAnalyzerFactory());
         return af;
     }
 };

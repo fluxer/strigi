@@ -39,11 +39,11 @@ FileInputStream::FileInputStream(const char* filepath, int32_t buffersize) {
         return;
     }
     FILE* f = fopen(filepath, "rb");
-    open(f, filepath, buffersize);
+    FileInputStream::open(f, filepath, buffersize);
 }
 FileInputStream::FileInputStream(FILE* file, const char* filepath,
         int32_t buffersize) {
-    open(file, filepath, buffersize);
+    FileInputStream::open(file, filepath, buffersize);
 }
 void
 FileInputStream::open(FILE* f, const char* path, int32_t buffersize) {

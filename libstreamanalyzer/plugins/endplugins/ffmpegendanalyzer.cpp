@@ -240,7 +240,7 @@ FFMPEGEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
   AVProbeData pd;
   pd.buf = (unsigned char*)data_buffer;
   pd.buf_size = headersize;
-  pd.filename ="";
+  pd.filename = "";
 // 2014-07-29 - 80a3a66 / 3a19405 - lavf 56.01.100 / 56.01.0 - avformat.h
 #if (LIBAVFORMAT_VERSION_MAJOR > 55)
   pd.mime_type = "";
