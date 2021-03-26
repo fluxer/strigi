@@ -94,22 +94,15 @@ private:
     const RegisteredField* widthField;
     const RegisteredField* heightField;
     const RegisteredField* orientationField;
-    const RegisteredField* colorModeField;
     const RegisteredField* flashUsedField;
     const RegisteredField* focalLengthField;
     const RegisteredField* _35mmEquivalentField;
-    const RegisteredField* ccdWidthField;
     const RegisteredField* exposureTimeField;
     const RegisteredField* apertureField;
-    const RegisteredField* focusDistField;
     const RegisteredField* exposureBiasField;
     const RegisteredField* whiteBalanceField;
     const RegisteredField* meteringModeField;
     const RegisteredField* exposureField;
-    const RegisteredField* jpegQualityField;
-    const RegisteredField* userCommentField;
-    const RegisteredField* jpegProcessField;
-    const RegisteredField* thumbnailField;
 
     const RegisteredField* typeField;
 
@@ -124,22 +117,15 @@ const string creationDateFieldName("http://www.semanticdesktop.org/ontologies/20
 const string widthFieldName("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#width");
 const string heightFieldName("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#height");
 const string orientationFieldName(NEXIF "orientation");
-const string colorModeFieldName("http://freedesktop.org/standards/xesam/1.0/core#colorSpace");
 const string flashUsedFieldName(NEXIF "flash");
 const string focalLengthFieldName(NEXIF "focalLength");
 const string _35mmEquivalentFieldName(NEXIF "focalLengthIn35mmFilm");
-const string ccdWidthFieldName("http://freedesktop.org/standards/xesam/1.0/core#ccdWidth");
 const string exposureTimeFieldName(NEXIF "exposureTime");
 const string apertureFieldName(NEXIF "apertureValue");
-const string focusDistFieldName("http://freedesktop.org/standards/xesam/1.0/core#focusDistance");
 const string exposureBiasFieldName(NEXIF "exposureBiasValue");
 const string whiteBalanceFieldName(NEXIF "whiteBalance");
 const string meteringModeFieldName(NEXIF "meteringMode");
 const string exposureFieldName(NEXIF "exposureProgram");
-const string jpegQualityFieldName("http://freedesktop.org/standards/xesam/1.0/core#targetQuality");
-const string userCommentFieldName("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#comment");
-const string jpegProcessFieldName("http://freedesktop.org/standards/xesam/1.0/core#compressionAlgorithm");
-const string thumbnailFieldName("http://strigi.sf.net/ontologies/homeless#contentThumbnail");
 const string ISOSpeedRatingsFieldName(NEXIF "isoSpeedRatings");
 
 #undef NEXIF
@@ -174,24 +160,10 @@ map<string, const RegisteredField*>::const_iterator i = exifFields.begin();
         addField(i->second);
     }
 
-    colorModeField = r.registerField(colorModeFieldName);
-    ccdWidthField = r.registerField(ccdWidthFieldName);
-    focusDistField = r.registerField(focusDistFieldName);
     exposureField = r.registerField(exposureFieldName);
-    jpegQualityField = r.registerField(jpegQualityFieldName);
-    userCommentField = r.registerField(userCommentFieldName);
-    jpegProcessField = r.registerField(jpegProcessFieldName);
-    thumbnailField = r.registerField(thumbnailFieldName);
     typeField = r.typeField;
 
-    addField(colorModeField);
-    addField(ccdWidthField);
-    addField(focusDistField);
     addField(exposureField);
-    addField(jpegQualityField);
-    addField(userCommentField);
-    addField(jpegProcessField);
-    addField(thumbnailField);
     addField(typeField);
 }
 
@@ -342,242 +314,6 @@ ExivEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
         ar.finishIndexChild();
 #endif
     }
-
-/*
-
-    ar.addValue(factory->colorModeField, ImageInfo.getIsColor()
-        ?"Color" :"Black and white");
-
-    int flashUsed = ImageInfo.getFlashUsed(); // -1, <set>
-    if (flashUsed >= 0) {
-	 string flash = "(unknown)";
-         switch (flashUsed) {
-         case 0: flash = "No";
-             break;
-         case 1:
-         case 5:
-         case 7:
-             flash = "Fired";
-             break;
-         case 9:
-         case 13:
-         case 15:
-             flash = "Fill Fired";
-             break;
-         case 16:
-             flash = "Off";
-             break;
-         case 24:
-             flash = "Auto Off";
-             break;
-         case 25:
-         case 29:
-         case 31:
-             flash = "Auto Fired";
-             break;
-         case 32:
-             flash = "Not Available";
-             break;
-         default:
-             break;
-        }
-        ar.addValue(factory->flashUsedField, flash);
-    }
-
-    if (ImageInfo.getFocalLength()) {
-        ar.addValue(factory->focalLengthField, ImageInfo.getFocalLength());
-
-        if (ImageInfo.getCCDWidth()){
-            ar.addValue(factory->_35mmEquivalentField,
-                        (int)(ImageInfo.getFocalLength()/ImageInfo.getCCDWidth()*35 + 0.5) );
-	}
-    }
-
-    if (ImageInfo.getCCDWidth()) {
-        ar.addValue(factory->ccdWidthField, ImageInfo.getCCDWidth());
-    }
-
-    if (ImageInfo.getExposureTime()) {
-        tag = (const char*)
-            QString().sprintf("%6.3f", ImageInfo.getExposureTime()).toUtf8();
-        float exposureTime = ImageInfo.getExposureTime();
-	if (exposureTime > 0 && exposureTime <= 0.5){
-            tag += (const char*)
-                QString().sprintf(" (1/%d)", (int)(0.5 + 1/exposureTime) ).toUtf8();
-	}
-        ar.addValue(factory->exposureTimeField, tag);
-    }
-
-    if (ImageInfo.getApertureFNumber()) {
-        ar.addValue(factory->apertureField, ImageInfo.getApertureFNumber());
-    }
-
-    if (ImageInfo.getDistance()) {
-        if (ImageInfo.getDistance() < 0) {
-	    tag = "Infinite";
-        } else {
-	    tag = (const char*)QString()
-                .sprintf("%5.2fm",(double)ImageInfo.getDistance()).toUtf8();
-        }
-        ar.addValue(factory->focusDistField, tag);
-    }
-
-    if (ImageInfo.getExposureBias()) {
-        ar.addValue(factory->exposureBiasField, ImageInfo.getExposureBias());
-    }
-
-    if (ImageInfo.getWhitebalance() != -1) {
-        switch(ImageInfo.getWhitebalance()) {
-	case 0:
-	    tag = "Unknown";
-	    break;
-	case 1:
-	    tag = "Daylight";
-	    break;
-	case 2:
-	    tag = "Fluorescent";
-	    break;
-	case 3:
-	    //tag = "incandescent";
-	    tag = "Tungsten";
-	    break;
-	case 17:
-	    tag = "Standard light A";
-	    break;
-	case 18:
-	    tag = "Standard light B";
-	    break;
-	case 19:
-	    tag = "Standard light C";
-	    break;
-	case 20:
-	    tag = "D55";
-	    break;
-	case 21:
-	    tag = "D65";
-	    break;
-	case 22:
-	    tag = "D75";
-	    break;
-	case 255:
-	    tag = "Other";
-	    break;
-	default:
-            //23 to 254 = reserved
-	    tag = "Unknown";
-	}
-        ar.addValue(factory->whiteBalanceField, tag);
-    }
-
-    if (ImageInfo.getMeteringMode() != -1) {
-        switch(ImageInfo.getMeteringMode()) {
-	case 0:
-	    tag = "Unknown";
-	    break;
-	case 1:
-	    tag = "Average";
-	    break;
-	case 2:
-	    tag = "Center weighted average";
-	    break;
-	case 3:
-	    tag = "Spot";
-	    break;
-	case 4:
-	    tag = "MultiSpot";
-	    break;
-	case 5:
-	    tag = "Pattern";
-	    break;
-	case 6:
-	    tag = "Partial";
-	    break;
-	case 255:
-	    tag = "Other";
-	    break;
-	default:
-	    // 7 to 254 = reserved
-	    tag = "Unknown";
-	}
-        ar.addValue(factory->meteringModeField, tag);
-    }
-
-    if (ImageInfo.getExposureProgram()){
-        switch(ImageInfo.getExposureProgram()) {
-	case 0:
-	    tag = "Not defined";
-	    break;
-	case 1:
-	    tag = "Manual";
-	    break;
-	case 2:
-	    tag = "Normal program";
-	    break;
-	case 3:
-	    tag = "Aperture priority";
-	    break;
-	case 4:
-	    tag = "Shutter priority";
-	    break;
-	case 5:
-	    tag = "Creative program\n(biased toward fast shutter speed)";
-	    break;
-	case 6:
-	    tag = "Action program\n(biased toward fast shutter speed)";
-	    break;
-	case 7:
-	    tag = "Portrait mode\n(for closeup photos with the background out of focus)";
-	    break;
-	case 8:
-	    tag = "Landscape mode\n(for landscape photos with the background in focus)";
-	    break;
-	default:
-	    // 9 to 255 = reserved
-	    tag = "Unknown";
-	}
-        ar.addValue(factory->exposureField, tag);
-    }
-
-    if (ImageInfo.getISOequivalent()){
-	ar.addValue(factory->isoEquivField, (int)ImageInfo.getISOequivalent());
-    }
-
-    if (ImageInfo.getCompressionLevel()){
-	switch(ImageInfo.getCompressionLevel()) {
-	case 1:
-	    tag = "Basic";
-            break;
-	case 2:
-	    tag = "Normal";
-	    break;
-        case 4:
-	    tag = "Fine";
-	    break;
-	default:
-	    tag = "Unknown";
-	}
-        ar.addValue(factory->jpegQualityField, tag);
-    }
-
-    tag = (const char*)ImageInfo.getUserComment().toUtf8();
-    if (tag.length()) {
-        ar.addValue(factory->commentField, tag);
-    }
-
-    int a;
-    for (a = 0; ; a++){
-        if (ProcessTable[a].Tag == ImageInfo.getProcess() || ProcessTable[a].Tag == 0) {
-            ar.addValue(factory->jpegProcessField, ProcessTable[a].Desc);
-            break;
-        }
-    }
-
-    if (!ImageInfo.isNullThumbnail()) {
-        QByteArray ba;
-        QDataStream ds(&ba, QIODevice::WriteOnly);
-        ds << ImageInfo.getThumbnail();
-        ar.addValue(factory->thumbnailField, ba.data(), ba.size());
-    }*/
 
     return 0;
 }
