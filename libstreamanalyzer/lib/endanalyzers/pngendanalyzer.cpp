@@ -131,7 +131,7 @@ PngEndAnalyzer::PngEndAnalyzer(const PngEndAnalyzerFactory* f) :factory(f) {
 bool
 PngEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
     static const unsigned char pngmagic[]
-        = {0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a};
+        = { 0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a };
     return headersize >= 29 && memcmp(header, pngmagic, 8) == 0;
 }
 signed char

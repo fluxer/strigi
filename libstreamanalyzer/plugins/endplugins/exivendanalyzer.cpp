@@ -169,9 +169,32 @@ map<string, const RegisteredField*>::const_iterator i = exifFields.begin();
 
 bool
 ExivEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
-    static const unsigned char jpgmagic[]
-        = {0xFF, 0xD8, 0xFF};
-    return headersize >= 3 &&  memcmp(header, jpgmagic, 3) == 0;
+    // for reference:
+    // https://dev.exiv2.org/projects/exiv2/wiki/Supported_image_formats
+    // https://developers.google.com/speed/webp/docs/riff_container
+    static const unsigned char jpgmagic[] =
+        { 0xFF, 0xD8, 0xFF };
+    if (headersize >= 3 && ::memcmp(header, jpgmagic, 3) == 0) {
+        return true;
+    }
+
+    static const unsigned char pngmagic[]
+        = { 0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a };
+    if (headersize >= 8 && ::memcmp(header, pngmagic, 8) == 0) {
+        return true;
+    }
+
+    static const unsigned char epsmagic[]
+        = { 0xd3, 0xc6 };
+    if (headersize >= 2 && ::memcmp(header, epsmagic, 2) == 0) {
+        return true;
+    }
+
+    if (headersize >= 12 && ::memcmp(header + 8, "WEBP", 4) == 0) {
+        return true;
+    }
+
+    return false;
 }
 namespace {
 
