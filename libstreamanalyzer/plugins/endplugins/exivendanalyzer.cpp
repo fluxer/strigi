@@ -54,7 +54,6 @@ private:
     AnalysisResult* result;
     const ExivEndAnalyzerFactory* factory;
 
-    //QDateTime parseDateTime(const QString& string);
 public:
     ExivEndAnalyzer(const ExivEndAnalyzerFactory* f) :factory(f) {}
     ~ExivEndAnalyzer() {}
@@ -167,11 +166,10 @@ map<string, const RegisteredField*>::const_iterator i = exifFields.begin();
     addField(typeField);
 }
 
+// for reference:
+// https://dev.exiv2.org/projects/exiv2/wiki/Supported_image_formats
 bool
 ExivEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
-    // for reference:
-    // https://dev.exiv2.org/projects/exiv2/wiki/Supported_image_formats
-    // https://developers.google.com/speed/webp/docs/riff_container
     static const unsigned char jpgmagic[] =
         { 0xFF, 0xD8, 0xFF };
     if (headersize >= 3 && ::memcmp(header, jpgmagic, 3) == 0) {
@@ -190,6 +188,16 @@ ExivEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
         return true;
     }
 
+    // for reference:
+    // https://www.iana.org/assignments/media-types/image/jp2
+    static const unsigned char jp2magic[]
+        = { 0x00, 0x00, 0x00, 0x0C, 0x6A, 0x50, 0x20, 0x20, 0x0D, 0x0A, 0x87, 0x0A };
+    if (headersize >= 12 && ::memcmp(header, jp2magic, 12) == 0) {
+        return true;
+    }
+
+    // for reference:
+    // https://developers.google.com/speed/webp/docs/riff_container
     if (headersize >= 12 && ::memcmp(header + 8, "WEBP", 4) == 0) {
         return true;
     }
