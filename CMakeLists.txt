@@ -100,7 +100,7 @@ set_package_properties(Exiv2 PROPERTIES
     TYPE OPTIONAL
 )
 
-find_package(FFmpeg COMPONENTS AVCODEC AVFORMAT AVUTIL SWSCALE)
+find_package(FFmpeg COMPONENTS AVCODEC AVFORMAT)
 set_package_properties(FFmpeg PROPERTIES
     DESCRIPTION "Solution to record, convert and stream audio and video"
     URL "https://www.ffmpeg.org/"
