@@ -40,7 +40,7 @@ SaxHelperAnalyzer::SaxHelperAnalyzer() {
 
 SaxHelperAnalyzer::~SaxHelperAnalyzer() {
     if (ctxt)
-	xmlFreeParserCtxt(ctxt);
+        xmlFreeParserCtxt(ctxt);
 }
 
 void
@@ -55,7 +55,7 @@ SaxHelperAnalyzer::analyze(AnalysisResult& idx, InputStream* in) {
     do {
       nread = in->read(buf,10240,10240);
       if (nread > 0)
-	  handleData(buf, nread);
+        handleData(buf, nread);
     } while (nread == 10240) ;
     finish();
     endAnalysis(true);
@@ -79,13 +79,13 @@ void SaxHelperAnalyzer::init(const char* data, int32_t len) {
 
 void SaxHelperAnalyzer::push(const char* data, int32_t len) {
     if (xmlParseChunk(ctxt, data, len, 0)) {
-	error = true;
+        error = true;
     }
 }
 
 void SaxHelperAnalyzer::finish() {
     if (xmlParseChunk(ctxt, 0, 0, 1)) {
-	error = true;
+        error = true;
     }
 }
 
