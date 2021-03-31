@@ -88,3 +88,7 @@ install(TARGETS streamanalyzer
     LIBRARY DESTINATION ${LIB_DESTINATION}
     ARCHIVE DESTINATION ${LIB_DESTINATION}
 )
+
+if(ENABLE_TESTING)
+    add_subdirectory(pdf)
+endif()

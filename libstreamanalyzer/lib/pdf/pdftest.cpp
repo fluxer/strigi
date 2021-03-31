@@ -18,10 +18,10 @@
  * Boston, MA 02110-1301, USA.
  */
 #include <strigi/strigiconfig.h>
-#include "fileinputstream.h"
-#include "stringstream.h"
-#include "gzipinputstream.h"
-#include "kmpsearcher.h"
+#include <strigi/fileinputstream.h>
+#include <strigi/stringstream.h>
+#include <strigi/gzipinputstream.h>
+#include <strigi/kmpsearcher.h>
 #include <ctype.h>
 extern "C" {
     #include <magic.h>

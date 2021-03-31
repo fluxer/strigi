@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 #include <strigi/strigiconfig.h>
+#include <strigi/fileinputstream.h>
 #include "pdfparser.h"
-#include "fileinputstream.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 
