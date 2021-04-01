@@ -113,6 +113,12 @@ set_package_properties(XAttr PROPERTIES
     TYPE OPTIONAL
 )
 
+find_program(PDFTOTEXT_EXECUTABLE pdftotext)
+add_feature_info(pdftotext
+    PDFTOTEXT_EXECUTABLE
+    "Text extraction from PDF"
+)
+
 # creater after packages lookup because some of the variables are stored in config.h
 configure_file(
     ${CMAKE_SOURCE_DIR}/config.h.cmake
