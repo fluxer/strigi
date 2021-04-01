@@ -27,13 +27,7 @@
 using namespace std;
 using namespace Strigi;
 
-// define 'environ' for Mac OS X
-#if defined(__APPLE__)
-# include <crt_externs.h>
-# define environ (*_NSGetEnviron())
-#else
 extern char **environ;
-#endif
 
 ProcessInputStream::ProcessInputStream(const vector<string>& a,
         InputStream* input) {
