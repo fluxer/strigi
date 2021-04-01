@@ -101,15 +101,15 @@ StreamStatus
 PdfParser::skipKeyword(const char* str, int32_t len) {
     StreamStatus s = checkForData(len);
     if (s != Ok) {
-            m_error.assign("Premature end of stream.");
-            return Error;
+        m_error.assign("Premature end of stream.");
+        return Error;
     }
 //    printf("skipKeyword %s '%.*s'\n", str, (len>end-pos)?end-pos:len, pos);
     if (strncmp(pos, str, len) != 0) {
-            m_error.assign("Keyword ");
-            m_error.append(str, len);
-            m_error.append(" not found.");
-            return Error;
+        m_error.assign("Keyword ");
+        m_error.append(str, len);
+        m_error.append(" not found.");
+        return Error;
     }
     pos += len;
     return Ok;
@@ -372,7 +372,7 @@ PdfParser::parseDictionaryOrStream() {
 //        printf("position: %lli length %i\n", p, length);
         SubInputStream sub(stream, length);
         if (handleSubStream(&sub, type, offset, numberofobjects, hasfilter,
-                filter) != Eof) {
+            filter) != Eof) {
             return Error;
         }
         // After reading the substream the pointers to the buffer are invalid.
@@ -507,8 +507,8 @@ StreamStatus
 PdfParser::skipXRef() {
     // skip header
     if (skipKeyword("xref", 4) != Ok || skipWhitespaceOrComment() != Ok
-            || skipNumber() != Ok || skipWhitespaceOrComment() != Ok
-            || parseNumber() != Ok || skipWhitespaceOrComment() != Ok) {
+        || skipNumber() != Ok || skipWhitespaceOrComment() != Ok
+        || parseNumber() != Ok || skipWhitespaceOrComment() != Ok) {
         return Error;
     }
     // parse number of entreis
@@ -518,7 +518,7 @@ PdfParser::skipXRef() {
             || skipNumber() != Ok || skipWhitespaceOrComment() != Ok
             || skipFromString("fn", 2) != Ok
             || skipWhitespaceOrComment() != Ok) {
-                return Error;
+            return Error;
         }
     }
     return Ok;
@@ -526,7 +526,7 @@ PdfParser::skipXRef() {
 StreamStatus
 PdfParser::skipTrailer() {
     if (skipKeyword("trailer", 7) != Ok || skipWhitespaceOrComment() != Ok
-            || parseDictionaryOrStream() != Ok) {
+        || parseDictionaryOrStream() != Ok) {
         return Error;
     }
     return Ok;
@@ -534,7 +534,7 @@ PdfParser::skipTrailer() {
 StreamStatus
 PdfParser::skipStartXRef() {
     if (skipKeyword("startxref", 9) != Ok || skipWhitespaceOrComment() != Ok
-            || skipNumber() != Ok) {
+        || skipNumber() != Ok) {
         fprintf(stderr, "error in startxref 1\n");
         return Error;
     }
