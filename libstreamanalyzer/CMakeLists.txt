@@ -13,8 +13,6 @@ include_directories(
     ${libstreamanalyzer_SOURCE_DIR}/lib
     ${libstreamanalyzer_BINARY_DIR}/lib
     ${ICONV_INCLUDE_DIR}
-    ${EXIV2_INCLUDE_DIR}
-    ${FFMPEG_INCLUDE_DIRS}
     ${FILE_INCLUDE_DIR}
     ${LIBXML2_INCLUDE_DIR}
 )
