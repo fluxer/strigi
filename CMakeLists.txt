@@ -119,7 +119,7 @@ add_feature_info(pdftotext
     "Text extraction from PDF"
 )
 
-# creater after packages lookup because some of the variables are stored in config.h
+# create after packages lookup because some of the variables are stored in config.h
 configure_file(
     ${CMAKE_SOURCE_DIR}/config.h.cmake
     ${CMAKE_BINARY_DIR}/config.h

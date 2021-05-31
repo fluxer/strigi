@@ -93,8 +93,3 @@ MACRO_BOOL_TO_01(HAVE_STDDEF_H     STRIGI_HAVE_STDDEF_H)
 
 #now write out our configuration....
 ADD_DEFINITIONS(-DHAVE_CONFIG_H)
-CONFIGURE_FILE(
-    ${CMAKE_SOURCE_DIR}/config.h.cmake
-    ${CMAKE_BINARY_DIR}/config.h
-)
-
