@@ -92,9 +92,6 @@ public:
 /** Abstract class for a buffered stream of bytes */
 typedef BufferedStream<char> BufferedInputStream;
 
-/** Abstract class for a buffered stream of Unicode characters */
-typedef BufferedStream<wchar_t> BufferedReader;
-
 
 template <class T>
 BufferedStream<T>::BufferedStream() {

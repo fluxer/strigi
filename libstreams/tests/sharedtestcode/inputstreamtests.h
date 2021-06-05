@@ -36,7 +36,6 @@ void subStreamProviderTest1(Strigi::SubStreamProvider* stream);
 
 extern int ninputstreamtests;
 extern void (*charinputstreamtests[])(Strigi::StreamBase<char>*);
-extern void (*wcharinputstreamtests[])(Strigi::StreamBase<wchar_t>*);
 
 extern int nstreamprovidertests;
 extern void (*streamprovidertests[])(Strigi::SubStreamProvider*);

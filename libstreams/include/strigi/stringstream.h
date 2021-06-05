@@ -73,8 +73,6 @@ public:
 /** An InputStream to read from in-memory data. */
 typedef StringStream<char> StringInputStream;
 
-/** A Reader to read from in-memory data. */
-typedef StringStream<wchar_t> StringReader;
 
 template <class T>
 StringStream<T>::StringStream(const T* value, int32_t length, bool copy)

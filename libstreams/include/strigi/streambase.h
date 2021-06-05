@@ -195,9 +195,6 @@ public:
 /** Abstract class for a stream of bytes */
 typedef StreamBase<char> InputStream;
 
-/** Abstract class for a stream of Unicode characters */
-typedef StreamBase<wchar_t> Reader;
-
 
 template <class T>
 int64_t

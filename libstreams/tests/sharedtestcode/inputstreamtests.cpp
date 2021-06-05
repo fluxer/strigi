@@ -127,8 +127,6 @@ subStreamProviderTest2(SubStreamProvider* ssp) {
 int ninputstreamtests = 3;
 void (*charinputstreamtests[])(StreamBase<char>*) = {
     inputStreamTest1, inputStreamTest2, inputStreamTest3 };
-void (*wcharinputstreamtests[])(StreamBase<wchar_t>*) = {
-    inputStreamTest1, inputStreamTest2, inputStreamTest3 };
 
 int nstreamprovidertests = 2;
 void (*streamprovidertests[])(SubStreamProvider*) = {
