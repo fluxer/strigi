@@ -51,7 +51,6 @@ The only function we really need to implement is connectInputStream()
 */
 class STRIGI_PLUGIN_API ExivEndAnalyzer : public StreamEndAnalyzer {
 private:
-    AnalysisResult* result;
     const ExivEndAnalyzerFactory* factory;
 
 public:
@@ -87,20 +86,6 @@ private:
     */
     map<string, const RegisteredField*> exifFields;
     const RegisteredField* commentField;
-    const RegisteredField* manufacturerField;
-    const RegisteredField* modelField;
-    const RegisteredField* creationDateField;
-    const RegisteredField* widthField;
-    const RegisteredField* heightField;
-    const RegisteredField* orientationField;
-    const RegisteredField* flashUsedField;
-    const RegisteredField* focalLengthField;
-    const RegisteredField* _35mmEquivalentField;
-    const RegisteredField* exposureTimeField;
-    const RegisteredField* apertureField;
-    const RegisteredField* exposureBiasField;
-    const RegisteredField* whiteBalanceField;
-    const RegisteredField* meteringModeField;
     const RegisteredField* exposureField;
 
     const RegisteredField* typeField;
@@ -308,8 +293,7 @@ ExivEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
                    factory->exifFields.find("Exif.Photo.ApertureValue")->second,
                    aperture);
             }
-        }
-        else if(i->key() == "Exif.Image.DateTime") {
+        } else if(i->key() == "Exif.Image.DateTime") {
             // the exif datetime string format is as follows: "2005:06:03 17:13:33"
             struct tm date;
             if(sscanf(i->toString().c_str(), "%d:%d:%d %d:%d:%d", &date.tm_year, &date.tm_mon, &date.tm_mday, &date.tm_hour, &date.tm_min, &date.tm_sec) == 6) {

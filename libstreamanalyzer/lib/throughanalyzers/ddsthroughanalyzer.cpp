@@ -48,11 +48,11 @@ namespace {// Private.
     static const uint32_t FOURCC_DXT5 = MAKEFOURCC('D', 'X', 'T', '5');
     static const uint32_t FOURCC_RXGB = MAKEFOURCC('R', 'X', 'G', 'B');
 
-    static const uint32_t DDSD_CAPS = 0x00000001l;
+    // static const uint32_t DDSD_CAPS = 0x00000001l;
     static const uint32_t DDSD_PIXELFORMAT = 0x00001000l;
     static const uint32_t DDSD_WIDTH = 0x00000004l;
     static const uint32_t DDSD_HEIGHT = 0x00000002l;
-    static const uint32_t DDSD_PITCH = 0x00000008l;
+    // static const uint32_t DDSD_PITCH = 0x00000008l;
 
     static const uint32_t DDSCAPS_TEXTURE = 0x00001000l;
     static const uint32_t DDSCAPS2_VOLUME = 0x00200000l;

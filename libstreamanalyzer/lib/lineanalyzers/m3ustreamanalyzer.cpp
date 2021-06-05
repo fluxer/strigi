@@ -33,7 +33,6 @@
 void M3uLineAnalyzerFactory::registerFields(Strigi::FieldRegister& reg) 
 {
 // track list length is easily obtained via API
-//    tracksField = reg.registerField();
     trackPathField = reg.registerField(
         "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#links");
     m3uTypeField = reg.registerField(
@@ -105,9 +104,6 @@ bool M3uLineAnalyzer::isReadyWithStream()
 
 void M3uLineAnalyzer::endAnalysis(bool complete)
 {
-    // tracksField has not been initialized, so don't use it
-    //if (complete && extensionOk)
-        //analysisResult->addValue(factory->tracksField, count);
     if (complete && extensionOk)
         analysisResult->addValue(factory->typeField, "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#MediaList");
 

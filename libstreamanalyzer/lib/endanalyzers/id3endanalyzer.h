@@ -45,7 +45,6 @@ private:
     const Strigi::RegisteredField* titleField;
     const Strigi::RegisteredField* descriptionField;
     const Strigi::RegisteredField* commentField;
-    const Strigi::RegisteredField* artistField;
     const Strigi::RegisteredField* albumField;
     const Strigi::RegisteredField* composerField;
     const Strigi::RegisteredField* performerField;

@@ -301,7 +301,7 @@ FlacEndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream*
         const Strigi::RegisteredField* performerField = 0;
         if (!artists.empty()) {
             if (!performers.empty()) {
-                artistField = factory->composerField;
+                artistField = factory->artistField;
                 performerField = factory->performerField;
             }
             else {

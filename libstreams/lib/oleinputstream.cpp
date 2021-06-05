@@ -70,7 +70,7 @@ public:
         blockoffset = 0;
         m_size = parent->currentStreamSize;
     }
-    void reset() {
+    void resetState() {
         resetBuffer();
         done = 0;
         blockoffset = 0;
@@ -79,6 +79,7 @@ public:
     }
     int32_t fillBuffer(char* start, int32_t space);
 };
+#if 0
 void
 printEntry(const char* d) {
     char type = d[0x42];
@@ -94,6 +95,7 @@ printEntry(const char* d) {
     printf("entry %i %s: %i %i %i %i %i %i\n", d[0x40],name.c_str(), type, prevIndex, nextIndex, firstIndex,
         blockStart, blockSize);
 }
+#endif
 }
 int32_t
 OleEntryStream::fillBuffer(char* start, int32_t space) {
@@ -395,7 +397,7 @@ OleInputStream::Private::nextEntry() {
     } while (currentDataBlock < 0);
     //printEntry(data+(currentTableBlock+1)*512+128*currentTableIndex);
 
-    entrystream->reset();
+    entrystream->resetState();
 
     return entrystream;
 }

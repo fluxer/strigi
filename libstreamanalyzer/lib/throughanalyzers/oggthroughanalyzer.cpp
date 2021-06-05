@@ -199,7 +199,7 @@ OggThroughAnalyzer::connectInputStream(InputStream* in) {
     const Strigi::RegisteredField* performerField = 0;
     if (!artist.empty()) {
         if (!performer.empty()) {
-            artistField = factory->composerField;
+            artistField = factory->artistField;
             performerField = factory->performerField;
         }
         else {

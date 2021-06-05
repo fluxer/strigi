@@ -37,7 +37,7 @@ public:
     bool useFactory(StreamThroughAnalyzerFactory*) const {return false;}
     bool indexMore() const {return true;}
     bool addMoreText() const {return false;}
-    FieldType indexType(const string& fieldname) const {
+    FieldType indexType(const Strigi::RegisteredField* f) const {
         return None;
     }
 };

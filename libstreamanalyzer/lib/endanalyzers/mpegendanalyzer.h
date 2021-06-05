@@ -28,7 +28,6 @@ class MpegEndAnalyzerFactory;
 
 class MpegEndAnalyzer : public Strigi::StreamEndAnalyzer {
 private:
-    Strigi::AnalysisResult* indexable;
     const MpegEndAnalyzerFactory* factory;
     
     // MPEG information

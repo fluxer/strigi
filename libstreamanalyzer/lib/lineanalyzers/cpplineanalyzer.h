@@ -56,7 +56,7 @@ private:
     const Strigi::RegisteredField* classField;
     const Strigi::RegisteredField* codeLinesField;
     const Strigi::RegisteredField* commentLinesField;
-    const Strigi::RegisteredField* includesField;
+    // const Strigi::RegisteredField* includesField;
     const Strigi::RegisteredField* programmingLanguageField;
 
     const Strigi::RegisteredField* typeField;
