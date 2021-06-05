@@ -6,8 +6,6 @@ set(streamtests
     EventInputStreamTest.cpp
     FileInputStreamTest.cpp
     GZipInputStreamTest.cpp
-    # GZipCompressInputStreamTest.cpp
-    InputStreamReaderTest.cpp
     InputStreamTest.cpp
     KmpSearcherTest.cpp
     LZMAInputStreamTest.cpp

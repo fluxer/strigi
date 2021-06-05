@@ -20,7 +20,6 @@
 #include "textendanalyzer.h"
 #include <strigi/strigiconfig.h>
 #include <strigi/streamanalyzer.h>
-#include <strigi/inputstreamreader.h>
 #include <strigi/analysisresult.h>
 #include <strigi/textutils.h>
 #include <iostream>

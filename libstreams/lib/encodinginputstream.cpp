@@ -114,9 +114,9 @@ EncodingInputStream::Private::decode(char* start, int32_t space) {
         default:
             char tmp[10];
             snprintf(tmp, 10, "%i", errno);
-            p->m_error = "inputstreamreader error: ";
+            p->m_error = "encodinginputstream error: ";
             p->m_error.append(tmp);
-            fprintf(stderr, "inputstreamreader::error %d\n", errno);
+            fprintf(stderr, "encodinginputstream::error %d\n", errno);
             p->m_status = Error;
             return -1;
         }

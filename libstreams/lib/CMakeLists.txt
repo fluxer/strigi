@@ -13,7 +13,6 @@ set(streams_SRCS
     filestreamopener.cpp
     gzipcompressstream.cpp
     gzipinputstream.cpp
-    inputstreamreader.cpp
     kmpsearcher.cpp
     lzma/LzmaDec.c
     lzmainputstream.cpp
