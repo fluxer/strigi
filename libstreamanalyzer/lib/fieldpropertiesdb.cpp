@@ -30,9 +30,7 @@
 #include <cstring>
 #include <sys/types.h>
 #include <dirent.h>
-#ifdef HAVE_STRINGS_H
 #include <strings.h>
-#endif
 #include <libxml/SAX2.h>
 #include <sys/stat.h>
 #include <config.h>

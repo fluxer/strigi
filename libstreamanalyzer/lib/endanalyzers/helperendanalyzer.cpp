@@ -22,9 +22,7 @@
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
-#ifdef HAVE_UNISTD_H
- #include <unistd.h>
-#endif
+
 
 #include <strigi/strigiconfig.h>
 #include "compat.h"
@@ -36,6 +34,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 using namespace Strigi;
 using namespace std;

@@ -37,9 +37,7 @@
 #include <cstring>
 #include <cerrno>
 #include <algorithm>
-#ifdef HAVE_UNISTD_H
- #include <unistd.h>
-#endif
+#include <unistd.h>
 #include <sstream>
 #include <iostream>
 #include <fstream>

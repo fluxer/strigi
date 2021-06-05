@@ -4,17 +4,6 @@
 #define CONFIG_H
 
 //////////////////////////////
-// headers
-//////////////////////////////
-#cmakedefine HAVE_STDINT_H 1
-#cmakedefine HAVE_SYS_SOCKET_H 1
-#cmakedefine HAVE_SYS_TYPES_H 1
-#cmakedefine HAVE_SOCKET_H 1
-#cmakedefine HAVE_STDDEF_H 1
-#cmakedefine HAVE_STRINGS_H 1
-#cmakedefine HAVE_UNISTD_H 1
-
-//////////////////////////////
 // functions
 //////////////////////////////
 #cmakedefine HAVE_ISBLANK 1
@@ -25,17 +14,6 @@
 #cmakedefine HAVE_STRLWR 1
 #cmakedefine HAVE_STRNCASECMP 1
 #cmakedefine HAVE_LOCALTIME_R 1
-
-//////////////////////////////
-//types
-//////////////////////////////
-#cmakedefine HAVE_INT16_T 1
-#cmakedefine HAVE_INT32_T 1
-#cmakedefine HAVE_INT64_T 1
-#cmakedefine HAVE_UINT 1
-#cmakedefine HAVE_INTPTR_T 1
-#cmakedefine HAVE_SIZE_T 1
-#cmakedefine HAVE_SSIZE_T 1
 
 //////////////////////////////
 //support large files
@@ -53,49 +31,13 @@
 //misc
 //////////////////////////////
 #cmakedefine ICONV_SECOND_ARGUMENT_IS_CONST 1
-#cmakedefine CMAKE_ANSI_FOR_SCOPE 1
-
-#ifndef CMAKE_ANSI_FOR_SCOPE
- #define for if (0); else for
-#endif
 
 #define PATH_SEPARATOR ":"
-
-// set sleep time
-#ifdef HAVE_NANOSLEEP
-    #define strigi_nanosleep(nanoseconds) struct timespec sleeptime; sleeptime.tv_sec = 0; sleeptime.tv_nsec = nanoseconds; nanosleep(&sleeptime, 0);
-#endif
-
-#include <strigi/strigiconfig.h>
-
 #define LIBINSTALLDIR "${LIB_DESTINATION}"
-
 #define SOURCEDIR "${CMAKE_CURRENT_SOURCE_DIR}"
-
 #define BINARYDIR "${CMAKE_CURRENT_BINARY_DIR}"
-
 #define INSTALLDIR "${CMAKE_INSTALL_PREFIX}"
 
-// Definition of types that are used internally
-
-#if !@HAVE_INTPTR_T@
- typedef int intptr_t;
- #define HAVE_INTPTR_T 1
-#endif
-
-#if !@HAVE_SOCKLEN_T@
- typedef int socklen_t;
- #define HAVE_SOCKLEN_T 1
-#endif
-
-#if !@HAVE_SSIZE_T@
- #ifndef _SSIZE_T_DEFINED 
-  #ifndef HAVE_SSIZE_T
-   typedef signed int ssize_t;
-   #define HAVE_SSIZE_T 1
-  #endif
-  #define _SSIZE_T_DEFINED 1    // kdewin32 define
- #endif
-#endif
+#include <strigi/strigiconfig.h>
 
 #endif //CONFIG_H

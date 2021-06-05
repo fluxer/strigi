@@ -22,9 +22,7 @@
 
 #include <map>
 #include <string>
-#ifdef HAVE_STDINT_H
- #include <stdint.h>
-#endif
+#include <stdint.h>
 #include "strigi/strigiconfig.h"
 
 namespace Strigi {
@@ -32,7 +30,7 @@ namespace Strigi {
 class IndexedDocument {
 public:
     IndexedDocument() :score(0), size(-1), mtime(0) {}
-	// FIXME: trueg: this is not a uri but a URL or even just a path.
+    // FIXME: trueg: this is not a uri but a URL or even just a path.
     std::string uri;
     float score;
     std::string fragment;

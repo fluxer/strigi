@@ -31,10 +31,7 @@
 #include <cstring>
 #include <sstream>
 #include <iostream>
-
-#ifdef HAVE_STRINGS_H
 #include <strings.h>
-#endif
 
 #ifdef ICONV_SECOND_ARGUMENT_IS_CONST
      #define ICONV_CONST const

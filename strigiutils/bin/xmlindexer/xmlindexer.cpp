@@ -28,9 +28,7 @@
 #include <strigi/fileinputstream.h>
 #include <iostream>
 #include <cstring>
-#ifdef HAVE_UNISTD_H
- #include <unistd.h>
-#endif
+#include <unistd.h>
 #include <stdlib.h>
 #include <time.h>
 
