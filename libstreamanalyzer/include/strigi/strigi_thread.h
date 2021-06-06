@@ -35,22 +35,4 @@
 #define STRIGI_THREAD_EXIT(ret) pthread_exit(ret)
 #define STRIGI_THREAD_SELF() pthread_self()
 
-class StrigiMutex{
-private:
-    STRIGI_MUTEX_DEFINE(m_lock);
-public:
-    StrigiMutex(){
-        STRIGI_MUTEX_INIT(&m_lock);
-    }
-    ~StrigiMutex(){
-        STRIGI_MUTEX_DESTROY(&m_lock);
-    }
-    void lock() {
-        STRIGI_MUTEX_LOCK(&m_lock);
-    }
-    void unlock() {
-        STRIGI_MUTEX_UNLOCK(&m_lock);
-    }
-};
-
 #endif
