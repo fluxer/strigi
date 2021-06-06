@@ -6,13 +6,8 @@
 //////////////////////////////
 // functions
 //////////////////////////////
-#cmakedefine HAVE_ISBLANK 1
-#cmakedefine HAVE_MKSTEMP 1
-#cmakedefine HAVE_SETENV 1
-#cmakedefine HAVE_STRCASECMP 1
 #cmakedefine HAVE_STRCASESTR 1
 #cmakedefine HAVE_STRLWR 1
-#cmakedefine HAVE_STRNCASECMP 1
 #cmakedefine HAVE_LOCALTIME_R 1
 
 //////////////////////////////

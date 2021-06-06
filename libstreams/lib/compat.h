@@ -27,14 +27,6 @@
 
 #include <strigi/strigiconfig.h>
 
-#ifndef HAVE_ISBLANK
-int isblank(char c);
-#endif
-
-#ifndef HAVE_STRNCASECMP
-int strncasecmp(const char *s1, const char *s2, int l);
-#endif
-
 #ifndef HAVE_STRCASESTR
 const char *strcasestr(const char *big, const char *little);
 #endif

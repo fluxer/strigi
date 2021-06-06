@@ -25,7 +25,6 @@
 
 
 #include <strigi/strigiconfig.h>
-#include "compat.h"
 #include <strigi/processinputstream.h>
 #include "textendanalyzer.h"
 #include <strigi/analysisresult.h>

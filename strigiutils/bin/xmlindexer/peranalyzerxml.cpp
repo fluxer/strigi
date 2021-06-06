@@ -141,13 +141,12 @@ parseConfig(const char* config) {
  **/
 int
 main(int argc, char** argv) {
-#ifdef HAVE_SETENV
     setenv("XDG_DATA_HOME", SOURCEDIR"/src/streamanalyzer/fieldproperties", 1);
     setenv("XDG_DATA_DIRS", SOURCEDIR"/src/streamanalyzer/fieldproperties", 1);
     setenv("STRIGI_PLUGIN_PATH", BINARYDIR"/src/streamanalyzer/throughplugins"
         PATH_SEPARATOR BINARYDIR"/src/streamanalyzer/lineplugins"
         PATH_SEPARATOR BINARYDIR"/src/streamanalyzer/saxplugins", 1);
-#endif
+
     // there are 2 optional options that both require an argument.
     // one can specify 1 source, so the number of arguments must be
     // 2, 4 or 6

@@ -26,27 +26,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#ifndef HAVE_STRNCASECMP
-int strncasecmp(const char* sa, const char* sb, int l){
-    char ca,cb;
-    if (sa == sb)
-        return 0;
-    int i=0;
-
-    do{
-        if ( i >= l )
-            break;
-
-        ca = tolower( (*(sa++)) );
-        cb = tolower( (*(sb++)) );
-
-        i++;
-    } while ( ca != L'\0' && (ca == cb) );
-
-    return (int)(ca - cb);
-}
-#endif
-
 #ifndef HAVE_STRCASESTR
 const char * strcasestr(const char *big, const char *little){
     char* tmp1 = strdup(big);
@@ -77,14 +56,5 @@ const char * strcasestr(const char *big, const char *little){
     free(tmp2);
 
     return ret;
-}
-#endif
-
-#ifndef HAVE_ISBLANK
-int isblank(char c){
-    if ( c == ' ' || c == '\t' || c == '\n' || c == '\r' )
-     return 1;
-
-    return 0;
 }
 #endif

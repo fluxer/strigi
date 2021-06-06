@@ -27,7 +27,8 @@
 #include <strigi/subinputstream.h>
 #include <strigi/stringterminatedsubstream.h>
 #include "base64inputstream.h"
-#include "iconv.h"
+#include "compat.h"
+#include <iconv.h>
 #include <cstring>
 #include <sstream>
 #include <iostream>

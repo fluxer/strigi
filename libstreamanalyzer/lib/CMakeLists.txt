@@ -64,8 +64,6 @@ set(streamanalyzer_SRCS
     xmlparser/libxmlstream.cpp
     xmlparser/xmlstream.cpp
     xesamparser.cpp
-    # add the compatibility files
-    compat.cpp
 )
 
 add_library(streamanalyzer SHARED ${streamanalyzer_SRCS})
