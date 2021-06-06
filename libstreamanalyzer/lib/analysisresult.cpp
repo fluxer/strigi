@@ -134,8 +134,7 @@ AnalysisResult::Private::Private(const std::string& p, const char* name,
              m_endanalyzer(0), m_child(0) {
     // make sure that the path starts with the path of the parent
     assert(m_path.size() > m_parent->p->m_path.size()+1);
-    assert(m_path.compare(0, m_parent->p->m_path.size(), m_parent->p->m_path)
-        == 0);
+    assert(m_path.compare(0, m_parent->p->m_path.size(), m_parent->p->m_path) == 0);
 }
 AnalysisResult::AnalysisResult(const std::string& path, const char* name,
         time_t mt, AnalysisResult& parent)
@@ -211,8 +210,10 @@ AnalysisResult::Private::write() {
     m_writer.addValue(m_this, fr.mtimeField, (uint32_t)m_mtime);
 
     //FIXME a temporary workaround until we have a file(system) analyzer.
-    if(m_depth==0) m_writer.addValue(m_this, fr.typeField, "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"); 
-    
+    if(m_depth == 0) {
+        m_writer.addValue(m_this, fr.typeField, "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject");
+    }
+
     m_writer.finishAnalysis(m_this);
 }
 const std::string& AnalysisResult::fileName() const { return p->m_name; }
@@ -273,8 +274,7 @@ AnalysisResult::addText(const char* text, int32_t length) {
         if (len && checkUtf8(d, len)) {
             p->m_writer.addText(this, d, len);
         } else {
-            fprintf(stderr, "'%.*s' is not a UTF8 or latin1 string\n",
-                length, text);
+            fprintf(stderr, "'%.*s' is not a UTF8 or latin1 string\n", length, text);
         }
         Latin1Converter::unlock();
     }
@@ -311,9 +311,8 @@ AnalysisResult::extension() const {
 void
 AnalysisResult::addValue(const RegisteredField* field, const std::string& val) {
     // make sure the field is not stored more often than allowed
-    if (!p->checkCardinality(field)) {
-	return;
-    }
+    if (!p->checkCardinality(field))
+        return;
     if (checkUtf8(val)) {
         p->m_writer.addValue(this, field, val);
     } else {
@@ -334,9 +333,8 @@ void
 AnalysisResult::addValue(const RegisteredField* field,
         const char* data, uint32_t length) {
     // make sure the field is not stored more often than allowed
-    if (!p->checkCardinality(field)) {
-	return;
-    }
+    if (!p->checkCardinality(field))
+        return;
     if (checkUtf8(data, length)) {
         p->m_writer.addValue(this, field, (const unsigned char*)data, length);
     } else {
@@ -355,19 +353,19 @@ AnalysisResult::addValue(const RegisteredField* field,
 void
 AnalysisResult::addValue(const RegisteredField* field, int32_t value) {
     if (!p->checkCardinality(field))
-	return;
+        return;
     p->m_writer.addValue(this, field, value);
 }
 void
 AnalysisResult::addValue(const RegisteredField* field, uint32_t value) {
     if (!p->checkCardinality(field))
-	return;
+        return;
     p->m_writer.addValue(this, field, value);
 }
 void
 AnalysisResult::addValue(const RegisteredField* field, double value) {
     if (!p->checkCardinality(field))
-	return;
+        return;
     p->m_writer.addValue(this, field, value);
 }
 void
@@ -389,17 +387,16 @@ AnalysisResult::Private::checkCardinality(const RegisteredField* field) {
     std::map<const Strigi::RegisteredField*, int>::const_iterator i
         = m_occurrences.find(field);
     if (i != m_occurrences.end()) {
-	if (i->second >= field->properties().maxCardinality()
-                && field->properties().maxCardinality() >= 0) {
-	    fprintf(stderr, "%s hit the maxCardinality limit (%d)\n",
-		field->properties().name().c_str(),
-                    field->properties().maxCardinality());
-	    return false;
-	} else {
-	    m_occurrences[field]++;
-	}
+        if (i->second >= field->properties().maxCardinality()
+            && field->properties().maxCardinality() >= 0) {
+            fprintf(stderr, "%s hit the maxCardinality limit (%d)\n",
+            field->properties().name().c_str(), field->properties().maxCardinality());
+            return false;
+        } else {
+            m_occurrences[field]++;
+        }
     } else {
-	m_occurrences[field] = 1;
+        m_occurrences[field] = 1;
     }
     return true;
 }
