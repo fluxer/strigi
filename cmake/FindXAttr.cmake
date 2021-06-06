@@ -1,23 +1,23 @@
-# - Try to find the xattr header
-# Once done this will define 
-# 
-#  XATTR_FOUND - system has xattr.h 
-#  XATTR_INCLUDE_DIR - the xattr include directory 
-# 
- 
-FIND_PATH(XATTR_INCLUDE_DIR attr/xattr.h) 
- 
-IF(XATTR_INCLUDE_DIR) 
-   SET(XATTR_FOUND TRUE) 
-ENDIF(XATTR_INCLUDE_DIR) 
- 
-IF(XATTR_FOUND) 
-  IF(NOT XAttr_FIND_QUIETLY) 
-    MESSAGE(STATUS "Found xattr.h") 
-  ENDIF(NOT XAttr_FIND_QUIETLY) 
-ELSE(XATTR_FOUND) 
-  IF(XAttr_FIND_REQUIRED) 
-    MESSAGE(FATAL_ERROR "Could not find xattr.h") 
-  ENDIF(XAttr_FIND_REQUIRED) 
-ENDIF(XATTR_FOUND) 
+# - Try to find XAttr header
+#
+# Once done this will define
+#
+#  XATTR_FOUND - system has XAttr
+#  XATTR_INCLUDE_DIR - the XAttr include directory
+#
+# Copyright (c) 2021 Ivailo Monev <xakepa10@gmail.com>
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
+# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
+find_path(XATTR_INCLUDE_DIR
+    NAMES attr/xattr.h
+    HINTS $ENV{XATTRDIR}/include
+)
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(XAttr
+    REQUIRED_VARS XATTR_INCLUDE_DIR
+)
+
+mark_as_advanced(XATTR_INCLUDE_DIR)

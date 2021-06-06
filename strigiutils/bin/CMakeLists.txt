@@ -1,5 +1,4 @@
-# regex.c is no longer provided
-if(HAVE_REGEX_H)
+if(REGEX_FOUND)
   add_subdirectory(deepfind)
-endif(HAVE_REGEX_H)
+endif()
 add_subdirectory(xmlindexer)

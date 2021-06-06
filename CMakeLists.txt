@@ -106,7 +106,13 @@ set_package_properties(FFmpeg PROPERTIES
 
 find_package(XAttr)
 set_package_properties(XAttr PROPERTIES
-    DESCRIPTION "Extended attribute support library for ACL support"
+    DESCRIPTION "Extended attribute support header"
+    TYPE OPTIONAL
+)
+
+find_package(Regex)
+set_package_properties(Regex PROPERTIES
+    DESCRIPTION "Regular expression system header"
     TYPE OPTIONAL
 )
 

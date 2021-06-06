@@ -1,7 +1,3 @@
-# headers that may or may not be present on the system
-INCLUDE(CheckIncludeFileCXX)
-CHECK_INCLUDE_FILE_CXX(regex.h HAVE_REGEX_H)            # strigiutils/*
-
 # test for some functions that are missing on a particular system
 INCLUDE(CheckFunctionExists)
 CHECK_FUNCTION_EXISTS(isblank HAVE_ISBLANK)             # libstreams/lib/mailinputstream.cpp

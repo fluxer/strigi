@@ -21,13 +21,13 @@ install(TARGETS deepfind
     RUNTIME DESTINATION ${BIN_DESTINATION}
 )
 
-if(HAVE_REGEX_H)
+if(REGEX_FOUND)
     add_executable(deepgrep dummy.cpp)
     target_link_libraries(deepgrep libdeepgrep)
     install(TARGETS deepgrep
         RUNTIME DESTINATION ${BIN_DESTINATION}
     )
-endif(HAVE_REGEX_H)
+endif()
 
 add_executable(xmlindexer dummy.cpp)
 target_link_libraries(xmlindexer libxmlindexer)
