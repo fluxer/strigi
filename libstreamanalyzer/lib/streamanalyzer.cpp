@@ -70,13 +70,26 @@
 #include "eventthroughanalyzer.h"
 #include "saxanalyzers/htmlsaxanalyzer.h"
 #include "saxanalyzers/namespaceharvestersaxanalyzer.h"
-#include <strigi/indexpluginloader.h>
+#include <config.h>
+
 #include <sys/stat.h>
 #include <iostream>
-#include <config.h>
 
 using namespace std;
 using namespace Strigi;
+
+vector<string> getdirs(const string& direnv) {
+    vector<string> dirs;
+    string::size_type lastp = 0;
+    string::size_type p = direnv.find(PATH_SEPARATOR);
+    while (p != string::npos) {
+        dirs.push_back(direnv.substr(lastp, p-lastp));
+        lastp = p+1;
+        p = direnv.find(PATH_SEPARATOR, lastp);
+    }
+    dirs.push_back(direnv.substr(lastp));
+    return dirs;
+}
 
 namespace Strigi {
 

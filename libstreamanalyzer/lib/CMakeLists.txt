@@ -9,7 +9,6 @@ set(streamanalyzer_SRCS
     fieldpropertiesdb.cpp
     fieldtypes.cpp
     filelister.cpp
-    indexpluginloader.cpp
     lineeventanalyzer.cpp
     pdf/pdfparser.cpp
     query.cpp
