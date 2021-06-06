@@ -31,7 +31,7 @@ set(STRIGI_SOVERSION ${STRIGI_VERSION_MAJOR})
 set(LIB_DESTINATION     "${CMAKE_INSTALL_FULL_LIBDIR}")
 set(INCLUDE_DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
 set(DATA_DESTINATION    "${CMAKE_INSTALL_FULL_DATAROOTDIR}")
-set(BIN_DESTINATION    "${CMAKE_INSTALL_FULL_BINDIR}")
+set(BIN_DESTINATION     "${CMAKE_INSTALL_FULL_BINDIR}")
 
 # Set up RPATH handling, so the libs are found if they are installed to a non-standard location.
 # By default cmake builds the targets with full RPATH to everything in the build directory,
@@ -47,9 +47,6 @@ add_definitions(-D_REENTRANT)
 
 # environment inspection
 include(ConfigureChecks.cmake)
-
-include_directories(${CMAKE_BINARY_DIR})
-add_definitions(-DHAVE_CONFIG_H)
 
 # dependencies
 find_package(ZLIB)
@@ -120,6 +117,7 @@ add_feature_info(pdftotext
 )
 
 # create after packages lookup because some of the variables are stored in config.h
+include_directories(${CMAKE_BINARY_DIR})
 configure_file(
     ${CMAKE_SOURCE_DIR}/config.h.cmake
     ${CMAKE_BINARY_DIR}/config.h

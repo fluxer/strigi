@@ -13,5 +13,4 @@ CHECK_FUNCTION_EXISTS(strlwr HAVE_STRLWR)               # libstreams/lib/compat.
 CHECK_FUNCTION_EXISTS(strncasecmp HAVE_STRNCASECMP)     # src/streams/mailinputstream.cpp
 CHECK_FUNCTION_EXISTS(localtime_r HAVE_LOCALTIME_R)     # src/streams/dostime.cpp
 
-# now write out our configuration....
 ADD_DEFINITIONS(-DHAVE_CONFIG_H)
