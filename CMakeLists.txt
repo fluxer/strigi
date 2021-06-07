@@ -42,6 +42,10 @@ set(BIN_DESTINATION     "${CMAKE_INSTALL_FULL_BINDIR}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH  TRUE)
 set(CMAKE_INSTALL_RPATH                ${LIB_DESTINATION})
 
+if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DNDEBUG)
+endif()
+
 # due to a bug in libxml2, we only get thread support if _REENTRANT is defined
 add_definitions(-D_REENTRANT)
 
