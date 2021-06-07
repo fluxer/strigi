@@ -484,8 +484,8 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
             AVRational aspectratio;
             ostringstream outs;
             av_reduce(&aspectratio.num, &aspectratio.den,
-                      codec.width  * codec.sample_aspect_ratio.num,
-                      codec.height * codec.sample_aspect_ratio.den,
+                      int64_t(codec.width) * int64_t(codec.sample_aspect_ratio.num),
+                      int64_t(codec.height) * int64_t(codec.sample_aspect_ratio.den),
                       1024*1024);
             std::ostringstream aspect;
             aspect << roundf(100.0*float(aspectratio.num)/float(aspectratio.den))/100.0;
