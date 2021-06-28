@@ -25,7 +25,7 @@
 //////////////////////////////
 //misc
 //////////////////////////////
-#cmakedefine ICONV_SECOND_ARGUMENT_IS_CONST 1
+#cmakedefine ICONV_SECOND_ARGUMENT_IS_CONST
 
 #define PATH_SEPARATOR ":"
 #define LIBINSTALLDIR "${LIB_DESTINATION}"
