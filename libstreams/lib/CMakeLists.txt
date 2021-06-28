@@ -11,7 +11,6 @@ set(streams_SRCS
     encodinginputstream.cpp
     fileinputstream.cpp
     filestreamopener.cpp
-    gzipcompressstream.cpp
     gzipinputstream.cpp
     kmpsearcher.cpp
     lzma/LzmaDec.c
@@ -20,7 +19,6 @@ set(streams_SRCS
     oleinputstream.cpp
     rpminputstream.cpp
     sdfinputstream.cpp
-    # signatureinputstream.cpp # not done yet
     skippingfileinputstream.cpp
     stringterminatedsubstream.cpp
     subinputstream.cpp

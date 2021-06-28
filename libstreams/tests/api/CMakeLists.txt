@@ -13,7 +13,6 @@ set(streamtests
     OleInputStreamTest.cpp
     RpmInputStreamTest.cpp
     SdfInputStreamTest.cpp
-    # SignatureInputStreamTest.cpp # disabled because that stream is not done
     StringTerminatedSubStreamTest.cpp
     SubInputStreamTest.cpp
     TarInputStreamTest.cpp
