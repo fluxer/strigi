@@ -129,7 +129,7 @@ string
 removeAlphabets(const string& str) {
     std::string newStr;
     newStr.reserve(str.length());
-    for( int i=0; i<str.length(); i++ )
+    for( size_t i=0; i<str.length(); i++ )
         if( !isalpha(str[i]) )
             newStr.push_back( str[i] );
     return newStr;
