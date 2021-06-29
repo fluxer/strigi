@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef STRIGI_HTMLSAXANALYZER
-#define STRIGI_HTMLSAXANALYZER
+#ifndef STRIGI_HTMLSAXANALYZER_H
+#define STRIGI_HTMLSAXANALYZER_H
 
 #include <strigi/strigiconfig.h>
 #include <strigi/streamsaxanalyzer.h>
@@ -50,5 +50,7 @@ class HtmlSaxAnalyzerFactory : public StreamSaxAnalyzerFactory {
         return new HtmlSaxAnalyzer();
     }
 };
+
 }
+
 #endif

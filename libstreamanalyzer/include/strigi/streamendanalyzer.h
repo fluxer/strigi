@@ -46,7 +46,6 @@ public:
     virtual bool analyzesSubStreams() const { return false; }
 };
 
-
 }
 
 #endif

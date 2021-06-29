@@ -17,12 +17,14 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #ifndef STRIGI_STREAMEVENTANALYZER_H
 #define STRIGI_STREAMEVENTANALYZER_H
 
 #include "streamanalyzerfactory.h"
 
 namespace Strigi {
+
 class AnalysisResult;
 
 class STRIGI_EXPORT StreamEventAnalyzer {
@@ -45,7 +47,6 @@ class STRIGI_EXPORT StreamEventAnalyzerFactory
 public:
     virtual StreamEventAnalyzer* newInstance() const = 0;
 };
-
 
 }
 

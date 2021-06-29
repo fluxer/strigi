@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef STRIGI_EVENTTHROUGHANALYZER
-#define STRIGI_EVENTTHROUGHANALYZER
+#ifndef STRIGI_EVENTTHROUGHANALYZER_H
+#define STRIGI_EVENTTHROUGHANALYZER_H
 
 #include <strigi/strigiconfig.h>
 #include <strigi/dataeventinputstream.h>

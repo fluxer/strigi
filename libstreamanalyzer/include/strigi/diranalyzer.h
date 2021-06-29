@@ -17,6 +17,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #ifndef STRIGI_DIRANALYZER_H
 #define STRIGI_DIRANALYZER_H
 
@@ -25,6 +26,7 @@
 #include <vector>
 
 namespace Strigi {
+
 class IndexManager;
 class AnalyzerConfiguration;
 
@@ -50,5 +52,7 @@ public:
     int updateDirs(const std::vector<std::string>& dirs, int nthreads = 2,
         AnalysisCaller* caller = 0);
 };
+
 }
+
 #endif

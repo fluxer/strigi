@@ -17,8 +17,8 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef DOSTIME_H
-#define DOSTIME_H
+#ifndef STRIGI_DOSTIME_H
+#define STRIGI_DOSTIME_H
 
 #include <time.h>
 

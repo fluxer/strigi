@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef GREPINDEXREADER_H
-#define GREPINDEXREADER_H
+
+#ifndef STRIGI_GREPINDEXREADER_H
+#define STRIGI_GREPINDEXREADER_H
 
 #include <strigi/strigiconfig.h>
 #include <strigi/indexreader.h>

@@ -17,6 +17,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #ifndef STRIGI_ENCODINGINPUTSTREAM_H
 #define STRIGI_ENCODINGINPUTSTREAM_H
 
@@ -47,4 +48,5 @@ public:
 };
 
 } // end namespace Strigi
+
 #endif

@@ -17,6 +17,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #ifndef STRIGI_ANALYZERCONFIGURATION_H
 #define STRIGI_ANALYZERCONFIGURATION_H
 
@@ -28,6 +29,7 @@
 #include "fieldtypes.h"
 
 namespace Strigi {
+
 class AnalyzerConfigurationPrivate;
 /**
  * @brief This class provides information and functions to control
@@ -296,4 +298,5 @@ protected:
 //operator|(AnalyzerConfiguration::FieldType a, AnalyzerConfiguration::FieldType b);
 
 }
+
 #endif

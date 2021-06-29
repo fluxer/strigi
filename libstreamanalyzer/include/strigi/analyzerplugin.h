@@ -20,11 +20,13 @@
 
 #ifndef STRIGI_ANALYZERPLUGIN_H
 #define STRIGI_ANALYZERPLUGIN_H
+
 #include <strigi/strigiconfig.h>
 
 #include <list>
 
 namespace Strigi {
+
 class StreamEndAnalyzerFactory;
 class StreamThroughAnalyzerFactory;
 class StreamSaxAnalyzerFactory;
@@ -128,5 +130,6 @@ public:
         delete f; \
     } \
 }
+
 #endif
 

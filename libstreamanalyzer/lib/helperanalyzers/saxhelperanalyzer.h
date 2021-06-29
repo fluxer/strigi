@@ -19,6 +19,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #ifndef STRIGI_SAXHELPERANALYZER_H
 #define STRIGI_SAXHELPERANALYZER_H
 
@@ -26,6 +27,7 @@
 #include <libxml/SAX2.h>
 #include <strigi/streambase.h>
 #include <strigi/analysisresult.h>
+
 namespace Strigi {
 
 /**
@@ -40,24 +42,24 @@ private:
     bool initialized;
 
     static void charactersSAXFunc(void* ctx, const xmlChar * ch, int len) {
-	((SaxHelperAnalyzer*)ctx)->characters((const char *)ch, len);
+        ((SaxHelperAnalyzer*)ctx)->characters((const char *)ch, len);
     }
     static void errorSAXFunc(void* ctx, const char * msg, ...) {
-	((SaxHelperAnalyzer*)ctx)->error = true;
+        ((SaxHelperAnalyzer*)ctx)->error = true;
     }
     static void startElementNsSAX2Func(void * ctx,
         const xmlChar* localname, const xmlChar* prefix, const xmlChar* URI,
         int nb_namespaces, const xmlChar ** namespaces, int nb_attributes,
         int nb_defaulted, const xmlChar ** attributes) {
       
-	((SaxHelperAnalyzer*)ctx)->startElement((const char *)localname, (const char *)prefix, (const char *)URI,
-						nb_namespaces, (const char **)namespaces,
-						nb_attributes, nb_defaulted, (const char **)attributes);
+        ((SaxHelperAnalyzer*)ctx)->startElement((const char *)localname, (const char *)prefix, (const char *)URI,
+                                                nb_namespaces, (const char **)namespaces,
+                                                nb_attributes, nb_defaulted, (const char **)attributes);
     }
     static void endElementNsSAX2Func(void *ctx,
         const xmlChar *localname, const xmlChar *prefix, const xmlChar *URI){
       
-	((SaxHelperAnalyzer*)ctx)->endElement((const char *)localname, (const char *)prefix, (const char *)URI);
+        ((SaxHelperAnalyzer*)ctx)->endElement((const char *)localname, (const char *)prefix, (const char *)URI);
     }
     void handleData(const char*, uint32_t);
     void finish();
@@ -169,4 +171,5 @@ public:
 };
 
 }
+
 #endif

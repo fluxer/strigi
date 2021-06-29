@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef XMLINDEXWRITER_H
-#define XMLINDEXWRITER_H
+
+#ifndef STRIGI_XMLINDEXWRITER_H
+#define STRIGI_XMLINDEXWRITER_H
 
 #include "tagmapping.h"
 #include <strigi/indexwriter.h>

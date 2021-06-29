@@ -17,19 +17,16 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #ifndef STRIGI_FILELISTER_H
 #define STRIGI_FILELISTER_H
+
 #include <sys/types.h>
 #include <string>
 #include <vector>
 #include <sys/stat.h>
 
 #include <strigi/strigiconfig.h>
-
-namespace Strigi {
-    class AnalyzerConfiguration;
-
-}
 
 /**
     This class does the same as the Posix command
@@ -44,6 +41,8 @@ namespace Strigi {
 **/
 
 namespace Strigi {
+
+class AnalyzerConfiguration;
 
 class FileLister {
 private:
@@ -91,5 +90,7 @@ public:
 
     void skipTillAfter(const std::string& lastToSkip);
 };
+
 }
+
 #endif

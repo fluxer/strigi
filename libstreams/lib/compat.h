@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef _STRIGI_COMPAT_H
-#define _STRIGI_COMPAT_H
+#ifndef STRIGI_COMPAT_H
+#define STRIGI_COMPAT_H
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -31,4 +31,4 @@
 const char *strcasestr(const char *big, const char *little);
 #endif
 
-#endif // _STRIGI_COMPAT_H
+#endif // STRIGI_COMPAT_H

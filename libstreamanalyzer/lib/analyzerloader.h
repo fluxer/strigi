@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef ANALYZERLOADER_H
-#define ANALYZERLOADER_H
+#ifndef STRIGI_ANALYZERLOADER_H
+#define STRIGI_ANALYZERLOADER_H
 
 #include <strigi/strigiconfig.h>
 #include <list>
@@ -46,6 +46,7 @@ public:
     std::list<StreamLineAnalyzerFactory*> streamLineAnalyzerFactories();
     std::list<StreamEventAnalyzerFactory*> streamEventAnalyzerFactories();
 };
+
 }
 
 #endif

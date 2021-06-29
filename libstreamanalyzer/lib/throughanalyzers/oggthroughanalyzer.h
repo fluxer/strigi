@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef OGGTHROUGHANALYZER_H
-#define OGGTHROUGHANALYZER_H
+#ifndef STRIGI_OGGTHROUGHANALYZER_H
+#define STRIGI_OGGTHROUGHANALYZER_H
 
 #include <strigi/streamthroughanalyzer.h>
 #include <strigi/fieldtypes.h>
@@ -60,6 +60,5 @@ private:
     }
     void registerFields(Strigi::FieldRegister&);
 };
-
 
 #endif

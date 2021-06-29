@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef STRIGI_DIGESTEVENTANALYZER
-#define STRIGI_DIGESTEVENTANALYZER
+#ifndef STRIGI_DIGESTEVENTANALYZER_H
+#define STRIGI_DIGESTEVENTANALYZER_H
 
 #include "SHA1.h"
 #include <strigi/strigiconfig.h>
@@ -59,6 +59,6 @@ private:
     }
 };
 
-
 }
+
 #endif

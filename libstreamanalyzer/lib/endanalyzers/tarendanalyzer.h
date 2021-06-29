@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef TARENDANALYZER
-#define TARENDANALYZER
+
+#ifndef STRIGI_TARENDANALYZER_H
+#define STRIGI_TARENDANALYZER_H
 
 #include <strigi/streamendanalyzer.h>
 #include <strigi/streambase.h>

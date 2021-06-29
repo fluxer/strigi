@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef TAGMAPPING_H
-#define TAGMAPPING_H
+
+#ifndef STRIGI_TAGMAPPING_H
+#define STRIGI_TAGMAPPING_H
 
 #include <map>
 #include <string>

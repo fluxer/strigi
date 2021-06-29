@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef HELPERENDANALYZER
-#define HELPERENDANALYZER
+
+#ifndef STRIGI_HELPERENDANALYZER_H
+#define STRIGI_HELPERENDANALYZER_H
 
 #include <strigi/streamendanalyzer.h>
 #include <strigi/streambase.h>

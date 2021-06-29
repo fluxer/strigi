@@ -21,8 +21,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef STRIGI_RIFFEVENTANALYZER
-#define STRIGI_RIFFEVENTANALYZER
+#ifndef STRIGI_RIFFEVENTANALYZER_H
+#define STRIGI_RIFFEVENTANALYZER_H
 
 #include <strigi/streameventanalyzer.h>
 #include <strigi/analyzerplugin.h>
@@ -99,4 +99,5 @@ private:
 };
 
 }
+
 #endif

@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef RDFINDEXWRITER_H
-#define RDFINDEXWRITER_H
+
+#ifndef STRIGI_RDFINDEXWRITER_H
+#define STRIGI_RDFINDEXWRITER_H
 
 #include <strigi/indexwriter.h>
 #include <strigi/indexmanager.h>

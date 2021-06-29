@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef ID3ENDANALYZER_H
-#define ID3ENDANALYZER_H
+
+#ifndef STRIGI_ID3ENDANALYZER_H
+#define STRIGI_ID3ENDANALYZER_H
 
 #include <strigi/streamendanalyzer.h>
 #include <strigi/fieldtypes.h>
@@ -70,6 +71,5 @@ private:
     }
     void registerFields(Strigi::FieldRegister&);
 };
-
 
 #endif

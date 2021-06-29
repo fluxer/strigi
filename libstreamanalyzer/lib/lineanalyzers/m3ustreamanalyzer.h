@@ -19,8 +19,8 @@
  *  $Id$
  */
 
-#ifndef M3USTREAMANALYZER_H
-#define M3USTREAMANALYZER_H
+#ifndef STRIGI_M3USTREAMANALYZER_H
+#define STRIGI_M3USTREAMANALYZER_H
 
 #include <strigi/analyzerplugin.h>
 #include <strigi/streamlineanalyzer.h>

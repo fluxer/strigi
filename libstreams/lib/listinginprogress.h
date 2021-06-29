@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef LISTINGINPROGRESS_H
-#define LISTINGINPROGRESS_H
+
+#ifndef STRIGI_LISTINGINPROGRESS_H
+#define STRIGI_LISTINGINPROGRESS_H
 
 #include "archiveentrycache.h"
 #include <strigi/archivereader.h>
@@ -92,6 +93,5 @@ public:
     void ref() { refcount++; }
     bool unref() { return --refcount == 0; }
 };
-
 
 #endif

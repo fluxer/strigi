@@ -19,8 +19,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef FLACENDANALYZER_H
-#define FLACENDANALYZER_H
+#ifndef STRIGI_FLACENDANALYZER_H
+#define STRIGI_FLACENDANALYZER_H
 
 #include <strigi/streamendanalyzer.h>
 #include <strigi/fieldtypes.h>
@@ -67,6 +67,5 @@ private:
     }
     void registerFields(Strigi::FieldRegister&);
 };
-
 
 #endif

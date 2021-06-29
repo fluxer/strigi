@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef BMPENDANALYZER
-#define BMPENDANALYZER
+
+#ifndef STRIGI_BMPENDANALYZER_H
+#define STRIGI_BMPENDANALYZER_H
 
 #include <strigi/streamendanalyzer.h>
 #include <strigi/streambase.h>

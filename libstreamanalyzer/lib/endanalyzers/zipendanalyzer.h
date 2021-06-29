@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef ZIPENDANALYZER
-#define ZIPENDANALYZER
+
+#ifndef STRIGI_ZIPENDANALYZER_H
+#define STRIGI_ZIPENDANALYZER_H
 
 #include <strigi/streamendanalyzer.h>
 #include <strigi/streambase.h>
@@ -48,6 +49,5 @@ public:
     bool analyzesSubStreams() const { return true; }
     void registerFields(Strigi::FieldRegister&);
 };
-
 
 #endif

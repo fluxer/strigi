@@ -18,8 +18,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef ODFENDANALYZER
-#define ODFENDANALYZER
+
+#ifndef STRIGI_ODFENDANALYZER_H
+#define STRIGI_ODFENDANALYZER_H
 
 #include <strigi/streamendanalyzer.h>
 #include <strigi/streambase.h>
@@ -57,8 +58,5 @@ public:
     bool analyzesSubStreams() const { return true; }
     void registerFields(Strigi::FieldRegister&);
 };
-
-
-
 
 #endif

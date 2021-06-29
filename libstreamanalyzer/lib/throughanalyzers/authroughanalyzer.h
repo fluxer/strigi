@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef STRIGI_AUTHROUGHANALYZER
-#define STRIGI_AUTHROUGHANALYZER
+
+#ifndef STRIGI_AUTHROUGHANALYZER_H
+#define STRIGI_AUTHROUGHANALYZER_H
 
 #include <strigi/streamthroughanalyzer.h>
 #include <strigi/analyzerplugin.h>

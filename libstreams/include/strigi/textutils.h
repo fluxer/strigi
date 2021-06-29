@@ -17,6 +17,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #ifndef STRIGI_TEXTUTILS_H
 #define STRIGI_TEXTUTILS_H
 
@@ -123,7 +124,6 @@ inline STRIGI_EXPORT int64_t  readBigEndianInt64(const unsigned char* c) {
 inline STRIGI_EXPORT uint64_t readBigEndianUInt64(const unsigned char* c) {
     return readBigEndianUInt64(reinterpret_cast<const char*>(c));
 }
-
 
 } // end namespace Strigi
 

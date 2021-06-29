@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef STRIGI_MIMEEVENTANALYZER
-#define STRIGI_MIMEEVENTANALYZER
+#ifndef STRIGI_MIMEEVENTANALYZER_H
+#define STRIGI_MIMEEVENTANALYZER_H
 
 #include <strigi/strigiconfig.h>
 #include <strigi/streameventanalyzer.h>

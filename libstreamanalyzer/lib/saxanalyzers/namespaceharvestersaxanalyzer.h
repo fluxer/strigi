@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef STRIGI_NAMESPACEHARVESTERSAXANALYZER
-#define STRIGI_NAMESPACEHARVESTERSAXANALYZER
+
+#ifndef STRIGI_NAMESPACEHARVESTERSAXANALYZER_H
+#define STRIGI_NAMESPACEHARVESTERSAXANALYZER_H
 
 #include <strigi/streamsaxanalyzer.h>
 #include <strigi/analyzerplugin.h>
@@ -76,4 +77,4 @@ private:
     }
 };
 
-#endif // NAMESPACEHARVESTERSAXANALYZER_H
+#endif // STRIGI_NAMESPACEHARVESTERSAXANALYZER_H

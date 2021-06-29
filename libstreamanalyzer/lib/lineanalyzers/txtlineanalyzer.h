@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef STRIGI_TXTLINEANALYZER
-#define STRIGI_TXTLINEANALYZER
+
+#ifndef STRIGI_TXTLINEANALYZER_H
+#define STRIGI_TXTLINEANALYZER_H
 
 #include <strigi/streamlineanalyzer.h>
 #include <strigi/analyzerplugin.h>

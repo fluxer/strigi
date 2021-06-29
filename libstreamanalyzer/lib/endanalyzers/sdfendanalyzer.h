@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef SDFENDANALYZER
-#define SDFENDANALYZER
+
+#ifndef STRIGI_SDFENDANALYZER_H
+#define STRIGI_SDFENDANALYZER_H
 
 #include <strigi/analysisresult.h>
 #include <strigi/analyzerplugin.h>

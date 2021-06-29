@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef TEXTENDANALYZER
-#define TEXTENDANALYZER
+
+#ifndef STRIGI_TEXTENDANALYZER_H
+#define STRIGI_TEXTENDANALYZER_H
 
 #include <strigi/streamendanalyzer.h>
 #include <strigi/streambase.h>

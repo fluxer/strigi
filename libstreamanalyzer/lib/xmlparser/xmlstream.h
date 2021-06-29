@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef XMLSTREAM_H
-#define XMLSTREAM_H
+
+#ifndef STRIGI_XMLSTREAM_H
+#define STRIGI_XMLSTREAM_H
 
 #include <string>
 #include <map>
@@ -84,6 +85,5 @@ public:
 
     SimpleNode(const std::string& xml);
 };
-
 
 #endif

@@ -17,6 +17,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #ifndef STRIGI_QUERY_H
 #define STRIGI_QUERY_H
 
@@ -105,4 +106,5 @@ public:
 
 STRIGI_EXPORT std::ostream &operator<<(std::ostream &stream, Strigi::Term term);
 STRIGI_EXPORT std::ostream &operator<<(std::ostream &stream, Strigi::Query query);
+
 #endif

@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef OLEENDANALYZER
-#define OLEENDANALYZER
+
+#ifndef STRIGI_OLEENDANALYZER_H
+#define STRIGI_OLEENDANALYZER_H
 
 #include <strigi/streamendanalyzer.h>
 #include <strigi/streambase.h>
@@ -89,6 +90,5 @@ public:
     const std::map<int, const Strigi::RegisteredField*>* getFieldMap(
         const std::string& key) const;
 };
-
 
 #endif

@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef STRIGI_GIFTHROUGHANALYZER
-#define STRIGI_GIFTHROUGHANALYZER
+#ifndef STRIGI_GIFTHROUGHANALYZER_H
+#define STRIGI_GIFTHROUGHANALYZER_H
 
 #include <strigi/streamthroughanalyzer.h>
 #include <strigi/analyzerplugin.h>

@@ -19,8 +19,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef ODFMIMETYPELINEANALYZER_H
-#define ODFMIMETYPELINEANALYZER_H
+#ifndef STRIGI_ODFMIMETYPELINEANALYZER_H
+#define STRIGI_ODFMIMETYPELINEANALYZER_H
 
 #include "streamlineanalyzer.h"
 
@@ -58,4 +58,4 @@ private:
     Strigi::AnalysisResult *m_result;
 };
 
-#endif // ODFMIMETYPELINEANALYZER_H
+#endif // STRIGI_ODFMIMETYPELINEANALYZER_H

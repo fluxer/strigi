@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef RDFNAMESPACES_H
-#define RDFNAMESPACES_H
+#ifndef STRIGI_RDFNAMESPACES_H
+#define STRIGI_RDFNAMESPACES_H
 
 // This is a list of the most often encountered rdf namespaces used by analyzers
 // For internal use ONLY and should not be installed
@@ -40,6 +40,5 @@
 
 //Draft
 #define NMM_DRAFT	"http://www.semanticdesktop.org/ontologies/2009/02/19/nmm#"
-
 
 #endif

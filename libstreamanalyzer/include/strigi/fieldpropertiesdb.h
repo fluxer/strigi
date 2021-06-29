@@ -18,6 +18,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
 #ifndef STRIGI_FIELDPROPERTIESDB_H
 #define STRIGI_FIELDPROPERTIESDB_H
 
@@ -78,7 +79,6 @@ public:
      **/
     void addField(const std::string& key);
 };
-
 
 }
 

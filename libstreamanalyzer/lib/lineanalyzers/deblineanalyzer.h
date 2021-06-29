@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef DEBLINEANALYZER
-#define DEBLINEANALYZER
+
+#ifndef STRIGI_DEBLINEANALYZER_H
+#define STRIGI_DEBLINEANALYZER_H
 
 #include <strigi/analysisresult.h>
 #include <strigi/analyzerplugin.h>

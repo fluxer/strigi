@@ -17,8 +17,9 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
-#ifndef MPEGENDANALYZER_H
-#define MPEGENDANALYZER_H
+
+#ifndef STRIGI_MPEGENDANALYZER_H
+#define STRIGI_MPEGENDANALYZER_H
 
 #include <strigi/streamendanalyzer.h>
 #include <strigi/fieldtypes.h>
@@ -101,6 +102,5 @@ private:
     }
     void registerFields(Strigi::FieldRegister&);
 };
-
 
 #endif
