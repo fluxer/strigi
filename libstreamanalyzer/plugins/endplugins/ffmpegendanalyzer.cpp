@@ -177,6 +177,10 @@ FFMPEGEndAnalyzerFactory::registerFields(FieldRegister& r) {
 // Probe all input formats and obtain score.
 // Evil FFMPEG hid av_probe_input_format2, the function that does just this.
 AVInputFormat *probe_format(AVProbeData *pd, int *max_score) {
+// 2010-05-01 - 8e2ee18 - lavf 52.62.0 - probe function
+#if (LIBAVFORMAT_VERSION_MAJOR > 52)
+  return av_probe_input_format2(pd, true, max_score);
+#else
   AVInputFormat *result = NULL;
   *max_score = 0;
   
@@ -191,6 +195,7 @@ AVInputFormat *probe_format(AVProbeData *pd, int *max_score) {
     }
     
   return result;
+#endif
 }
 
 // Input format is probed twice, but compared to the expense of stream metadata extraction this isn't a huge deal.
@@ -220,8 +225,7 @@ FFMPEGEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
 #if (LIBAVFORMAT_VERSION_MAJOR > 55)
   pd.mime_type = "";
 #endif
-  int max_score;
-
+  int max_score = 0;
   probe_format(&pd, &max_score);
 
   free(data_buffer);
@@ -317,7 +321,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
 #endif
   in->reset(0);
 
-  int score;
+  int score = 0;
   AVInputFormat* fmt = probe_format(&pd, &score);
   if(fmt == NULL)
     return 1;
