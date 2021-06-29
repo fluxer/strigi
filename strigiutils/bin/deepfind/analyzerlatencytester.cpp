@@ -32,7 +32,6 @@
 #include <time.h>
 
 using namespace Strigi;
-using namespace std;
 
 float
 elapsed(const struct timeval& a, const struct timeval& b) {
@@ -61,10 +60,10 @@ public:
     struct timeval starttime, lasttime;
     int32_t numberOfChecks;
     long numberOfFiles;
-    map<int, int> histogram;
-    string beforeLastFile;
+    std::map<int, int> histogram;
+    std::string beforeLastFile;
     struct timeval beforeLastTime;
-    string lastFile;
+    std::string lastFile;
     struct timeval lastTime;
     Private() :numberOfChecks(0), numberOfFiles(0) {
         starttime.tv_sec = -1;
@@ -93,10 +92,10 @@ LatencyMeasurer::indexMore() const {
     }
     d->histogram[static_cast<int>(10*log10(elapsed(now, d->lasttime)))]++;
     if (elapsed(now, d->lasttime) > 1) {
-        cerr << d->beforeLastFile << " started "
-            << elapsed(now, d->beforeLastTime) << " seconds ago." << endl;
-        cerr << d->lastFile << " started "
-            << elapsed(now, d->lastTime) << " seconds ago." << endl;
+        std::cerr << d->beforeLastFile << " started "
+            << elapsed(now, d->beforeLastTime) << " seconds ago." << std::endl;
+        std::cerr << d->lastFile << " started "
+            << elapsed(now, d->lastTime) << " seconds ago." << std::endl;
         assert(elapsed(now, d->lasttime) < 3);
     }
     d->lasttime = now;
@@ -115,14 +114,14 @@ void
 LatencyMeasurer::Private::print() {
     struct timeval now;
     gettimeofday(&now, NULL);
-    cout << numberOfChecks << " checks in " << numberOfFiles << " files."
-        << endl;
-    cout << "On average " << (elapsed(now, starttime)/(float)numberOfChecks)
-        << " seconds between checks." << endl;
+    std::cout << numberOfChecks << " checks in " << numberOfFiles << " files."
+        << std::endl;
+    std::cout << "On average " << (elapsed(now, starttime)/(float)numberOfChecks)
+        << " seconds between checks." << std::endl;
     int smallestTime = INT_MAX;
     int largestTime = INT_MIN;
     double total = 0;
-    for (map<int,int>::const_iterator i = histogram.begin();
+    for (std::map<int,int>::const_iterator i = histogram.begin();
             i != histogram.end(); ++i) {
         int n = i->first;
         total += pow(10.0, 0.1*n) * histogram[n];
@@ -132,7 +131,7 @@ LatencyMeasurer::Private::print() {
     double sum = 0;
     for (int n=smallestTime; n<=largestTime; ++n) {
         sum += pow(10.0,0.1*n) * histogram[n]/total;
-        cout << pow(10.0,0.1*n) << '\t' << 1-sum << endl;
+        std::cout << pow(10.0,0.1*n) << '\t' << 1-sum << std::endl;
     }
 }
 
@@ -140,15 +139,15 @@ class DummyWriter : public IndexWriter {
 private:
     void startAnalysis(const AnalysisResult*) {}
     void addText(const AnalysisResult*, const char*, int32_t) {}
-    void addValue(const AnalysisResult*, const RegisteredField*, const string&) {}
+    void addValue(const AnalysisResult*, const RegisteredField*, const std::string&) {}
     void addValue(const AnalysisResult*, const RegisteredField*, const unsigned char*, uint32_t) {}
     void addValue(const AnalysisResult*, const RegisteredField*, int32_t) {}
     void addValue(const AnalysisResult*, const RegisteredField*, uint32_t) {}
     void addValue(const AnalysisResult*, const RegisteredField*, double) {}
-    void addValue(const AnalysisResult*, const RegisteredField*, const string&, const string&) {} 
+    void addValue(const AnalysisResult*, const RegisteredField*, const std::string&, const std::string&) {} 
     void finishAnalysis(const AnalysisResult*) {}
-    void addTriplet(const string&, const string&, const string&) {}
-    void deleteEntries(const vector<string>&) {}
+    void addTriplet(const std::string&, const std::string&, const std::string&) {}
+    void deleteEntries(const std::vector<std::string>&) {}
     void deleteAllEntries() {}
 };
 
@@ -162,9 +161,9 @@ private:
 int
 main(int argc, char** argv) {
     if (argc == 1) {
-        cerr << argv[0]
-            << " is a tool for testing the latency of the analyzers." << endl;
-        cerr << "Provide a directory to test on." << endl;
+        std::cerr << argv[0]
+            << " is a tool for testing the latency of the analyzers." << std::endl;
+        std::cerr << "Provide a directory to test on." << std::endl;
         return 1;
     }
 

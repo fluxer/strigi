@@ -25,8 +25,8 @@
 #include <strigi/analyzerconfiguration.h>
 #include <iostream>
 #include <cstring>
+
 using namespace Strigi;
-using namespace std;
 
 void
 printUsage(char** argv) {
@@ -54,11 +54,11 @@ containsFieldList(int argc, char **argv) {
 
 void
 printFields(AnalyzerConfiguration& conf) {
-    const map<string, RegisteredField*>& fields
+    const std::map<std::string, RegisteredField*>& fields
         = conf.fieldRegister().fields();
-    map<string, RegisteredField*>::const_iterator i;
+    std::map<std::string, RegisteredField*>::const_iterator i;
     for (i = fields.begin(); i != fields.end(); ++i) {
-        cout << i->first << endl;
+        std::cout << i->first << std::endl;
     }
 }
 

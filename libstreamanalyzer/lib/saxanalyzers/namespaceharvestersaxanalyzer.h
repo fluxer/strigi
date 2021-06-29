@@ -26,8 +26,6 @@
 #include <set>
 #include <string>
 
-using namespace std;
-
 namespace Strigi {
     class RegisteredField;
 }
@@ -57,7 +55,7 @@ private:
     const NamespaceHarvesterSaxAnalyzerFactory *factory;
 
     Strigi::AnalysisResult *analysisResult;
-    set<string> usedNamespaces;
+    std::set<std::string> usedNamespaces;
     bool ready;
 };
 

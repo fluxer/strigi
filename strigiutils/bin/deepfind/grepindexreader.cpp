@@ -24,7 +24,7 @@
 #include <strigi/indexwriter.h>
 #include <strigi/filelister.h>
 #include <set>
-using namespace std;
+
 using namespace Strigi;
 
 /**
@@ -32,24 +32,24 @@ using namespace Strigi;
  **/
 class FieldAnalyzerConfiguration : public AnalyzerConfiguration {
 private:
-    const set<string> neededFields;
-    mutable set<string> availableFields;
+    const std::set<std::string> neededFields;
+    mutable std::set<std::string> availableFields;
     signed char m_maxDepth;
     const bool needsAllFields;
 public:
-    FieldAnalyzerConfiguration(const set<string>& fields);
+    FieldAnalyzerConfiguration(const std::set<std::string>& fields);
     bool useFactory(StreamAnalyzerFactory*) const;
     bool useFactory(StreamEndAnalyzerFactory*) const;
     bool hasAllFields() const;
 };
-FieldAnalyzerConfiguration::FieldAnalyzerConfiguration(const set<string>& f)
+FieldAnalyzerConfiguration::FieldAnalyzerConfiguration(const std::set<std::string>& f)
         :neededFields(f), m_maxDepth(-1), needsAllFields(f.find("")!=f.end()) {
 }
 bool
 FieldAnalyzerConfiguration::useFactory(StreamAnalyzerFactory* f) const {
     bool use = needsAllFields;
-    const vector<const RegisteredField*>& fields = f->registeredFields();
-    vector<const RegisteredField*>::const_iterator i;
+    const std::vector<const RegisteredField*>& fields = f->registeredFields();
+    std::vector<const RegisteredField*>::const_iterator i;
     for (i = fields.begin(); i != fields.end(); ++i) {
         const RegisteredField* field = *i;
         do {
@@ -101,21 +101,21 @@ public:
 
 class GrepIndexReader::Private {
 public:
-    const string dir;
+    const std::string dir;
 
-    Private(const string& d) :dir(d) {}
+    Private(const std::string& d) :dir(d) {}
 };
 
-GrepIndexReader::GrepIndexReader(const string& dir) :p(new Private(dir)) {
+GrepIndexReader::GrepIndexReader(const std::string& dir) :p(new Private(dir)) {
 }
 GrepIndexReader::~GrepIndexReader() {
     delete p;
 }
 void
-getFields(set<string>& fields, const Query& query) {
+getFields(std::set<std::string>& fields, const Query& query) {
     copy(query.fields().begin(), query.fields().end(),
         inserter(fields, fields.begin()));
-    for (vector<Query>::const_iterator i = query.subQueries().begin();
+    for (std::vector<Query>::const_iterator i = query.subQueries().begin();
             i != query.subQueries().end(); ++i) {
         getFields(fields, *i);
     }
@@ -124,16 +124,16 @@ int32_t
 GrepIndexReader::countHits(const Query& query) {
     QueryIndexWriter qiw;
     // make an analyzerconfiguration with a limited set of fields
-    set<string> fields;
+    std::set<std::string> fields;
     getFields(fields, query);
     FieldAnalyzerConfiguration conf(fields);
     StreamAnalyzer analyzer(conf);
     analyzer.setIndexWriter(qiw);
     return -1;
 }
-vector<IndexedDocument>
+std::vector<IndexedDocument>
 GrepIndexReader::query(const Query&, int offset, int max) {
-    vector<IndexedDocument> hits;
+    std::vector<IndexedDocument> hits;
     return hits;
 }
 void
@@ -143,9 +143,9 @@ GrepIndexReader::getHits(const Strigi::Query&,
         std::vector<std::vector<Strigi::Variant> >& result, int off, int max) {
     result.clear();
 }
-map<string, time_t>
+std::map<std::string, time_t>
 GrepIndexReader::files(char depth) {
-    map<string, time_t> files;
+    std::map<std::string, time_t> files;
     return files;
 }
 int32_t
@@ -164,28 +164,28 @@ time_t
 GrepIndexReader::mTime(const std::string& uri) {
     return -1;
 }
-vector<string>
+std::vector<std::string>
 GrepIndexReader::fieldNames() {
-    vector<string> fieldnames;
+    std::vector<std::string> fieldnames;
     return fieldnames;
 }
-vector<pair<string,uint32_t> >
-GrepIndexReader::histogram(const string& query, const string& fieldname,
-            const string& labeltype) {
-    vector<pair<string,uint32_t> > histogram;
+std::vector<std::pair<std::string,uint32_t> >
+GrepIndexReader::histogram(const std::string& query, const std::string& fieldname,
+            const std::string& labeltype) {
+    std::vector<std::pair<std::string,uint32_t> > histogram;
     return histogram;
 }
 int32_t
-GrepIndexReader::countKeywords(const string& keywordprefix,
-        const vector<string>& fieldnames) {
+GrepIndexReader::countKeywords(const std::string& keywordprefix,
+        const std::vector<std::string>& fieldnames) {
     return -1;
 }
-vector<string>
+std::vector<std::string>
 GrepIndexReader::keywords(
-        const string& keywordmatch,
-        const vector<string>& fieldnames,
+        const std::string& keywordmatch,
+        const std::vector<std::string>& fieldnames,
         uint32_t max, uint32_t offset) {
-    vector<string> keywords;
+    std::vector<std::string> keywords;
     return keywords;
 }
 int

@@ -18,13 +18,13 @@
  * Boston, MA 02110-1301, USA.
  */
 #include "xmlindexwriter.h"
-using namespace std;
+
 using namespace Strigi;
 
 void
 XmlIndexWriter::initWriterData(const FieldRegister& f) {
-    map<string, RegisteredField*>::const_iterator i;
-    map<string, RegisteredField*>::const_iterator end(f.fields().end());
+    std::map<std::string, RegisteredField*>::const_iterator i;
+    std::map<std::string, RegisteredField*>::const_iterator end(f.fields().end());
     for (i = f.fields().begin(); i != end; ++i) {
         Tag* tag = static_cast<Tag*>(i->second->writerData());
         if (tag) {
@@ -33,8 +33,8 @@ XmlIndexWriter::initWriterData(const FieldRegister& f) {
         }
         tag = new Tag();
         tag->refcount = 1;
-        const string s(i->first);
-        const string& n = mapping.map(s);
+        const std::string s(i->first);
+        const std::string& n = mapping.map(s);
         if (s == n) {
             tag->open = "  <value name='" + n + "'>";
             tag->close = "</value>\n";
@@ -47,8 +47,8 @@ XmlIndexWriter::initWriterData(const FieldRegister& f) {
 }
 void
 XmlIndexWriter::releaseWriterData(const FieldRegister& f) {
-    map<string, RegisteredField*>::const_iterator i;
-    map<string, RegisteredField*>::const_iterator end(f.fields().end());
+    std::map<std::string, RegisteredField*>::const_iterator i;
+    std::map<std::string, RegisteredField*>::const_iterator end(f.fields().end());
     for (i = f.fields().begin(); i != end; ++i) {
         Tag* tag = static_cast<Tag*>(i->second->writerData());
         if (tag->refcount-- == 1) {

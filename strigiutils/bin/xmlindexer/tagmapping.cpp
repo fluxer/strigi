@@ -20,23 +20,22 @@
 #include "tagmapping.h"
 #include <iostream>
 #include <fstream>
-using namespace std;
 
 TagMapping::TagMapping(const char* path) {
     if (path == 0) return;
-    ifstream file(path);
-    string line;
+    std::ifstream file(path);
+    std::string line;
     for (;;) {
         getline(file, line);
         if (!file.good()) {
             break;
         }
-        string::size_type p = line.find('\t');
-        if (p != string::npos) {
+        std::string::size_type p = line.find('\t');
+        if (p != std::string::npos) {
             mapping[line.substr(0, p)] = line.substr(p+1);
         } else {
             p = line.find(':');
-            if (p != string::npos) {
+            if (p != std::string::npos) {
                 m_namespaces[line.substr(0, p)] = line.substr(p+1);
             }
         }

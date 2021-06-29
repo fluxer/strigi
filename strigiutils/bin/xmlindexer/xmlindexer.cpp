@@ -32,7 +32,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-using namespace std;
 using namespace Strigi;
 
 int
@@ -55,7 +54,7 @@ containsHelp(int argc, char **argv) {
 }
 void
 analyzeFromStdin(XmlIndexManager& manager, AnalyzerConfiguration& ac,
-        const string& filename, time_t mtime) {
+        const std::string& filename, time_t mtime) {
     StreamAnalyzer sa(ac);
     sa.setIndexWriter(*manager.indexWriter());
     FileInputStream in(stdin, filename.c_str());
@@ -65,12 +64,12 @@ analyzeFromStdin(XmlIndexManager& manager, AnalyzerConfiguration& ac,
 
 int
 main(int argc, char **argv) {
-    vector<string> dirs;
+    std::vector<std::string> dirs;
     int nthreads = 2;
     const char* mappingfile = 0;
-    string lastFileToSkip;
+    std::string lastFileToSkip;
     time_t stdinMTime = time(0);
-    string stdinFilename = "-";
+    std::string stdinFilename = "-";
     int i = 0;
     while (++i < argc) {
         const char* arg = argv[i];
@@ -130,23 +129,23 @@ main(int argc, char **argv) {
         dirs.push_back(buf);
     }
 
-    vector<pair<bool,string> >filters;
-    filters.push_back(make_pair<bool,string>(false,".*/"));
-    filters.push_back(make_pair<bool,string>(false,".*"));
+    std::vector<std::pair<bool,std::string> >filters;
+    filters.push_back(std::make_pair<bool,std::string>(false,".*/"));
+    filters.push_back(std::make_pair<bool,std::string>(false,".*"));
     AnalyzerConfiguration ic;
     ic.setFilters(filters);
 
     const TagMapping mapping(mappingfile);
-    cout << "<?xml version='1.0' encoding='UTF-8'?>\n<"
+    std::cout << "<?xml version='1.0' encoding='UTF-8'?>\n<"
         << mapping.map("metadata");
-    map<string, string>::const_iterator k = mapping.namespaces().begin();
+    std::map<std::string, std::string>::const_iterator k = mapping.namespaces().begin();
     while (k != mapping.namespaces().end()) {
-        cout << " xmlns:" << k->first << "='" << k->second << "'";
+        std::cout << " xmlns:" << k->first << "='" << k->second << "'";
         k++;
     }
-    cout << ">\n";
+    std::cout << ">\n";
 
-    XmlIndexManager manager(cout, mapping);
+    XmlIndexManager manager(std::cout, mapping);
     DirAnalyzer analyzer(manager, ic);
     for (unsigned i = 0; i < dirs.size(); ++i) {
         if (dirs[i] == "-") {
@@ -155,7 +154,7 @@ main(int argc, char **argv) {
             analyzer.analyzeDir(dirs[i], nthreads, 0, lastFileToSkip);
         }
     }
-    cout << "</" << mapping.map("metadata") << ">\n";
+    std::cout << "</" << mapping.map("metadata") << ">\n";
 
     return 0;
 }

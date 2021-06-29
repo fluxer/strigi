@@ -45,16 +45,15 @@
 #include <set>
 
 using namespace Strigi;
-using namespace std;
 
 class SelectedAnalyzerConfiguration : public Strigi::AnalyzerConfiguration {
 public:
-    const set<string> requiredAnalyzers;
-    set<string> obligatoryAnalyzers;
-    mutable set<string> usedAnalyzers;
-    mutable set<string> availableAnalyzers;
+    const std::set<std::string> requiredAnalyzers;
+    std::set<std::string> obligatoryAnalyzers;
+    mutable std::set<std::string> usedAnalyzers;
+    mutable std::set<std::string> availableAnalyzers;
 
-    explicit SelectedAnalyzerConfiguration(const set<string> an)
+    explicit SelectedAnalyzerConfiguration(const std::set<std::string> an)
             : requiredAnalyzers(an) {
         obligatoryAnalyzers.insert("EventThroughAnalyzer");
     }
@@ -63,7 +62,7 @@ public:
         return requiredAnalyzers.size() + 1 == usedAnalyzers.size()
             || requiredAnalyzers.size() == 0;
     }
-    bool useFactory(const string& name) const {
+    bool useFactory(const std::string& name) const {
         bool use = requiredAnalyzers.find(name) != requiredAnalyzers.end()
             || obligatoryAnalyzers.find(name) != obligatoryAnalyzers.end()
             || requiredAnalyzers.size() == 0;
@@ -109,12 +108,12 @@ containsHelp(int argc, char **argv) {
     }
     return false;
 }
-set<string>
+std::set<std::string>
 parseAnalyzerNames(const char* names) {
-    set<string> n;
-    string ns(names);
-    string::size_type start = 0, p = ns.find(',');
-    while (p != string::npos) {
+    std::set<std::string> n;
+    std::string ns(names);
+    std::string::size_type start = 0, p = ns.find(',');
+    while (p != std::string::npos) {
         n.insert(ns.substr(start, p-start));
         start  = p + 1;
         p = ns.find(',', start);
@@ -122,11 +121,11 @@ parseAnalyzerNames(const char* names) {
     n.insert(ns.substr(start));
     return n;
 }
-set<string>
+std::set<std::string>
 parseConfig(const char* config) {
-    set<string> n;
-    ifstream f(config);
-    string line;
+    std::set<std::string> n;
+    std::ifstream f(config);
+    std::string line;
     while (f.good()) {
         getline(f, line);
         if (strncmp("analyzer=", line.c_str(), 9) == 0) {

@@ -23,8 +23,8 @@
 #include <strigi/analyzerconfiguration.h>
 #include <strigi/streamendanalyzer.h>
 #include <strigi/diranalyzer.h>
+
 using namespace Strigi;
-using namespace std;
 
 /**
  * Special indexer that indexes only the filenames.

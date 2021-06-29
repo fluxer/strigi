@@ -21,6 +21,7 @@
 #include "grepindexreader.h"
 #include "grepindexwriter.h"
 #include <strigi/indexwriter.h>
+
 using namespace Strigi;
 
 GrepIndexManager::GrepIndexManager(const char* regex)

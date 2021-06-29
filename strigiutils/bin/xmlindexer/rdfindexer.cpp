@@ -32,7 +32,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-using namespace std;
 using namespace Strigi;
 
 int
@@ -55,7 +54,7 @@ containsHelp(int argc, char **argv) {
 }
 void
 analyzeFromStdin(RdfIndexManager& manager, AnalyzerConfiguration& ac,
-        const string& filename, time_t mtime) {
+        const std::string& filename, time_t mtime) {
     StreamAnalyzer sa(ac);
     sa.setIndexWriter(*manager.indexWriter());
     FileInputStream in(stdin, filename.c_str());
@@ -65,12 +64,12 @@ analyzeFromStdin(RdfIndexManager& manager, AnalyzerConfiguration& ac,
 
 int
 main(int argc, char **argv) {
-    vector<string> dirs;
+    std::vector<std::string> dirs;
     int nthreads = 2;
     const char* mappingfile = 0;
-    string lastFileToSkip;
+    std::string lastFileToSkip;
     time_t stdinMTime = time(0);
-    string stdinFilename = "-";
+    std::string stdinFilename = "-";
     int i = 0;
     while (++i < argc) {
         const char* arg = argv[i];
@@ -130,25 +129,25 @@ main(int argc, char **argv) {
         dirs.push_back(buf);
     }
 
-    vector<pair<bool,string> >filters;
-    filters.push_back(make_pair(false,".*/"));
-    filters.push_back(make_pair(false,".*"));
+    std::vector<std::pair<bool,std::string> >filters;
+    filters.push_back(std::make_pair(false,".*/"));
+    filters.push_back(std::make_pair(false,".*"));
     AnalyzerConfiguration ic;
     ic.setFilters(filters);
 
     const TagMapping mapping(mappingfile);
-/*    cout << "<?xml version='1.0' encoding='UTF-8'?>\n<"
+/*    std::cout << "<?xml version='1.0' encoding='UTF-8'?>\n<"
         << mapping.map("metadata");
     map<string, string>::const_iterator k = mapping.namespaces().begin();
     while (k != mapping.namespaces().end()) {
-        cout << " xmlns:" << k->first << "='" << k->second << "'";
+        std::cout << " xmlns:" << k->first << "='" << k->second << "'";
         k++;
     }
-    cout << ">\n";
+    std::cout << ">\n";
 */
     rdfset rdf;
-    
-    RdfIndexManager manager(cout, mapping, rdf);
+
+    RdfIndexManager manager(std::cout, mapping, rdf);
     DirAnalyzer analyzer(manager, ic);
     for (unsigned i = 0; i < dirs.size(); ++i) {
         if (dirs[i] == "-") {
@@ -157,30 +156,28 @@ main(int argc, char **argv) {
             analyzer.analyzeDir(dirs[i], nthreads, 0, lastFileToSkip);
         }
     }
-//    cout << "</" << mapping.map("metadata") << ">\n";
-
+//    std::cout << "</" << mapping.map("metadata") << ">\n";
 
     for(rdfset::const_iterator subj = rdf.begin(); subj != rdf.end(); subj++) {
-      cout<< "<" << subj->first << ">";
-      
-      std::map<std::string, std::list<std::string> >::const_iterator pred = subj->second.begin();
-      do {
-        cout << "\n\t<" << pred->first << "> ";
-	
-	std::list<std::string>::const_iterator obj = pred->second.begin();
-	do {	  
-	  cout << "\n\t\t\"" << *obj << "\"";
-	  obj++;
-	  if(obj != pred->second.end())
-	    cout <<",";
-	} while (obj != pred->second.end());
-	pred++;
-	if(pred!=subj->second.end())
-	  cout << ";";
-      } while(pred!=subj->second.end());
-      cout<< ".\n";
+        std::cout<< "<" << subj->first << ">";
+
+        std::map<std::string, std::list<std::string> >::const_iterator pred = subj->second.begin();
+        do {
+            std::cout << "\n\t<" << pred->first << "> ";
+
+            std::list<std::string>::const_iterator obj = pred->second.begin();
+            do {
+                std::cout << "\n\t\t\"" << *obj << "\"";
+                obj++;
+                if(obj != pred->second.end())
+                    std::cout <<",";
+            } while (obj != pred->second.end());
+            pred++;
+            if(pred!=subj->second.end())
+                std::cout << ";";
+        } while(pred!=subj->second.end());
+        std::cout<< ".\n";
     }
-    
-    
+
     return 0;
 }

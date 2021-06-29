@@ -44,7 +44,6 @@
 #include <set>
 
 using namespace Strigi;
-using namespace std;
 
 /**
  * Configure analysis bases on what fields we want to extract.
@@ -54,17 +53,17 @@ public:
     /**
      * Fields the user has requested to be reported.
      **/
-    const set<string> requiredFields;
+    const std::set<std::string> requiredFields;
     /**
      * Fields that were requested by the user and are provided by some analyzer.
      **/
-    mutable set<string> usedFields;
+    mutable std::set<std::string> usedFields;
     /**
      * All fields provided by all analyzers.
      **/
-    mutable set<string> availableFields;
+    mutable std::set<std::string> availableFields;
 
-    explicit SelectedFieldConfiguration(const set<string> af)
+    explicit SelectedFieldConfiguration(const std::set<std::string> af)
         : requiredFields(af) {}
 
     /**
@@ -88,12 +87,12 @@ public:
      **/
     bool useAnalyzerFactory(const StreamAnalyzerFactory* f) const {
         bool use = false;
-        vector<const RegisteredField*>::const_iterator i;
+        std::vector<const RegisteredField*>::const_iterator i;
         i = f->registeredFields().begin();
-        const vector<const RegisteredField*>::const_iterator end =
+        const std::vector<const RegisteredField*>::const_iterator end =
             f->registeredFields().end();
         for (; i != end; ++i) {
-            string key((*i)->key());
+            std::string key((*i)->key());
             availableFields.insert(key);
             bool usethis = requiredFields.find(key) != requiredFields.end();
             if (usethis) {
@@ -133,12 +132,12 @@ containsHelp(int argc, char **argv) {
     }
     return false;
 }
-set<string>
+std::set<std::string>
 parseFieldNames(const char* names) {
-    set<string> n;
-    string ns(names);
-    string::size_type start = 0, p = ns.find(',');
-    while (p != string::npos) {
+    std::set<std::string> n;
+    std::string ns(names);
+    std::string::size_type start = 0, p = ns.find(',');
+    while (p != std::string::npos) {
         n.insert(ns.substr(start, p-start));
         start  = p + 1;
         p = ns.find(',', start);
@@ -159,7 +158,7 @@ main(int argc, char** argv) {
         return -1;
     }
 
-    set<string> analyzers;
+    std::set<std::string> analyzers;
     const char* targetFile;
     const char* referenceFile = 0;
     if (argc == 4) {
@@ -196,47 +195,47 @@ main(int argc, char** argv) {
 
     // check that the target file exists
     {
-        ifstream filetest(targetFile);
+        std::ifstream filetest(targetFile);
         if (!filetest.good()) {
-            cerr << "The file '" << targetFile << "' cannot be read." << endl;
+            std::cerr << "The file '" << targetFile << "' cannot be read." << std::endl;
             return 1;
         }
     }
 
     const TagMapping mapping(mappingFile);
-    ostringstream out;
+    std::ostringstream out;
     out << "<?xml version='1.0' encoding='UTF-8'?>\n<"
         << mapping.map("metadata");
-    map<string, string>::const_iterator i = mapping.namespaces().begin();
+    std::map<std::string, std::string>::const_iterator i = mapping.namespaces().begin();
     while (i != mapping.namespaces().end()) {
         out << " xmlns:" << i->first << "='" << i->second << "'";
         i++;
     }
     out << ">\n";
 
-    ostringstream s;
+    std::ostringstream s;
     SelectedFieldConfiguration ic(analyzers);
     XmlIndexManager manager(s, mapping);
     DirAnalyzer analyzer(manager, ic);
     if (!ic.valid()) {
-        set<string>::const_iterator i;
-        set<string> missing;
+        std::set<std::string>::const_iterator i;
+        std::set<std::string> missing;
         set_difference(analyzers.begin(), analyzers.end(),
             ic.availableFields.begin(), ic.availableFields.end(),
-            insert_iterator<set<string> >(missing, missing.begin()));
+            std::insert_iterator<std::set<std::string> >(missing, missing.begin()));
         if (missing.size() == 1) {
             fprintf(stderr, "No field with name %s was found.\n",
                missing.begin()->c_str());
         } else {
-            cerr << "The fields ";
+            std::cerr << "The fields ";
             for (i = missing.begin(); i != missing.end(); ++i) {
-                cerr << ", " << *i; 
+                std::cerr << ", " << *i; 
             }
-            cerr << " were not found." << endl;
+            std::cerr << " were not found." << std::endl;
         }
         fprintf(stderr, "Choose from:\n");
         for (i = ic.availableFields.begin(); i != ic.availableFields.end(); ++i) {
-            cerr << " " << *i << endl;
+            std::cerr << " " << *i << std::endl;
         }
         return 1;
     }
@@ -245,12 +244,12 @@ main(int argc, char** argv) {
         return -1;
     }
     analyzer.analyzeDir(targetFile);
-    string str = s.str();
+    std::string str = s.str();
     int32_t n = 2*(int32_t)str.length();
 
     // if no reference file was specified, we output the analysis
     if (referenceFile == 0) {
-        cout << str;
+        std::cout << str;
         return 0;
     }
 
@@ -264,20 +263,20 @@ main(int argc, char** argv) {
         return -1;
     }
     if (n != (int32_t)s.str().length()) {
-        cerr << "output length differs " << n << " instead of "
-            << s.str().length() << endl;
+        std::cerr << "output length differs " << n << " instead of "
+            << s.str().length() << std::endl;
     }
 
     const char* p1 = c;
     const char* p2 = str.c_str();
     int32_t n1 = n;
-    string::size_type n2 = str.length();
+    std::string::size_type n2 = str.length();
     while (n1-- && n2-- && *p1 == *p2) {
         p1++;
         p2++;
     }
     if (n1 ==0 && (*p1 || *p2)) {
-         cerr << "difference at position " << p1-c << endl;
+         std::cerr << "difference at position " << p1-c << std::endl;
 
          int32_t m = (80 > str.length())?(int32_t)str.length():80;
          printf("%i %.*s\n", m, m, str.c_str());

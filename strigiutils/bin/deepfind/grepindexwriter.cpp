@@ -21,7 +21,6 @@
 #include <strigi/analysisresult.h>
 #include <strigi/fieldtypes.h>
 #include <regex.h>
-using namespace std;
 
 class GrepIndexWriter::Private
 {
@@ -50,7 +49,7 @@ GrepIndexWriter::addText(const Strigi::AnalysisResult* idx, const char* text,
     // unfortunately we have to copy the incoming stream because regexec()
     // assumes a null-terminated string and we are not allowed to modify the
     // incoming message
-    string s;
+    std::string s;
     const char* start = text;
     const char* end = text+length;
     const char* p = start;
@@ -83,7 +82,7 @@ GrepIndexWriter::addValue(const Strigi::AnalysisResult* idx,
             const Strigi::RegisteredField* field,
             const unsigned char* data, uint32_t size) {
     if (!field->properties().binary()) {
-        string value((const char*)data, size);
+        std::string value((const char*)data, size);
         addValue(idx, field, value);
     }
 }

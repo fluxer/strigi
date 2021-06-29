@@ -37,8 +37,6 @@
 #endif
 
 using namespace Strigi;
-using namespace std;
-
 
 /*
  Declare the factory.
@@ -84,7 +82,7 @@ private:
     /* The RegisteredField instances are used to index specific fields quickly.
        We pass a pointer to the instance instead of a string.
     */
-    map<string, const RegisteredField*> exifFields;
+    std::map<std::string, const RegisteredField*> exifFields;
     const RegisteredField* commentField;
     const RegisteredField* exposureField;
 
@@ -94,23 +92,23 @@ private:
 
 #define NEXIF "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#"
 
-const string commentFieldName("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#comment");
-const string manufacturerFieldName(NEXIF "make");
-const string modelFieldName(NEXIF "model");
-const string creationDateFieldName("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#contentCreated");
-const string widthFieldName("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#width");
-const string heightFieldName("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#height");
-const string orientationFieldName(NEXIF "orientation");
-const string flashUsedFieldName(NEXIF "flash");
-const string focalLengthFieldName(NEXIF "focalLength");
-const string _35mmEquivalentFieldName(NEXIF "focalLengthIn35mmFilm");
-const string exposureTimeFieldName(NEXIF "exposureTime");
-const string apertureFieldName(NEXIF "apertureValue");
-const string exposureBiasFieldName(NEXIF "exposureBiasValue");
-const string whiteBalanceFieldName(NEXIF "whiteBalance");
-const string meteringModeFieldName(NEXIF "meteringMode");
-const string exposureFieldName(NEXIF "exposureProgram");
-const string ISOSpeedRatingsFieldName(NEXIF "isoSpeedRatings");
+const std::string commentFieldName("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#comment");
+const std::string manufacturerFieldName(NEXIF "make");
+const std::string modelFieldName(NEXIF "model");
+const std::string creationDateFieldName("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#contentCreated");
+const std::string widthFieldName("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#width");
+const std::string heightFieldName("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#height");
+const std::string orientationFieldName(NEXIF "orientation");
+const std::string flashUsedFieldName(NEXIF "flash");
+const std::string focalLengthFieldName(NEXIF "focalLength");
+const std::string _35mmEquivalentFieldName(NEXIF "focalLengthIn35mmFilm");
+const std::string exposureTimeFieldName(NEXIF "exposureTime");
+const std::string apertureFieldName(NEXIF "apertureValue");
+const std::string exposureBiasFieldName(NEXIF "exposureBiasValue");
+const std::string whiteBalanceFieldName(NEXIF "whiteBalance");
+const std::string meteringModeFieldName(NEXIF "meteringMode");
+const std::string exposureFieldName(NEXIF "exposureProgram");
+const std::string ISOSpeedRatingsFieldName(NEXIF "isoSpeedRatings");
 
 #undef NEXIF
 
@@ -139,7 +137,7 @@ ExivEndAnalyzerFactory::registerFields(FieldRegister& r) {
     exifFields["Exif.Photo.MeteringMode"] = r.registerField(meteringModeFieldName);
     exifFields["Exif.Photo.ISOSpeedRatings"] = r.registerField(ISOSpeedRatingsFieldName);
 
-map<string, const RegisteredField*>::const_iterator i = exifFields.begin();
+std::map<std::string, const RegisteredField*>::const_iterator i = exifFields.begin();
     for (; i != exifFields.end(); ++i) {
         addField(i->second);
     }
@@ -192,7 +190,7 @@ ExivEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
 namespace {
 
 bool
-fnumberToApertureValue(string& fnumber) {
+fnumberToApertureValue(std::string& fnumber) {
     // Convert the F number to the aperture value
     // return true if the value in fnumber is changed to ApertureValue
     // F number = sqrt(pow(2, apex))
@@ -231,7 +229,7 @@ ExivEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
             ok = true;
         } catch (...) {
             // no problem yet, we can read from the stream
-            cerr << "error reading " << ar.path() << endl;
+            std::cerr << "error reading " << ar.path() << std::endl;
         }
     }
 
@@ -287,7 +285,7 @@ ExivEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
 
     for (Exiv2::ExifData::const_iterator i = exif.begin(); i != exif.end();++i){
         if (i->key() == "Exif.Photo.FNumber") {
-            string aperture(i->toString());
+            std::string aperture(i->toString());
             if (fnumberToApertureValue(aperture)) {
                 ar.addValue(
                    factory->exifFields.find("Exif.Photo.ApertureValue")->second,
@@ -300,12 +298,12 @@ ExivEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
                 ar.addValue(factory->exifFields.find("Exif.Image.DateTime")->second, uint32_t(mktime(&date)));
             }
         } else if (i->key() != "Exif.Photo.PixelXDimension" && i->key() != "Exif.Photo.PixelYDimension") {
-            map<string,const RegisteredField*>::const_iterator f
+            std::map<std::string,const RegisteredField*>::const_iterator f
                     = factory->exifFields.find(i->key());
             if (f != factory->exifFields.end() && f->second) {
                 ar.addValue(f->second, i->toString());
                 //        } else {
-                //            cerr << i->key() << "\t" << i->value() << endl;
+                //            std::cerr << i->key() << "\t" << i->value() << std::endl;
             }
         }
     }
@@ -318,7 +316,7 @@ ExivEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
     data = (const char*)thumbnail.pData_;
     if (data) {
         StringInputStream thumbstream(data, (int32_t)thumbnail.size_, false);
-        string thumbname("thumbnail");
+        std::string thumbname("thumbnail");
 #if EXIV2_TEST_VERSION(0,17,91)
         ar.indexChild(thumbname + thumb.extension(), ar.mTime(),
             &thumbstream);
@@ -340,9 +338,9 @@ ExivEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
 */
 class Factory : public AnalyzerFactoryFactory {
 public:
-    list<StreamEndAnalyzerFactory*>
+    std::list<StreamEndAnalyzerFactory*>
     streamEndAnalyzerFactories() const {
-        list<StreamEndAnalyzerFactory*> af;
+        std::list<StreamEndAnalyzerFactory*> af;
         af.push_back(new ExivEndAnalyzerFactory());
         return af;
     }

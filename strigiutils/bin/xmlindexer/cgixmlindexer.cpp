@@ -26,13 +26,13 @@
 #include <iostream>
 #include <cstdlib>
 #include <stdlib.h> // getenv
-using namespace Strigi;
-using namespace std;
 
-string
+using namespace Strigi;
+
+std::string
 readHeader(InputStream* f) {
     StringTerminatedSubStream header(f, "\r\n\r\n");
-    string h;
+    std::string h;
     const char* d;
     int32_t nread = header.read(d, 1000, 0);
     while (nread > 0) {
@@ -48,10 +48,10 @@ readHeader(InputStream* f) {
  **/
 bool
 parseFile(StreamAnalyzer& sa, XmlIndexManager& manager,
-        InputStream* f, const string& delim) {
+        InputStream* f, const std::string& delim) {
 
-    string header = readHeader(f);
-    string filename;
+    std::string header = readHeader(f);
+    std::string filename;
     const char* start = header.c_str();
     start = strstr(start, "filename=");
     if (start) {
@@ -90,22 +90,22 @@ parseFile(StreamAnalyzer& sa, XmlIndexManager& manager,
 int
 main() {
     const TagMapping mapping(0);
-    cout << "Content-Type:text/xml;charset=UTF-8\r\n\r\n"
+    std::cout << "Content-Type:text/xml;charset=UTF-8\r\n\r\n"
         "<?xml version='1.0' encoding='UTF-8'?>\n<"
         << mapping.map("metadata") << ">\n";
 
     int len;
     const char* lenstr = getenv("CONTENT_LENGTH");
     if (lenstr == NULL || sscanf(lenstr,"%id", &len) != 1 || len < 0) {
-        cout << " <error>input too small</error>\n</"
-            << mapping.map("metadata") << ">\n" << flush;
+        std::cout << " <error>input too small</error>\n</"
+            << mapping.map("metadata") << ">\n" << std::flush;
         return 0;
     }
-    cerr << "len " << len << endl;
+    std::cerr << "len " << len << std::endl;
     char* e = new char[len];
     if (e == 0 || fread(e, 1, len, stdin) != (size_t)len) {
-        cout << " <error>cannot allocate memory</error>\n</"
-            << mapping.map("metadata") << ">\n" << flush;
+        std::cout << " <error>cannot allocate memory</error>\n</"
+            << mapping.map("metadata") << ">\n" << std::flush;
         return 0;
     }
 
@@ -119,8 +119,8 @@ main() {
     stream.reset(0);
 
     if (nread < 1) {
-        cout << " <error>input too small</error>\n</"
-            << mapping.map("metadata") << ">\n" << flush;
+        std::cout << " <error>input too small</error>\n</"
+            << mapping.map("metadata") << ">\n" << std::flush;
         return 0;
     }
 
@@ -129,23 +129,23 @@ main() {
     const char* p = d;
     while (p < end-1 && *p != '\r') p++;
     if (*p != '\r' || p[1] != '\n') {
-        cout << " <error>no delimiter line</error></"
-            << mapping.map("metadata") << ">\n" << flush;
+        std::cout << " <error>no delimiter line</error></"
+            << mapping.map("metadata") << ">\n" << std::flush;
         return 0;
     }
-    string delim("\r\n");
+    std::string delim("\r\n");
     delim.append(d, p-d);
 
     // skip the delimiter + '\r\n'
     stream.reset(delim.length() + 2);
 
     // parse all files
-    XmlIndexManager manager(cout, mapping);
+    XmlIndexManager manager(std::cout, mapping);
     AnalyzerConfiguration ac;
     StreamAnalyzer sa(ac);
     sa.setIndexWriter(*manager.indexWriter());
     while (parseFile(sa, manager, &stream, delim)) {};
-    cout << "</" << mapping.map("metadata") << ">\n" << flush;
+    std::cout << "</" << mapping.map("metadata") << ">\n" << std::flush;
 
     return 0;
 }

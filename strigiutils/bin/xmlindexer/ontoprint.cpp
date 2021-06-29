@@ -28,60 +28,60 @@
 #include <strigi/fieldpropertiesdb.h>
 #include <strigi/streamanalyzer.h>
 #include <strigi/analyzerconfiguration.h>
-using namespace std;
+
 using namespace Strigi;
 
 void
-printDot(ostream& out, const char* locale) {
-    const map<string, FieldProperties>& p
+printDot(std::ostream& out, const char* locale) {
+    const std::map<std::string, FieldProperties>& p
         = FieldPropertiesDb::db().allProperties();
-    map<string, FieldProperties>::const_iterator i;
-    list<string> categories;
-    out << "digraph{graph[rankdir=LR];" << endl;
+    std::map<std::string, FieldProperties>::const_iterator i;
+    std::list<std::string> categories;
+    out << "digraph{graph[rankdir=LR];" << std::endl;
     for (i = p.begin(); i != p.end(); ++i) {
-        const vector<string>& parents = i->second.parentUris();
-        vector<string>::const_iterator j;
-        out << '"' << i->second.uri() << "\" [shape=record, label =\"" << i->second.uri() << "|{type: " << i->second.typeUri() << "}\"];" << endl;
+        const std::vector<std::string>& parents = i->second.parentUris();
+        std::vector<std::string>::const_iterator j;
+        out << '"' << i->second.uri() << "\" [shape=record, label =\"" << i->second.uri() << "|{type: " << i->second.typeUri() << "}\"];" << std::endl;
         for (j = parents.begin(); j != parents.end(); ++j) {
-            out << '"' << *j << "\"->\"" << i->second.uri() << "\";" << endl;
+            out << '"' << *j << "\"->\"" << i->second.uri() << "\";" << std::endl;
         }
         // make link to category, e.g. chemistry for chemistry.inchi
-        string category = i->second.uri().substr(0,i->second.uri().find("."));
+        std::string category = i->second.uri().substr(0,i->second.uri().find("."));
         if (category.length() != i->second.uri().length()) {
-            list<string>::const_iterator match = find(categories.begin(), categories.end(), category);
+            std::list<std::string>::const_iterator match = find(categories.begin(), categories.end(), category);
             if (match == categories.end()) {
                 categories.push_back(category);
-                out << "\"" << category << "\" [style=filled,color=gray];" << endl;
+                out << "\"" << category << "\" [style=filled,color=gray];" << std::endl;
             }
-            out << "\"" << category << "\"->\"" << i->second.uri() << "\";" << endl;
+            out << "\"" << category << "\"->\"" << i->second.uri() << "\";" << std::endl;
         }
     }
-    out << "}" << endl;
+    out << "}" << std::endl;
 }
 void
-printRdfsProperties(ostream& out, const FieldProperties& p) {
+printRdfsProperties(std::ostream& out, const FieldProperties& p) {
     out << " <rdf:Property rdf:about='" << p.uri() << "'>\n"
         << "  <rdfs:label>" << p.name() << "</rdfs:label>\n"
         << "  <rdfs:comment>" << p.description() << "</rdfs:comment>\n";
-    const vector<string>& parents = p.parentUris();
-    vector<string>::const_iterator j;
+    const std::vector<std::string>& parents = p.parentUris();
+    std::vector<std::string>::const_iterator j;
     for (j = parents.begin(); j != parents.end(); ++j){
         out << "  <rdfs:subPropertyOf rdf:resource='" << *j << "'/>\n";
     }
-    const vector<string>& classes = p.applicableClasses();
+    const std::vector<std::string>& classes = p.applicableClasses();
     for (j = classes.begin(); j != classes.end(); ++j){
         out << "  <rdfs:domain rdf:resource='" << *j << "'/>\n";
     }
 
     out << "  <rdfs:range rdf:resource='" << p.typeUri() << "'/>\n";
-    const vector<string>& locales = p.locales();
+    const std::vector<std::string>& locales = p.locales();
     for (j = locales.begin(); j != locales.end(); ++j) {
-        const string& name = p.localizedName(*j);
-	if (name.size()) {
+        const std::string& name = p.localizedName(*j);
+        if (name.size()) {
             out << "  <rdfs:label xml:lang='" << *j << "'>" << name << "</rdfs:label>\n";
         }
-        const string& description = p.localizedDescription(*j);
-	if (description.size()) {
+        const std::string& description = p.localizedDescription(*j);
+        if (description.size()) {
             out << "  <rdfs:comment xml:lang='" << *j << "'>" << description << "</rdfs:comment>\n";
         }
     }
@@ -89,24 +89,24 @@ printRdfsProperties(ostream& out, const FieldProperties& p) {
 }
 
 void
-printRdfsClasses(ostream& out, const ClassProperties& p) {
+printRdfsClasses(std::ostream& out, const ClassProperties& p) {
     out << " <rdfs:Class rdf:about='" << p.uri() << "'>\n"
         << "  <rdfs:label>" << p.name() << "</rdfs:label>\n"
         << "  <rdfs:comment>" << p.description() << "</rdfs:comment>\n";
-    const vector<string>& parents = p.parentUris();
-    vector<string>::const_iterator j;
+    const std::vector<std::string>& parents = p.parentUris();
+    std::vector<std::string>::const_iterator j;
     for (j = parents.begin(); j != parents.end(); ++j){
         out << "  <rdfs:subClassOf rdf:resource='" << *j << "'/>\n";
     }
 
-    const vector<string>& locales = p.locales();
+    const std::vector<std::string>& locales = p.locales();
     for (j = locales.begin(); j != locales.end(); ++j) {
-        const string& name = p.localizedName(*j);
-	if (name.size()) {
+        const std::string& name = p.localizedName(*j);
+        if (name.size()) {
             out << "  <rdfs:label xml:lang='" << *j << "'>" << name << "</rdfs:label>\n";
         }
-        const string& description = p.localizedDescription(*j);
-	if (description.size()) {
+        const std::string& description = p.localizedDescription(*j);
+        if (description.size()) {
             out << "  <rdfs:comment xml:lang='" << *j << "'>" << description << "</rdfs:comment>\n";
         }
     }
@@ -114,7 +114,7 @@ printRdfsClasses(ostream& out, const ClassProperties& p) {
 }
 
 void
-printRdfs(ostream& out) {
+printRdfs(std::ostream& out) {
     out << "<?xml version='1.0' encoding='UTF-8'?>\n"
         "<!DOCTYPE rdf:RDF [\n"
         "    <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>\n"
@@ -124,26 +124,26 @@ printRdfs(ostream& out) {
         "<rdf:RDF "
             "xmlns:rdf='&rdf;' xmlns:strigi='&strigi;' xmlns:rdfs='&rdfs;'>\n";
 
-    const map<string, FieldProperties>& p
+    const std::map<std::string, FieldProperties>& p
         = FieldPropertiesDb::db().allProperties();
-    map<string, FieldProperties>::const_iterator i;
+    std::map<std::string, FieldProperties>::const_iterator i;
     for (i = p.begin(); i != p.end(); ++i) {
         printRdfsProperties(out, i->second);
     }
 
-    const map<string, ClassProperties>& c
+    const std::map<std::string, ClassProperties>& c
         = FieldPropertiesDb::db().allClasses();
-    map<string, ClassProperties>::const_iterator j;
+    std::map<std::string, ClassProperties>::const_iterator j;
     for (j = c.begin(); j != c.end(); ++j) {
         printRdfsClasses(out, j->second);
     }
 
-    out << "</rdf:RDF>" << endl;
+    out << "</rdf:RDF>" << std::endl;
 }
 void
 printHelp(const char* program) {
-    cerr << "Usage: " << program << " [--type=<type>] [--locale=<locale>]"
-        << endl;
+    std::cerr << "Usage: " << program << " [--type=<type>] [--locale=<locale>]"
+        << std::endl;
 }
 int
 main(int argc, char** argv) {
@@ -180,9 +180,9 @@ main(int argc, char** argv) {
     if (help) {
         printHelp(argv[0]); 
     } else if (type && strcmp(type, "dot") == 0) {
-        printDot(cout, locale);
+        printDot(std::cout, locale);
     } else {
-        printRdfs(cout);
+        printRdfs(std::cout);
     }
     return 0;
 }
