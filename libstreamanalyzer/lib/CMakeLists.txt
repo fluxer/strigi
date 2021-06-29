@@ -36,7 +36,6 @@ set(streamanalyzer_SRCS
     endanalyzers/id3endanalyzer.cpp
     endanalyzers/lzmaendanalyzer.cpp
     endanalyzers/mailendanalyzer.cpp
-    endanalyzers/mpegendanalyzer.cpp
     endanalyzers/odfendanalyzer.cpp
     endanalyzers/oleendanalyzer.cpp
     endanalyzers/pdfendanalyzer.cpp

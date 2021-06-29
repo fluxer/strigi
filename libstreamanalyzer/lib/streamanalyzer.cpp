@@ -48,7 +48,6 @@
 #include "lineanalyzers/txtlineanalyzer.h"
 #include "lineanalyzers/xpmlineanalyzer.h"
 #include "endanalyzers/mailendanalyzer.h"
-#include "endanalyzers/mpegendanalyzer.h"
 #include "endanalyzers/helperendanalyzer.h"
 #include <strigi/dataeventinputstream.h>
 #include "endanalyzers/id3endanalyzer.h"
@@ -348,7 +347,6 @@ StreamAnalyzerPrivate::initializeEndFactories() {
     addFactory(new TarEndAnalyzerFactory());
     addFactory(new ArEndAnalyzerFactory());
     addFactory(new MailEndAnalyzerFactory());
-//    addFactory(new MpegEndAnalyzerFactory()); // FFMPEG works so much better
     addFactory(new OdfEndAnalyzerFactory());
     addFactory(new ZipEndAnalyzerFactory());
     addFactory(new ZipExeEndAnalyzerFactory());
