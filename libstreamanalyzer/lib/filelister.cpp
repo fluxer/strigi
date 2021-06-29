@@ -23,6 +23,7 @@
 #include <strigi/strigiconfig.h>
 #include <strigi/strigi_thread.h>
 #include <strigi/analyzerconfiguration.h>
+#include <mutex>
 #include <set>
 #include <list>
 #include <iostream>
@@ -33,36 +34,34 @@
 #include <dirent.h>
 #include <errno.h>
 
-using namespace std;
 using namespace Strigi;
 
 class FileLister::Private {
 public:
     char path[10000];
-    STRIGI_MUTEX_DEFINE(mutex);
+    std::mutex mutex;
     DIR** dirs;
     DIR** dirsEnd;
     DIR** curDir;
-    string::size_type* len;
-    string::size_type* lenEnd;
-    string::size_type* curLen;
+    std::string::size_type* len;
+    std::string::size_type* lenEnd;
+    std::string::size_type* curLen;
     time_t mtime;
     struct dirent* subdir;
     struct stat dirstat;
-    set<string> listedDirs;
+    std::set<std::string> listedDirs;
     const AnalyzerConfiguration* const config;
 
     Private(const AnalyzerConfiguration* ic);
     ~Private();
-    int nextFile(string& p, time_t& time) {
+    int nextFile(std::string& p, time_t& time) {
         int r;
-        STRIGI_MUTEX_LOCK(&mutex);
+        std::lock_guard<std::mutex> lock(mutex);
         r = nextFile();
         if (r > 0) {
             p.assign(path, r);
             time = mtime;
         }
-        STRIGI_MUTEX_UNLOCK(&mutex);
         return r;
     }
     void startListing(const std::string&);
@@ -71,20 +70,19 @@ public:
 FileLister::Private::Private(
             const AnalyzerConfiguration* ic) :
         config(ic) {
-    STRIGI_MUTEX_INIT(&mutex);
     int nOpenDirs = 100;
     dirs = (DIR**)malloc(sizeof(DIR*)*nOpenDirs);
     dirsEnd = dirs + nOpenDirs;
-    len = (string::size_type*)malloc(sizeof(string::size_type)*nOpenDirs);
+    len = (std::string::size_type*)malloc(sizeof(std::string::size_type)*nOpenDirs);
     lenEnd = len + nOpenDirs;
     curDir = dirs - 1;
 }
 void
-FileLister::Private::startListing(const string& dir){
+FileLister::Private::startListing(const std::string& dir){
     listedDirs.clear();
     curDir = dirs;
     curLen = len;
-    string::size_type len = dir.length();
+    std::string::size_type len = dir.length();
     *curLen = len;
     strcpy(path, dir.c_str());
     if (len) {
@@ -113,14 +111,13 @@ FileLister::Private::~Private() {
     }
     free(dirs);
     free(len);
-    STRIGI_MUTEX_DESTROY(&mutex);
 }
 int
 FileLister::Private::nextFile() {
 
     while (curDir >= dirs) {
         DIR* dir = *curDir;
-        string::size_type l = *curLen;
+        std::string::size_type l = *curLen;
         subdir = readdir(dir);
         while (subdir) {
             // skip the directories '.' and '..'
@@ -133,7 +130,7 @@ FileLister::Private::nextFile() {
                 }
             }
             strcpy(path + l, subdir->d_name);
-            string::size_type sl = l + strlen(subdir->d_name);
+            std::string::size_type sl = l + strlen(subdir->d_name);
             if (lstat(path, &dirstat) == 0) {
                 if (S_ISREG(dirstat.st_mode)) {
                     if (config == 0 || config->indexFile(path, path+l)) {
@@ -169,7 +166,7 @@ FileLister::~FileLister() {
     delete p;
 }
 void
-FileLister::startListing(const string& dir) {
+FileLister::startListing(const std::string& dir) {
     p->startListing(dir);
 }
 int
@@ -195,8 +192,8 @@ FileLister::skipTillAfter(const std::string& lastToSkip) {
 
 class DirLister::Private {
 public:
-    STRIGI_MUTEX_DEFINE(mutex);
-    list<string> todoPaths;
+    std::mutex mutex;
+    std::list<std::string> todoPaths;
     const AnalyzerConfiguration* const config;
 
     Private(const AnalyzerConfiguration* ic) :config(ic) {}
@@ -206,47 +203,34 @@ public:
 
 DirLister::DirLister(const AnalyzerConfiguration* ic)
     : p(new Private(ic)) {
-    STRIGI_MUTEX_INIT(&p->mutex);
 }
 DirLister::~DirLister() {
-    STRIGI_MUTEX_DESTROY(&p->mutex);
     delete p;
 }
 void
-DirLister::startListing(const string& dir) {
-    STRIGI_MUTEX_LOCK(&p->mutex);
+DirLister::startListing(const std::string& dir) {
+    std::lock_guard<std::mutex> lock(p->mutex);
     p->todoPaths.push_back(dir);
-    STRIGI_MUTEX_UNLOCK(&p->mutex);
 }
 void
 DirLister::stopListing() {
-    STRIGI_MUTEX_LOCK(&p->mutex);
+    std::lock_guard<std::mutex> lock(p->mutex);
     p->todoPaths.clear();
-    STRIGI_MUTEX_UNLOCK(&p->mutex);
 }
 int
 DirLister::Private::nextDir(std::string& path,
         std::vector<std::pair<std::string, struct stat> >& dirs) {
-    string entryname;
-    string entrypath;
+    std::string entryname;
+    std::string entrypath;
     size_t entrypathlength;
     // check if there are more directories to work on
     // open the directory
-    STRIGI_MUTEX_LOCK(&mutex);
+    std::lock_guard<std::mutex> lock(mutex);
     if (todoPaths.empty()) {
-        STRIGI_MUTEX_UNLOCK(&mutex);
         return -1;
     }
     path.assign(todoPaths.front());
     todoPaths.pop_front();
-    // Only unlock of the todo list is not empty.
-    // If the list is empty, other threads must wait for this thread to populate
-    // the list.
-    bool mutexLocked = true;
-    if (!todoPaths.empty()) {
-        STRIGI_MUTEX_UNLOCK(&mutex);
-        mutexLocked = false;
-    }
     entrypathlength = path.length()+1;
     entrypath.assign(path);
     entrypath.append("/");
@@ -260,9 +244,6 @@ DirLister::Private::nextDir(std::string& path,
     }
     if (!dir) {
         int e = errno;
-        if (mutexLocked) {
-            STRIGI_MUTEX_UNLOCK(&mutex);
-        }
         // if permission is denied, this is not an error
         return (e == EACCES) ?0 :-1;
     }
@@ -278,26 +259,18 @@ DirLister::Private::nextDir(std::string& path,
                     if (config == 0 ||
                             config->indexDir(
                                 entrypath.c_str(), entryname.c_str())) {
-                        if (!mutexLocked) {
-                            STRIGI_MUTEX_LOCK(&mutex);
-                        }
                         todoPaths.push_back(entrypath);
-                        STRIGI_MUTEX_UNLOCK(&mutex);
-                        mutexLocked = false;
-                        dirs.push_back(make_pair(entrypath, entrystat));
+                        dirs.push_back(std::make_pair(entrypath, entrystat));
                     }
                 } else if (config == 0 || config->indexFile(entrypath.c_str(),
                         entryname.c_str())) {
-                    dirs.push_back(make_pair(entrypath, entrystat));
+                    dirs.push_back(std::make_pair(entrypath, entrystat));
                 }
             }
         }
         entry = readdir(dir);
     }
     closedir(dir);
-    if (mutexLocked) {
-        STRIGI_MUTEX_UNLOCK(&mutex);
-    }
     return 0;
 }
 int
@@ -307,7 +280,7 @@ DirLister::nextDir(std::string& path,
 }
 void
 DirLister::skipTillAfter(const std::string& lastToSkip) {
-    string path;
-    vector<pair<string, struct stat> > dirs;
+    std::string path;
+    std::vector<std::pair<std::string, struct stat> > dirs;
     while (nextDir(path, dirs) >= 0 && path != lastToSkip) {}
 }

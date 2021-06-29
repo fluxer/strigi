@@ -30,6 +30,7 @@
 #include <iostream>
 #include <sstream>
 #include <map>
+#include <mutex>
 
 class XmlIndexWriter : public Strigi::IndexWriter {
 private:
@@ -44,7 +45,7 @@ private:
          int refcount;
     };
 
-    STRIGI_MUTEX_DEFINE(mutex);
+    std::mutex mutex;
     std::ostream& out;
 
     const TagMapping& mapping;
@@ -176,9 +177,9 @@ private:
     }
 protected:
     void startAnalysis(const Strigi::AnalysisResult* ar) {
-        STRIGI_MUTEX_LOCK(&mutex);
+        std::unique_lock<std::mutex> lock(mutex);
         std::vector<Data*>& dv = data[STRIGI_THREAD_SELF()];
-        STRIGI_MUTEX_UNLOCK(&mutex);
+        lock.unlock();
         unsigned char depth = ar->depth();
         if (depth >= dv.size()) {
             dv.push_back(new Data());
@@ -195,7 +196,7 @@ protected:
         }
     }
     void finishAnalysis(const Strigi::AnalysisResult* ar) {
-        STRIGI_MUTEX_LOCK(&mutex);
+        std::unique_lock<std::mutex> lock(mutex);
         Data* d = static_cast<Data*>(ar->writerData());
         const Strigi::AnalyzerConfiguration& config = ar->config();
         const Strigi::FieldRegister& fr = config.fieldRegister();
@@ -227,7 +228,7 @@ protected:
             out << "</text>\n";
         }
         out << " </" << mapping.map("file") << ">\n";
-        STRIGI_MUTEX_UNLOCK(&mutex);
+        lock.unlock();
         d->values.clear();
         d->text.assign("");
     }
@@ -285,7 +286,6 @@ protected:
 public:
     explicit XmlIndexWriter(std::ostream& o, const TagMapping& m)
             :out(o), mapping(m) {
-        STRIGI_MUTEX_INIT(&mutex);
     }
     ~XmlIndexWriter() {
          std::map<STRIGI_THREAD_TYPE, std::vector<Data*> >::const_iterator j;
@@ -295,7 +295,6 @@ public:
                  delete *i;
              }
          }
-         STRIGI_MUTEX_DESTROY(&mutex);
     }
     void commit() {}
     void deleteEntries(const std::vector<std::string>& entries) {}

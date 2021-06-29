@@ -31,6 +31,7 @@
 #include <sstream>
 #include <map>
 #include <list>
+#include <mutex>
 
 typedef std::map<std::string, std::map<std::string, std::list<std::string> > > rdfset;
 
@@ -47,7 +48,7 @@ private:
          int refcount;
     };
 
-    STRIGI_MUTEX_DEFINE(mutex);
+    std::mutex mutex;
     std::ostream& out;
 
     rdfset& rdf;
@@ -181,9 +182,9 @@ private:
     }
 protected:
     void startAnalysis(const Strigi::AnalysisResult* ar) {
-        STRIGI_MUTEX_LOCK(&mutex);
+        std::unique_lock<std::mutex> lock(mutex);
         std::vector<Data*>& dv = data[STRIGI_THREAD_SELF()];
-        STRIGI_MUTEX_UNLOCK(&mutex);
+        lock.unlock();
         unsigned char depth = ar->depth();
         if (depth >= dv.size()) {
             dv.push_back(new Data());
@@ -200,7 +201,7 @@ protected:
         }
     }
     void finishAnalysis(const Strigi::AnalysisResult* ar) {
-        STRIGI_MUTEX_LOCK(&mutex);
+        std::unique_lock<std::mutex> lock(mutex);
         Data* d = static_cast<Data*>(ar->writerData());
         const Strigi::AnalyzerConfiguration& config = ar->config();
         //const Strigi::FieldRegister& fr = config.fieldRegister();
@@ -233,17 +234,18 @@ protected:
         }
         out << " </" << mapping.map("file") << ">\n";
 */
-	STRIGI_MUTEX_UNLOCK(&mutex);
+        lock.unlock();
 
-	std::string subj = d->values.find(config.fieldRegister().pathField)->second;
+        std::string subj = d->values.find(config.fieldRegister().pathField)->second;
 
-	for (std::multimap<const Strigi::RegisteredField*, std::string>::iterator i = d->values.begin();
-	      i != d->values.end(); i++) {
+        for (std::multimap<const Strigi::RegisteredField*, std::string>::iterator i = d->values.begin();
+            i != d->values.end(); i++) {
             addTriplet(subj, i->first->key(), i->second);
         }
-	if (!d->text.empty())
-	    addTriplet(subj,"http://www.semanticdesktop.org/ontologies/2007/01/19/nie#plainTextContent",d->text);
-	
+        if (!d->text.empty()) {
+            addTriplet(subj,"http://www.semanticdesktop.org/ontologies/2007/01/19/nie#plainTextContent",d->text);
+        }
+
         d->values.clear();
         d->text.assign("");
     }
@@ -293,9 +295,8 @@ protected:
     }
     void addTriplet(const std::string& subject,
         const std::string& predicate, const std::string& object) {
-	STRIGI_MUTEX_LOCK(&mutex);
-	rdf[subject][predicate].push_back(object);
-        STRIGI_MUTEX_UNLOCK(&mutex);
+        std::lock_guard<std::mutex> lock(mutex);
+        rdf[subject][predicate].push_back(object);
     }
     void addValue(const Strigi::AnalysisResult*,
         const Strigi::RegisteredField* field, const std::string& name,
@@ -305,7 +306,6 @@ protected:
 public:
     explicit RdfIndexWriter(std::ostream& o, const TagMapping& m, rdfset& r)
             :out(o), rdf(r), mapping(m) {
-        STRIGI_MUTEX_INIT(&mutex);
     }
     ~RdfIndexWriter() {
          std::map<STRIGI_THREAD_TYPE, std::vector<Data*> >::const_iterator j;
@@ -315,7 +315,6 @@ public:
                  delete *i;
              }
          }
-         STRIGI_MUTEX_DESTROY(&mutex);
     }
     void commit() {}
     void deleteEntries(const std::vector<std::string>& entries) {}

@@ -39,6 +39,7 @@
 #include <cassert>
 #include <iostream>
 #include <map>
+#include <mutex>
 
 #ifdef ICONV_SECOND_ARGUMENT_IS_CONST
      #define ICONV_CONST const
@@ -47,37 +48,29 @@
 #endif
 
 using namespace Strigi;
-using namespace std;
 
 class Latin1Converter {
     iconv_t const conv;
     char* out;
     size_t outlen;
-    STRIGI_MUTEX_DEFINE(mutex);
 
     int32_t _fromLatin1(char*& out, const char* data, size_t len);
     Latin1Converter() :conv(iconv_open("UTF-8", "ISO-8859-1")), outlen(0) {
-        STRIGI_MUTEX_INIT(&mutex);
     }
     ~Latin1Converter() {
         iconv_close(conv);
         free(out);
-        STRIGI_MUTEX_DESTROY(&mutex);
-    }
-    static Latin1Converter& converter() {
-        static Latin1Converter l;
-        return l;
     }
 public:
     static int32_t fromLatin1(char*& out, const char* data, int32_t len) {
         return converter()._fromLatin1(out, data, len);
     }
-    static void lock() {
-        STRIGI_MUTEX_LOCK(&converter().mutex);
+
+    static Latin1Converter& converter() {
+        static Latin1Converter l;
+        return l;
     }
-    static void unlock() {
-        STRIGI_MUTEX_UNLOCK(&converter().mutex);
-    }
+    std::mutex mutex;
 };
 int32_t
 Latin1Converter::_fromLatin1(char*& o, const char* data, size_t len) {
@@ -118,7 +111,7 @@ public:
     Private(const std::string& p, const char* name, time_t mt,
         AnalysisResult& t, AnalysisResult& parent);
     Private(const std::string& p, time_t mt, IndexWriter& w,
-        StreamAnalyzer& indexer, const string& parentpath, AnalysisResult& t);
+        StreamAnalyzer& indexer, const std::string& parentpath, AnalysisResult& t);
     void write();
 
     bool checkCardinality(const RegisteredField* field);
@@ -143,7 +136,7 @@ AnalysisResult::AnalysisResult(const std::string& path, const char* name,
     srand((unsigned int)time(NULL));
 }
 AnalysisResult::Private::Private(const std::string& p, time_t mt,
-        IndexWriter& w, StreamAnalyzer& indexer, const string& parentpath,
+        IndexWriter& w, StreamAnalyzer& indexer, const std::string& parentpath,
         AnalysisResult& t)
             :m_writerData(0), m_mtime(mt), m_path(p), m_parentpath(parentpath),
              m_writer(w), m_depth(0), m_indexer(indexer),
@@ -174,7 +167,7 @@ AnalysisResult::Private::Private(const std::string& p, time_t mt,
     assert(m_path.compare(0, m_parentpath.size(), m_parentpath) == 0);
 }
 AnalysisResult::AnalysisResult(const std::string& path, time_t mt,
-        IndexWriter& w, StreamAnalyzer& indexer, const string& parentpath)
+        IndexWriter& w, StreamAnalyzer& indexer, const std::string& parentpath)
             :p(new Private(path, mt, w, indexer, parentpath, *this)) {
     p->m_writer.startAnalysis(this);
 }
@@ -201,7 +194,7 @@ AnalysisResult::Private::write() {
     if (m_name.length()) {
         m_writer.addValue(m_this, fr.filenameField, m_name);
     }
-    string field = m_this->extension();
+    std::string field = m_this->extension();
     if (field.length()) {
         //m_writer.addValue(m_this, fr.extensionField, field);//FIXME: either get rid of this or replace with NIE equivalent
     }
@@ -218,7 +211,7 @@ AnalysisResult::Private::write() {
 }
 const std::string& AnalysisResult::fileName() const { return p->m_name; }
 const std::string& AnalysisResult::path() const { return p->m_path; }
-const string& AnalysisResult::parentPath() const {
+const std::string& AnalysisResult::parentPath() const {
     return (p->m_parent) ?p->m_parent->path() :p->m_parentpath;
 }
 time_t AnalysisResult::mTime() const { return p->m_mtime; }
@@ -268,7 +261,7 @@ AnalysisResult::addText(const char* text, int32_t length) {
     if (checkUtf8(text, length)) {
         p->m_writer.addText(this, text, length);
     } else {
-        Latin1Converter::lock();
+        std::lock_guard<std::mutex> lock(Latin1Converter::converter().mutex);
         char* d;
         int32_t len = Latin1Converter::fromLatin1(d, text, length);
         if (len && checkUtf8(d, len)) {
@@ -276,7 +269,6 @@ AnalysisResult::addText(const char* text, int32_t length) {
         } else {
             fprintf(stderr, "'%.*s' is not a UTF8 or latin1 string\n", length, text);
         }
-        Latin1Converter::unlock();
     }
 }
 AnalyzerConfiguration&
@@ -299,11 +291,11 @@ void
 AnalysisResult::setEndAnalyzer(const StreamEndAnalyzer* ea) {
     p->m_endanalyzer = ea;
 }
-string
+std::string
 AnalysisResult::extension() const {
-    string::size_type p1 = p->m_name.rfind('.');
-    string::size_type p2 = p->m_name.rfind('/');
-    if (p1 != string::npos && (p2 == string::npos || p1 > p2)) {
+    std::string::size_type p1 = p->m_name.rfind('.');
+    std::string::size_type p2 = p->m_name.rfind('/');
+    if (p1 != std::string::npos && (p2 == std::string::npos || p1 > p2)) {
         return p->m_name.substr(p1+1);
     }
     return "";
@@ -316,7 +308,7 @@ AnalysisResult::addValue(const RegisteredField* field, const std::string& val) {
     if (checkUtf8(val)) {
         p->m_writer.addValue(this, field, val);
     } else {
-        Latin1Converter::lock();
+        std::lock_guard<std::mutex> lock(Latin1Converter::converter().mutex);
         char* d;
         int32_t len = Latin1Converter::fromLatin1(d, val.c_str(),
                                                     (int32_t)val.length());
@@ -326,7 +318,6 @@ AnalysisResult::addValue(const RegisteredField* field, const std::string& val) {
             fprintf(stderr, "'%s' is not a UTF8 or latin1 string\n",
                 val.c_str());
         }
-        Latin1Converter::unlock();
     }
 }
 void
@@ -338,7 +329,7 @@ AnalysisResult::addValue(const RegisteredField* field,
     if (checkUtf8(data, length)) {
         p->m_writer.addValue(this, field, (const unsigned char*)data, length);
     } else {
-        Latin1Converter::lock();
+        std::lock_guard<std::mutex> lock(Latin1Converter::converter().mutex);
         char* d;
         int32_t len = Latin1Converter::fromLatin1(d, data, length);
         if (len && checkUtf8(d, len)) {
@@ -347,7 +338,6 @@ AnalysisResult::addValue(const RegisteredField* field,
             fprintf(stderr, "'%.*s' is not a UTF8 or latin1 string\n",
                 length, data);
         }
-        Latin1Converter::unlock();
     }
 }
 void
