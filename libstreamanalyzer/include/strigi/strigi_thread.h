@@ -23,12 +23,6 @@
 
 #include <pthread.h>
 
-#define STRIGI_MUTEX_DEFINE(x) pthread_mutex_t x
-#define STRIGI_MUTEX_INIT(x) pthread_mutex_init(x, 0)
-#define STRIGI_MUTEX_DESTROY(x) pthread_mutex_destroy(x)
-#define STRIGI_MUTEX_LOCK(x) pthread_mutex_lock(x)
-#define STRIGI_MUTEX_UNLOCK(x) pthread_mutex_unlock(x)
-
 #define STRIGI_THREAD_TYPE pthread_t
 #define STRIGI_THREAD_CREATE(threadObject, function, data) pthread_create(threadObject, NULL, function, data)
 #define STRIGI_THREAD_JOIN(object) pthread_join(object,0)

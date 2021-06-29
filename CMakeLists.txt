@@ -126,6 +126,12 @@ add_feature_info(pdftotext
     "Text extraction from PDF"
 )
 
+# lock manager is deprecated since v4.0, for reference:
+# https://github.com/FFmpeg/FFmpeg/commit/a04c2c707de2ce850f79870e84ac9d7ec7aa9143
+if(AVCODEC_VERSION VERSION_LESS 58.9.100)
+    message(WARNING "libavcodec version is older than 58.9.100, threading issues may occur")
+endif()
+
 # create after packages lookup because some of the variables are stored in config.h
 include_directories(${CMAKE_BINARY_DIR})
 configure_file(

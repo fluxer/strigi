@@ -26,7 +26,6 @@
 #include <strigi/fieldtypes.h>
 #include <strigi/textutils.h>
 #include <rdfnamespaces.h>
-#include <strigi/strigi_thread.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -55,37 +54,14 @@ public:
     signed char analyze(AnalysisResult& idx, ::InputStream* in);
 };
 
-STRIGI_MUTEX_DEFINE(avmutex);
-
-static int
-lockmgr(void **mtx, enum AVLockOp op) {
-  // pre-allocating a single mutex is the only way to get it to work without changing strigi_thread.h
-  assert( (*mtx == &avmutex) || (op == AV_LOCK_CREATE) );
-  switch(op) {
-  case AV_LOCK_CREATE:
-    *mtx = &avmutex;
-    return !!STRIGI_MUTEX_INIT(&avmutex);
-  case AV_LOCK_OBTAIN:
-    return !!STRIGI_MUTEX_LOCK(&avmutex);
-  case AV_LOCK_RELEASE:
-    return !!STRIGI_MUTEX_UNLOCK(&avmutex);
-  case AV_LOCK_DESTROY:
-    STRIGI_MUTEX_DESTROY(&avmutex);
-    return 0;
-  }
-  return 1;
-}
-
 class STRIGI_PLUGIN_API FFMPEGEndAnalyzerFactory : public StreamEndAnalyzerFactory {
 friend class FFMPEGEndAnalyzer;
 public:
     FFMPEGEndAnalyzerFactory() {
-        av_lockmgr_register(lockmgr);
         av_register_all();
     }
 private:
     ~FFMPEGEndAnalyzerFactory() {
-        av_lockmgr_register(NULL);
     }
     StreamEndAnalyzer* newInstance() const {
         return new FFMPEGEndAnalyzer(this);

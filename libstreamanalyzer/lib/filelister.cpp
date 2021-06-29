@@ -21,7 +21,6 @@
 
 #include <strigi/filelister.h>
 #include <strigi/strigiconfig.h>
-#include <strigi/strigi_thread.h>
 #include <strigi/analyzerconfiguration.h>
 #include <mutex>
 #include <set>
