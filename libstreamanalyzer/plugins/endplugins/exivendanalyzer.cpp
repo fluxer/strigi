@@ -20,7 +20,7 @@
 /*
  Include the strigi specific headers.
 */
-#define STRIGI_IMPORT_API
+
 #include "analyzerplugin.h"
 #include "streamendanalyzer.h"
 #include "analysisresult.h"

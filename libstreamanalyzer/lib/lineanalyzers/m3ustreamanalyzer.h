@@ -22,7 +22,6 @@
 #ifndef M3USTREAMANALYZER_H
 #define M3USTREAMANALYZER_H
 
-#define STRIGI_IMPORT_API
 #include <strigi/analyzerplugin.h>
 #include <strigi/streamlineanalyzer.h>
 

@@ -19,7 +19,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#define STRIGI_IMPORT_API
 #include <strigi/analyzerplugin.h>
 #include <strigi/streamendanalyzer.h>
 #include <strigi/analysisresult.h>
@@ -34,6 +33,7 @@ extern "C" {
 #include <iostream>
 #include <sstream>
 #include <cassert>
+
 using namespace Strigi;
 using namespace std;
 
