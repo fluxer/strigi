@@ -46,7 +46,6 @@ const string FieldRegister::integerType = "integer";
 const string FieldRegister::binaryType = "binary";
 const string FieldRegister::stringType = "string";
 const string FieldRegister::datetimeType = "datetime";
-const string FieldRegister::durationType = "duration";
 
 const string FieldRegister::pathFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#url";
 const string FieldRegister::parentLocationFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#isPartOf";

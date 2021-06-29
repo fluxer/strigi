@@ -213,12 +213,6 @@ public:
      * store a date and time value */
     static const std::string datetimeType;
 
-    /** The type name to use with registerField for fields that will
-     * store a duration (in seconds) value */
-    static const std::string durationType;
-
-    // TODO: field types for bit rate, frame rate, etc.
-
     /** The name of a field for storing the path of a file */
     static const std::string pathFieldName;
     /** The name of a field for storing the path of a the parent of file */
