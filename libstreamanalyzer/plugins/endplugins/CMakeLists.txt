@@ -1,22 +1,13 @@
-MACRO(ADD_STRIGIEA libname files)
-    add_library(${libname} MODULE ${files})
-    set_target_properties(${libname} PROPERTIES
-        PREFIX strigiea_
-    )
-    target_link_libraries(${libname} streamanalyzer)
-    install(TARGETS ${libname} LIBRARY DESTINATION ${LIB_DESTINATION}/strigi)
-ENDMACRO(ADD_STRIGIEA)
-
 if(EXIV2_FOUND)
     include_directories(${EXIV2_INCLUDE_DIR})
-    ADD_STRIGIEA(exiv exivendanalyzer.cpp)
+    ADD_STRIGI_ANALYZER(exiv exivendanalyzer.cpp)
     target_link_libraries(exiv ${EXIV2_LIBRARIES})
 endif()
 
 if(FFMPEG_FOUND)
     include_directories(${FFMPEG_INCLUDE_DIRS})
     add_definitions(-D__STDC_CONSTANT_MACROS)
-    ADD_STRIGIEA(ffmpeg ffmpegendanalyzer.cpp)
-    #set_target_properties( ffmpeg PROPERTIES COMPILE_FLAGS "${FFMPEG_DEFINITIONS}" )
+    ADD_STRIGI_ANALYZER(ffmpeg ffmpegendanalyzer.cpp)
+    # set_target_properties( ffmpeg PROPERTIES COMPILE_FLAGS "${FFMPEG_DEFINITIONS}" )
     target_link_libraries(ffmpeg ${FFMPEG_LIBRARIES})
 endif()
