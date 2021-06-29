@@ -30,18 +30,18 @@ using namespace Strigi;
 
 const string
     musicClassName(
-	NMM_DRAFT "MusicPiece");
+        STRIGI_NMM_DRAFT "MusicPiece");
 
 void
 AuThroughAnalyzerFactory::registerFields(FieldRegister& reg) {
     lengthField = reg.registerField(
-        NFO"duration");
+        STRIGI_NFO "duration");
     sampleRateField = reg.registerField(
-        NFO"sampleRate");
+        STRIGI_NFO "sampleRate");
     channelsField = reg.registerField(
-        NFO"channels");
+        STRIGI_NFO "channels");
     sampleBitDepthField = reg.registerField(
-        NFO"bitsPerSample");
+        STRIGI_NFO "bitsPerSample");
     sampleDataTypeField = reg.registerField(
         "http://freedesktop.org/standards/xesam/1.0/core#audioSampleDataType");
     typeField = reg.typeField;

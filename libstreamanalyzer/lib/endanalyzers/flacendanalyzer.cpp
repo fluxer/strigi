@@ -36,32 +36,32 @@ using namespace std;
 
 const string
     typePropertyName(
-	"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
     fullnamePropertyName(
-	"http://www.semanticdesktop.org/ontologies/2007/03/22/nco#fullname"),
+        "http://www.semanticdesktop.org/ontologies/2007/03/22/nco#fullname"),
     titlePropertyName(
-	"http://www.semanticdesktop.org/ontologies/2007/01/19/nie#title"),
+        "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#title"),
     albumTrackCountPropertyName(
-	NMM_DRAFT "albumTrackCount"),
+        STRIGI_NMM_DRAFT "albumTrackCount"),
     albumGainPropertyName(
-	NMM_DRAFT "albumGain"),
+        STRIGI_NMM_DRAFT "albumGain"),
     albumPeakGainPropertyName(
-	NMM_DRAFT "albumPeakGain"),
+        STRIGI_NMM_DRAFT "albumPeakGain"),
     albumArtistPropertyName(
-	NMM_DRAFT "albumArtist"),
+        STRIGI_NMM_DRAFT "albumArtist"),
     musicBrainzAlbumIDPropertyName(
-	NMM_DRAFT "musicBrainzAlbumID"),
+        STRIGI_NMM_DRAFT "musicBrainzAlbumID"),
     discNumberPropertyName(
-	NMM_DRAFT "setNumber"),
+        STRIGI_NMM_DRAFT "setNumber"),
     albumTrackCountName(
-        NMM_DRAFT "albumTrackCount"),
+        STRIGI_NMM_DRAFT "albumTrackCount"),
 
     musicClassName(
-	NMM_DRAFT "MusicPiece"),
+        STRIGI_NMM_DRAFT "MusicPiece"),
     albumClassName(
-	NMM_DRAFT "MusicAlbum"),
+        STRIGI_NMM_DRAFT "MusicAlbum"),
     contactClassName(
-	"http://www.semanticdesktop.org/ontologies/2007/03/22/nco#Contact");
+        "http://www.semanticdesktop.org/ontologies/2007/03/22/nco#Contact");
 /*
 TODO:
 CUESHEET
@@ -85,24 +85,24 @@ FlacEndAnalyzerFactory::registerFields(FieldRegister& r) {
     bitRateField = r.registerField("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#averageBitrate");
 
     fields["title"] = r.registerField(titlePropertyName);
-    albumField = r.registerField(NMM_DRAFT "musicAlbum");
-    fields["genre"] = r.registerField(NMM_DRAFT "genre");
+    albumField = r.registerField(STRIGI_NMM_DRAFT "musicAlbum");
+    fields["genre"] = r.registerField(STRIGI_NMM_DRAFT "genre");
     codecField = r.registerField("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#codec");
-    composerField = r.registerField(NMM_DRAFT "composer");
-    performerField = r.registerField(NMM_DRAFT "performer");
-    publisherField = r.registerField(NCO "publisher");
+    composerField = r.registerField(STRIGI_NMM_DRAFT "composer");
+    performerField = r.registerField(STRIGI_NMM_DRAFT "performer");
+    publisherField = r.registerField(STRIGI_NCO "publisher");
     fields["date"] = r.registerField("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#contentCreated");
     descriptionField = r.registerField("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#description");
     fields["description"] = descriptionField;
     fields["comment"] = r.registerField("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#comment");    
-    fields["tracknumber"] = r.registerField(NMM_DRAFT "trackNumber");
-    fields["mbtrackid"] = r.registerField(NMM_DRAFT "musicBrainzTrackID");
+    fields["tracknumber"] = r.registerField(STRIGI_NMM_DRAFT "trackNumber");
+    fields["mbtrackid"] = r.registerField(STRIGI_NMM_DRAFT "musicBrainzTrackID");
 
-    fields["replaygain_track_gain"] = r.registerField(NMM_DRAFT "trackGain");
-    fields["replaygain_track_peak"] = r.registerField(NMM_DRAFT "trackPeakGain");
+    fields["replaygain_track_gain"] = r.registerField(STRIGI_NMM_DRAFT "trackGain");
+    fields["replaygain_track_peak"] = r.registerField(STRIGI_NMM_DRAFT "trackPeakGain");
 
     fields["version"] = r.registerField("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#version");
-    fields["isrc"] = r.registerField(NMM_DRAFT "internationalStandardRecordingCode");
+    fields["isrc"] = r.registerField(STRIGI_NMM_DRAFT "internationalStandardRecordingCode");
     fields["copyright"] = r.registerField("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#copyright");
     fields["license"] = r.registerField("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#license");
 

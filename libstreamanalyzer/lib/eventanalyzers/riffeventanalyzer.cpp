@@ -32,8 +32,8 @@
 #include <cstdlib>
 
 const std::string
-    videoClassName( NFO "Video"),
-    audioClassName( NFO "Audio");
+    videoClassName( STRIGI_NFO "Video"),
+    audioClassName( STRIGI_NFO "Audio");
 
 using namespace std;
 using namespace Strigi;
@@ -312,23 +312,23 @@ void
 RiffEventAnalyzerFactory::registerFields(Strigi::FieldRegister& reg) {
     typeField = reg.typeField;
     sampleSizeField = reg.registerField(
-        NFO"bitsPerSample");
+        STRIGI_NFO "bitsPerSample");
     sampleRateField = reg.registerField(
-        NFO"sampleRate");
+        STRIGI_NFO "sampleRate");
     channelsField = reg.registerField(
-        NFO"channels");
+        STRIGI_NFO "channels");
     lengthField = reg.registerField(
-        NFO"duration");
+        STRIGI_NFO "duration");
     resolutionHeightField = reg.registerField(
-        NFO"height");
+        STRIGI_NFO "height");
     resolutionWidthField = reg.registerField(
-        NFO"width");
+        STRIGI_NFO "width");
     frameRateField = reg.registerField(
-        NFO"frameRate");
+        STRIGI_NFO "frameRate");
     videoCodecField = reg.registerField(
-        NFO"codec");
+        STRIGI_NFO "codec");
     audioCodecField = reg.registerField(
-        NFO"codec");
+        STRIGI_NFO "codec");
 
     addField(sampleSizeField);
     addField(sampleRateField);

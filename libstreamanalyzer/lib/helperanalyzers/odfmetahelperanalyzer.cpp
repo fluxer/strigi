@@ -43,35 +43,35 @@ static const char *opfNS = "http://www.idpf.org/2007/opf";
 
 const string
     typePropertyName(
-	RDF "type"),
+        STRIGI_RDF "type"),
     fullnamePropertyName(
-	NCO "fullname"),
+        STRIGI_NCO "fullname"),
     creationTimePropertyName(
-	NIE "contentCreated"),
+        STRIGI_NIE "contentCreated"),
     creatorPropertyName(
-	NCO "creator"),
+        STRIGI_NCO "creator"),
     titlePropertyName(
-	NIE "title"),
+        STRIGI_NIE "title"),
     subjectPropertyName(
-	NIE "subject"),
+        STRIGI_NIE "subject"),
     descriptionPropertyName(
-	NIE "description"),
+        STRIGI_NIE "description"),
     languagePropertyName(
-	NIE "language"),
+        STRIGI_NIE "language"),
     keywordPropertyName(
-	NIE "keyword"),
+        STRIGI_NIE "keyword"),
     generatorPropertyName(
-	NIE "generator"),
+        STRIGI_NIE "generator"),
 
     wordCountPropertyName(
-	NFO "wordCount"),
+        STRIGI_NFO "wordCount"),
     pageCountPropertyName(
-	NFO "pageCount"),
+        STRIGI_NFO "pageCount"),
     characterCountPropertyName(
-	NFO "characterCount"),
+        STRIGI_NFO "characterCount"),
 
     contactClassName(
-	NCO "Contact");
+        STRIGI_NCO "Contact");
 
 
 

@@ -82,12 +82,12 @@ OdfEndAnalyzer::analyze(AnalysisResult& idx, InputStream* in) {
 	    const char *rdftype;
 	    buf += 35;
 	    if( nread >= (35+4) && strncmp(buf, "text", 4) == 0 ) {
-		rdftype = NFO "PaginatedTextDocument";
+		rdftype = STRIGI_NFO "PaginatedTextDocument";
 	    } else if ( nread >= (35+12) && strncmp(buf, "presentation", 12) == 0 ) {
-		rdftype = NFO "Presentation";
+		rdftype = STRIGI_NFO "Presentation";
 	    } else if ( nread >= (35+11) && strncmp(buf, "spreadsheet", 11) == 0 ) {
-		rdftype = NFO "Spreadsheet";
-	    } else rdftype = NFO "Document";
+		rdftype = STRIGI_NFO "Spreadsheet";
+	    } else rdftype = STRIGI_NFO "Document";
 
 	    idx.addValue(factory->typeField, rdftype);
 	    

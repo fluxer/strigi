@@ -19,16 +19,16 @@
  */
 #include "mailendanalyzer.h"
 #include "analysisresult.h"
+#include "rdfnamespaces.h"
 #include <strigi/strigiconfig.h>
 #include <strigi/mailinputstream.h>
 #include <strigi/encodinginputstream.h>
 #include "textendanalyzer.h"
 #include <strigi/fieldtypes.h>
 #include <iostream>
+
 using namespace Strigi;
 using namespace std;
-
-#define NMO_PROPOSAL "http://www.semanticdesktop.org/ontologies/nmo#"
 
 const string
     titleFieldName(
@@ -49,24 +49,22 @@ const string
         "http://www.semanticdesktop.org/ontologies/2007/03/22/nmo#inReplyTo"),
 
     typeFieldName(
-	"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
     fullnameFieldName(
-	"http://www.semanticdesktop.org/ontologies/2007/03/22/nco#fullname"),
+        "http://www.semanticdesktop.org/ontologies/2007/03/22/nco#fullname"),
     hasEmailAddressFieldName(
-	"http://www.semanticdesktop.org/ontologies/2007/03/22/nco#hasEmailAddress"),
+        "http://www.semanticdesktop.org/ontologies/2007/03/22/nco#hasEmailAddress"),
     emailAddressFieldName(
-	"http://www.semanticdesktop.org/ontologies/2007/03/22/nco#emailAddress"),
+        "http://www.semanticdesktop.org/ontologies/2007/03/22/nco#emailAddress"),
 
     emailClassName(
-	"http://www.semanticdesktop.org/ontologies/2007/03/22/nmo#Email"),
+        "http://www.semanticdesktop.org/ontologies/2007/03/22/nmo#Email"),
     contactClassName(
-	"http://www.semanticdesktop.org/ontologies/2007/03/22/nco#Contact"),
+        "http://www.semanticdesktop.org/ontologies/2007/03/22/nco#Contact"),
     emailAddressClassName(
-	"http://www.semanticdesktop.org/ontologies/2007/03/22/nco#EmailAddress"),
+        "http://www.semanticdesktop.org/ontologies/2007/03/22/nco#EmailAddress"),
     mimePartClassName(
-	NMO_PROPOSAL "MimePart");
-
-#undef NMO_PROPOSAL
+        STRIGI_NMO_DRAFT "MimePart");
 
 void
 MailEndAnalyzerFactory::registerFields(FieldRegister& r) {

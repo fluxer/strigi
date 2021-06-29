@@ -46,28 +46,28 @@ using namespace std;
 
 const string
     typePropertyName(
-	RDF "type"),
+        STRIGI_RDF "type"),
     fullnamePropertyName(
-	NCO "fullname"),
+        STRIGI_NCO "fullname"),
     titlePropertyName(
-	NIE "title"),
+        STRIGI_NIE "title"),
     albumArtistPropertyName(
-	NMM_DRAFT "albumArtist"),
+        STRIGI_NMM_DRAFT "albumArtist"),
     albumTrackCountPropertyName(
-	NMM_DRAFT "albumTrackCount"),
+        STRIGI_NMM_DRAFT "albumTrackCount"),
     discNumberPropertyName(
-	NMM_DRAFT "setNumber"),
+        STRIGI_NMM_DRAFT "setNumber"),
     discCountPropertyName(
-	NMM_DRAFT "setSize"),
+        STRIGI_NMM_DRAFT "setSize"),
 
     musicClassName(
-	NMM_DRAFT "MusicPiece"),
+        STRIGI_NMM_DRAFT "MusicPiece"),
     audioClassName(
-	NFO "Audio"),
+        STRIGI_NFO "Audio"),
     albumClassName(
-	NMM_DRAFT "MusicAlbum"),
+        STRIGI_NMM_DRAFT "MusicAlbum"),
     contactClassName(
-	NCO "Contact");
+        STRIGI_NCO "Contact");
 
 /*
 ENCA autodetection of broken encodings. First, need to make sure it's going to be actually useful.
@@ -289,28 +289,28 @@ UTF8Convertor::convert(const char *data, size_t len) {
 
 void
 ID3EndAnalyzerFactory::registerFields(FieldRegister& r) {
-    createdField	= r.registerField(NIE "contentCreated");
-    subjectField	= r.registerField(NIE "subject");
+    createdField	= r.registerField(STRIGI_NIE "contentCreated");
+    subjectField	= r.registerField(STRIGI_NIE "subject");
     titleField		= r.registerField(titlePropertyName);
-    descriptionField	= r.registerField(NIE "description");
-    commentField	= r.registerField(NIE "comment");
-    albumField		= r.registerField(NMM_DRAFT "musicAlbum");
-    genreField		= r.registerField(NMM_DRAFT "genre");
-    composerField	= r.registerField(NMM_DRAFT "composer");
-    performerField	= r.registerField(NMM_DRAFT "performer");
-    lyricistField	= r.registerField(NMM_DRAFT "lyricist");
-    publisherField	= r.registerField(NCO "publisher");
-    languageField	= r.registerField(NIE "language");
-    copyrightField	= r.registerField(NIE "copyright");
-    trackNumberField	= r.registerField(NMM_DRAFT "trackNumber");
+    descriptionField	= r.registerField(STRIGI_NIE "description");
+    commentField	= r.registerField(STRIGI_NIE "comment");
+    albumField		= r.registerField(STRIGI_NMM_DRAFT "musicAlbum");
+    genreField		= r.registerField(STRIGI_NMM_DRAFT "genre");
+    composerField	= r.registerField(STRIGI_NMM_DRAFT "composer");
+    performerField	= r.registerField(STRIGI_NMM_DRAFT "performer");
+    lyricistField	= r.registerField(STRIGI_NMM_DRAFT "lyricist");
+    publisherField	= r.registerField(STRIGI_NCO "publisher");
+    languageField	= r.registerField(STRIGI_NIE "language");
+    copyrightField	= r.registerField(STRIGI_NIE "copyright");
+    trackNumberField	= r.registerField(STRIGI_NMM_DRAFT "trackNumber");
     discNumberField	= r.registerField(discNumberPropertyName);
-    durationField	= r.registerField(NFO "duration");
+    durationField	= r.registerField(STRIGI_NFO "duration");
     typeField		= r.typeField;
 
-    bitrateField	= r.registerField(NFO "averageBitrate");
-    samplerateField	= r.registerField(NFO "sampleRate");
-    codecField		= r.registerField(NFO "codec");
-    channelsField	= r.registerField(NFO "channels");
+    bitrateField	= r.registerField(STRIGI_NFO "averageBitrate");
+    samplerateField	= r.registerField(STRIGI_NFO "sampleRate");
+    codecField		= r.registerField(STRIGI_NFO "codec");
+    channelsField	= r.registerField(STRIGI_NFO "channels");
 }
 
 inline

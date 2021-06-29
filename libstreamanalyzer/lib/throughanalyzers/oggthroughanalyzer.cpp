@@ -32,36 +32,36 @@ using namespace std;
 
 const string
     typePropertyName(
-	"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
     fullnamePropertyName(
-	"http://www.semanticdesktop.org/ontologies/2007/03/22/nco#fullname"),
+        "http://www.semanticdesktop.org/ontologies/2007/03/22/nco#fullname"),
     titlePropertyName(
-	"http://www.semanticdesktop.org/ontologies/2007/01/19/nie#title"),
+        "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#title"),
     albumTrackCountName(
-        NMM_DRAFT "albumTrackCount"),
+        STRIGI_NMM_DRAFT "albumTrackCount"),
 
     musicClassName(
-	NMM_DRAFT "MusicPiece"),
+        STRIGI_NMM_DRAFT "MusicPiece"),
     albumClassName(
-	NMM_DRAFT "MusicAlbum"),
+        STRIGI_NMM_DRAFT "MusicAlbum"),
     contactClassName(
-	"http://www.semanticdesktop.org/ontologies/2007/03/22/nco#Contact");
+        "http://www.semanticdesktop.org/ontologies/2007/03/22/nco#Contact");
 
 void
 OggThroughAnalyzerFactory::registerFields(FieldRegister& r) {
     fields["title"] = r.registerField(titlePropertyName);
-    albumField = r.registerField(NMM_DRAFT "musicAlbum");
-    fields["genre"] = r.registerField(NMM_DRAFT "genre");
+    albumField = r.registerField(STRIGI_NMM_DRAFT "musicAlbum");
+    fields["genre"] = r.registerField(STRIGI_NMM_DRAFT "genre");
     fields["codec"] = r.registerField("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#codec");
-    composerField = r.registerField(NMM_DRAFT "composer");
-    performerField = r.registerField(NMM_DRAFT "performer");
+    composerField = r.registerField(STRIGI_NMM_DRAFT "composer");
+    performerField = r.registerField(STRIGI_NMM_DRAFT "performer");
     fields["date"] = r.registerField("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#contentCreated");
     fields["description"] = r.registerField("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#description");
-    fields["tracknumber"] = r.registerField(NMM_DRAFT "trackNumber");
+    fields["tracknumber"] = r.registerField(STRIGI_NMM_DRAFT "trackNumber");
 
 
     fields["version"] = r.registerField("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#version");
-    fields["isrc"] = r.registerField(NMM_DRAFT "internationalStandardRecordingCode");
+    fields["isrc"] = r.registerField(STRIGI_NMM_DRAFT "internationalStandardRecordingCode");
     fields["copyright"] = r.registerField("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#copyright");
     fields["license"] = r.registerField("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#license");
 

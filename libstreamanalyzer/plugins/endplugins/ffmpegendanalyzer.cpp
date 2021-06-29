@@ -93,64 +93,64 @@ private:
 
 const string
   videoClassName = 
-    NFO "Video",
+    STRIGI_NFO "Video",
   audioClassName = 
-    NFO "Audio",
+    STRIGI_NFO "Audio",
   musicPieceClassName = 
-    NMM_DRAFT "MusicPiece",
+    STRIGI_NMM_DRAFT "MusicPiece",
   albumClassName =
-    NMM_DRAFT "MusicAlbum",
+    STRIGI_NMM_DRAFT "MusicAlbum",
   embeddedClassName = 
-   NFO "EmbeddedFileDataObject",
+    STRIGI_NFO "EmbeddedFileDataObject",
   contactClassName =
-    NCO "Contact",
+    STRIGI_NCO "Contact",
 
   typePropertyName =
-    RDF "type",
+    STRIGI_RDF "type",
   hasPartPropertyName =
-    NIE "hasPart",
+    STRIGI_NIE "hasPart",
   partOfPropertyName =
-    NIE "isPartOf",
+    STRIGI_NIE "isPartOf",
 
   titlePropertyName = 
-    NIE "title",
+    STRIGI_NIE "title",
   fullnamePropertyName =
-    NCO "fullname",
+    STRIGI_NCO "fullname",
   commentPropertyName = 
-    NIE "comment",
+    STRIGI_NIE "comment",
   languagePropertyName = 
-    NIE "language",
+    STRIGI_NIE "language",
   genrePropertyName =
-    NMM_DRAFT "genre",
+    STRIGI_NMM_DRAFT "genre",
   trackPropertyName =
-    NMM_DRAFT "trackNumber",
+    STRIGI_NMM_DRAFT "trackNumber",
   createdPropertyName =
-    NIE "contentCreated",
+    STRIGI_NIE "contentCreated",
   creatorPropertyName =
-    NCO "creator",
+    STRIGI_NCO "creator",
   copyrightPropertyName =
-    NIE "copyright",
+    STRIGI_NIE "copyright",
   albumPropertyName =
-    NMM_DRAFT "musicAlbum",
+    STRIGI_NMM_DRAFT "musicAlbum",
 
   sampleratePropertyName = 
-    NFO "sampleRate",
+    STRIGI_NFO "sampleRate",
   codecPropertyName = 
-    NFO "codec",
+    STRIGI_NFO "codec",
   channelsPropertyName = 
-    NFO "channels",
+    STRIGI_NFO "channels",
   bitratePropertyName = 
-    NFO "averageBitrate",
+    STRIGI_NFO "averageBitrate",
   durationPropertyName = 
-    NFO "duration",
+    STRIGI_NFO "duration",
   widthPropertyName = 
-    NFO "width",
+    STRIGI_NFO "width",
   heightPropertyName = 
-    NFO "height",
+    STRIGI_NFO "height",
   aspectRatioPropertyName =
-    NFO "aspectRatio",
+    STRIGI_NFO "aspectRatio",
   frameRatePropertyName = 
-    NFO "frameRate";
+    STRIGI_NFO "frameRate";
 
 void
 FFMPEGEndAnalyzerFactory::registerFields(FieldRegister& r) {
@@ -358,10 +358,10 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
       ar.addValue(factory->durationProperty, (uint32_t)(size/(fc->bit_rate/8)));
   }
   if(fc->nb_streams==1 && fc->streams[0]->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
-    ar.addValue(factory->typeProperty, NFO "Audio");
-    ar.addValue(factory->typeProperty, NMM_DRAFT "MusicPiece");
+    ar.addValue(factory->typeProperty, STRIGI_NFO "Audio");
+    ar.addValue(factory->typeProperty, STRIGI_NMM_DRAFT "MusicPiece");
   } else {
-    ar.addValue(factory->typeProperty, NFO "Video");
+    ar.addValue(factory->typeProperty, STRIGI_NFO "Video");
   }
 
   for(uint32_t i=0; i<fc->nb_streams; i++) {

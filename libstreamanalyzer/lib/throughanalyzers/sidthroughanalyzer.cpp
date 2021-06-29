@@ -37,15 +37,15 @@ using namespace Strigi;
 void
 SidThroughAnalyzerFactory::registerFields(FieldRegister& reg) {
     titleField = reg.registerField(
-        NIE"title");
+        STRIGI_NIE "title");
     artistField = reg.registerField(
-        NMM_DRAFT"performer");
+        STRIGI_NMM_DRAFT "performer");
     trackNumberField = reg.registerField(
-        NMM_DRAFT"albumTrackCount");
+        STRIGI_NMM_DRAFT "albumTrackCount");
     versionField = reg.registerField(
-        NIE"version");
+        STRIGI_NIE "version");
     copyrightField = reg.registerField(
-        NIE"copyright");
+        STRIGI_NIE "copyright");
 
     addField(titleField);
     addField(artistField);
@@ -141,14 +141,14 @@ SidThroughAnalyzer::connectInputStream(InputStream* in) {
     
     // read the data on the 1st icon
     string artistUri = analysisResult->newAnonymousUri();
-	
+
     analysisResult->addValue(factory->artistField, artistUri);
     analysisResult->addTriplet(artistUri,
-			       RDF"type",
-			       NCO"Contact");
+                               STRIGI_RDF "type",
+                               STRIGI_NCO "Contact");
     analysisResult->addTriplet(artistUri,
-			       NCO"fullname",
-			       artist);
+                               STRIGI_NCO "fullname",
+                               artist);
     
     analysisResult->addValue( factory->titleField, title );
     analysisResult->addValue( factory->copyrightField, copyright );

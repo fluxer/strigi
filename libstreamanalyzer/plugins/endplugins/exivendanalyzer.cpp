@@ -24,6 +24,7 @@
 #include "analyzerplugin.h"
 #include "streamendanalyzer.h"
 #include "analysisresult.h"
+#include "rdfnamespaces.h"
 #include <strigi/fieldtypes.h>
 #include <strigi/stringstream.h>
 #include <strigi/textutils.h>
@@ -90,27 +91,23 @@ private:
 
 };
 
-#define NEXIF "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#"
-
 const std::string commentFieldName("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#comment");
-const std::string manufacturerFieldName(NEXIF "make");
-const std::string modelFieldName(NEXIF "model");
+const std::string manufacturerFieldName(STRIGI_NEXIF "make");
+const std::string modelFieldName(STRIGI_NEXIF "model");
 const std::string creationDateFieldName("http://www.semanticdesktop.org/ontologies/2007/01/19/nie#contentCreated");
 const std::string widthFieldName("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#width");
 const std::string heightFieldName("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#height");
-const std::string orientationFieldName(NEXIF "orientation");
-const std::string flashUsedFieldName(NEXIF "flash");
-const std::string focalLengthFieldName(NEXIF "focalLength");
-const std::string _35mmEquivalentFieldName(NEXIF "focalLengthIn35mmFilm");
-const std::string exposureTimeFieldName(NEXIF "exposureTime");
-const std::string apertureFieldName(NEXIF "apertureValue");
-const std::string exposureBiasFieldName(NEXIF "exposureBiasValue");
-const std::string whiteBalanceFieldName(NEXIF "whiteBalance");
-const std::string meteringModeFieldName(NEXIF "meteringMode");
-const std::string exposureFieldName(NEXIF "exposureProgram");
-const std::string ISOSpeedRatingsFieldName(NEXIF "isoSpeedRatings");
-
-#undef NEXIF
+const std::string orientationFieldName(STRIGI_NEXIF "orientation");
+const std::string flashUsedFieldName(STRIGI_NEXIF "flash");
+const std::string focalLengthFieldName(STRIGI_NEXIF "focalLength");
+const std::string _35mmEquivalentFieldName(STRIGI_NEXIF "focalLengthIn35mmFilm");
+const std::string exposureTimeFieldName(STRIGI_NEXIF "exposureTime");
+const std::string apertureFieldName(STRIGI_NEXIF "apertureValue");
+const std::string exposureBiasFieldName(STRIGI_NEXIF "exposureBiasValue");
+const std::string whiteBalanceFieldName(STRIGI_NEXIF "whiteBalance");
+const std::string meteringModeFieldName(STRIGI_NEXIF "meteringMode");
+const std::string exposureFieldName(STRIGI_NEXIF "exposureProgram");
+const std::string ISOSpeedRatingsFieldName(STRIGI_NEXIF "isoSpeedRatings");
 
 /*
  Register the field names so that the StreamIndexer knows which analyzer

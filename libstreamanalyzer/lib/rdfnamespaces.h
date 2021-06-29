@@ -26,19 +26,20 @@
 // Typical use: fieldName = NIE "title"
 
 // General
-#define RDF	"http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+#define STRIGI_RDF       "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 
-//Nepomuk
-#define NAO	"http://www.semanticdesktop.org/ontologies/2007/08/15/nao#"
-#define NIE	"http://www.semanticdesktop.org/ontologies/2007/01/19/nie#"
-#define NFO	"http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#"
-#define NCO	"http://www.semanticdesktop.org/ontologies/2007/03/22/nco#"
-#define NMO	"http://www.semanticdesktop.org/ontologies/2007/03/22/nmo#"
-#define NCAL	"http://www.semanticdesktop.org/ontologies/2007/04/02/ncal#"
-#define NEXIF	"http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#"// obsolete
-#define NID3	"http://www.semanticdesktop.org/ontologies/2007/05/10/nid3#"// obsolete
+// Nepomuk
+#define STRIGI_NAO       "http://www.semanticdesktop.org/ontologies/2007/08/15/nao#"
+#define STRIGI_NIE       "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#"
+#define STRIGI_NFO       "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#"
+#define STRIGI_NCO       "http://www.semanticdesktop.org/ontologies/2007/03/22/nco#"
+#define STRIGI_NMO       "http://www.semanticdesktop.org/ontologies/2007/03/22/nmo#"
+#define STRIGI_NCAL      "http://www.semanticdesktop.org/ontologies/2007/04/02/ncal#"
+#define STRIGI_NEXIF     "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#"// obsolete
+#define STRIGI_NID3      "http://www.semanticdesktop.org/ontologies/2007/05/10/nid3#"// obsolete
 
-//Draft
-#define NMM_DRAFT	"http://www.semanticdesktop.org/ontologies/2009/02/19/nmm#"
+// Draft
+#define STRIGI_NMM_DRAFT "http://www.semanticdesktop.org/ontologies/2009/02/19/nmm#"
+#define STRIGI_NMO_DRAFT "http://www.semanticdesktop.org/ontologies/nmo#"
 
 #endif
