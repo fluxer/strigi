@@ -18,6 +18,10 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "analyzerloader.h"
 #include <strigi/analyzerplugin.h>
 #include <string>
@@ -97,8 +101,13 @@ AnalyzerLoader::loadPlugins(const char* d) {
             }
             plugin.append(ent->d_name);
             // check that the file is a regular file
+#ifdef HAVE_DIRENT_D_TYPE
+            const bool isfile = (ent->d_type == DT_REG);
+#else
             struct stat s;
-            if (stat(plugin.c_str(), &s) == 0 && (S_IFREG & s.st_mode)) {
+            const bool isfile = (stat(plugin.c_str(), &s) == 0 && (S_IFREG & s.st_mode));
+#endif
+            if (isfile) {
                 Private::loadModule(plugin.c_str());
             }
         }

@@ -18,6 +18,11 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include <strigi/fieldpropertiesdb.h>
 #include "fieldproperties_private.h"
 #include <strigi/fieldtypes.h>
@@ -33,7 +38,6 @@
 #include <strings.h>
 #include <libxml/SAX2.h>
 #include <sys/stat.h>
-#include <config.h>
 
 using namespace Strigi;
 using namespace std;
@@ -321,11 +325,17 @@ FieldPropertiesDb::Private::loadProperties(const string& dir) {
         pdir.append("/");
     }
     struct dirent* de = readdir(d);
+#ifndef HAVE_DIRENT_D_TYPE
     struct stat s;
+#endif
     while (de) {
         string path(pdir+de->d_name);
         if (path.length() >= 5 && path.compare(path.length() - 5, 5, ".rdfs", 5) == 0 &&
+#ifdef HAVE_DIRENT_D_TYPE
+                de->d_type == DT_REG) {
+#else
                 !stat(path.c_str(), &s) && S_ISREG(s.st_mode)) {
+#endif
             FILE* f = fopen(path.c_str(), "r");
             if (f) {
                 parseProperties(f);

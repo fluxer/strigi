@@ -6,9 +6,10 @@
 //////////////////////////////
 // functions
 //////////////////////////////
-#cmakedefine HAVE_STRCASESTR 1
-#cmakedefine HAVE_STRLWR 1
-#cmakedefine HAVE_LOCALTIME_R 1
+#cmakedefine HAVE_STRCASESTR
+#cmakedefine HAVE_STRLWR
+#cmakedefine HAVE_LOCALTIME_R
+#cmakedefine HAVE_DIRENT_D_TYPE
 
 //////////////////////////////
 //support large files
