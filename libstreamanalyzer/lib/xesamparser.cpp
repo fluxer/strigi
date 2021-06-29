@@ -236,15 +236,15 @@ bool XesamParser::parseInSet(Query &query)
         } else if (m_xmlStream->getTagName() == "fullTextFields") {
         } else if (m_xmlStream->getTagName() == "string") {
             if (!parseString(dummyQuery))
-              return false;
+                return false;
             terms.push_back(dummyQuery.term());
         } else if (m_xmlStream->getTagName() == "integer") {
             if (!parseInteger(dummyQuery))
-              return false;
+                return false;
             terms.push_back(dummyQuery.term());
         } else if (m_xmlStream->getTagName() == "date") {
             if (!parseDate(dummyQuery))
-              return false;
+                return false;
             terms.push_back(dummyQuery.term());
         } else if (m_xmlStream->getTagName() == "float") {
             if (!parseFloat(dummyQuery))
@@ -252,7 +252,7 @@ bool XesamParser::parseInSet(Query &query)
             terms.push_back(dummyQuery.term());
         } else if (m_xmlStream->getTagName() == "boolean") {
             if (!parseBoolean(dummyQuery))
-              return false;
+                return false;
             terms.push_back(dummyQuery.term());
         } else {
             m_errorMessage = "Unknown tag: " + m_xmlStream->getTagName();

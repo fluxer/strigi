@@ -84,8 +84,8 @@ parse(const char* p, Query& q) {
         if (*rel == '=') {
             q.setType(Query::Equals);
         } else if (*rel == '#') {
-	    q.setType(Query::Keyword);
-	} else if (*rel == '<') {
+            q.setType(Query::Keyword);
+        } else if (*rel == '<') {
             if (*p == '=') {
                 p++;
                 q.setType(Query::LessThanEquals);
@@ -103,24 +103,24 @@ parse(const char* p, Query& q) {
     }
 
     if (*quote && *(quote+1) && quote < space) {
-	const char* pairquote = strchr(quote+1, *quote);
-	if (pairquote != NULL) {
-	    pairquote++;
-	    // quoted phrase, could be with spaces
-	    q.term().setValue(string(quote+1, pairquote-1));
-	    if (*space) {
-		if (space < pairquote) {
-		    // everything between pairquote and next space is a modifier
-		    space = pairquote + strcspn(pairquote, "\t \r\n");
-		}
-		if (space - pairquote + 1 > 0) {
-		    // avoid empty modifiers
-		    setModifiers(pairquote+1, space, q);
-		}
-	    }
-	}
+        const char* pairquote = strchr(quote+1, *quote);
+        if (pairquote != NULL) {
+            pairquote++;
+            // quoted phrase, could be with spaces
+            q.term().setValue(string(quote+1, pairquote-1));
+            if (*space) {
+                if (space < pairquote) {
+                    // everything between pairquote and next space is a modifier
+                    space = pairquote + strcspn(pairquote, "\t \r\n");
+                }
+                if (space - pairquote + 1 > 0) {
+                    // avoid empty modifiers
+                    setModifiers(pairquote+1, space, q);
+                }
+            }
+        }
     } else {
-	q.term().setValue(string(p, space));
+        q.term().setValue(string(p, space));
     }
     return space+1;
 }
