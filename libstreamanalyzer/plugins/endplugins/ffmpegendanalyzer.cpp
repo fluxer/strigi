@@ -182,7 +182,6 @@ AVInputFormat *probe_format(AVProbeData *pd, int *max_score) {
   return av_probe_input_format2(pd, true, max_score);
 #else
   AVInputFormat *result = NULL;
-  *max_score = 0;
   
   for (AVInputFormat *fmt = av_iformat_next(NULL); fmt != NULL; fmt = av_iformat_next(fmt))
     // test only formats that are file-based and can detect the byte stream
@@ -411,27 +410,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
       } else if (size_t len = strlen(codecName)) {
         ar.addTriplet(streamuri, codecPropertyName, string(codecName, len));
       }
-/*
-00792     } else if (enc->codec_id == CODEC_ID_MPEG2TS) {
-// fake mpeg2 transport stream codec (currently not
-00794            registered)
-00795         codec_name = "mpeg2ts";
-00798     } else {
-00799         // output avi tags 
-00800         if(   isprint(enc->codec_tag&0xFF) && isprint((enc->codec_tag>>8)&0xFF)
-00801            && isprint((enc->codec_tag>>16)&0xFF) && isprint((enc->codec_tag>>24)&0xFF)){
-00802             snprintf(buf1, sizeof(buf1), "%c%c%c%c / 0x%04X",
-00803                      enc->codec_tag & 0xff,
-00804                      (enc->codec_tag >> 8) & 0xff,
-00805                      (enc->codec_tag >> 16) & 0xff,
-00806                      (enc->codec_tag >> 24) & 0xff,
-00807                       enc->codec_tag);
-00808         } else {
-00809             snprintf(buf1, sizeof(buf1), "0x%04x", enc->codec_tag);
-00810         }
-00811         codec_name = buf1;
-00812     }
-*/
+
       if (codec.bit_rate) {
         ostringstream outs;
         outs << codec.bit_rate;
