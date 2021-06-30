@@ -58,7 +58,10 @@ class STRIGI_PLUGIN_API FFMPEGEndAnalyzerFactory : public StreamEndAnalyzerFacto
 friend class FFMPEGEndAnalyzer;
 public:
     FFMPEGEndAnalyzerFactory() {
+// 2018-02-06 - 0694d87024 - lavf 58.9.100 - avformat.h
+#if (LIBAVFORMAT_VERSION_MAJOR < 59) && (LIBAVFORMAT_VERSION_MINOR < 9)
         av_register_all();
+#endif
     }
 private:
     ~FFMPEGEndAnalyzerFactory() {
