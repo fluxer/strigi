@@ -282,10 +282,6 @@ int64_t seek_data(void *opaque, int64_t offset, int whence) {
 
 int64_t const no_bitrate = 0x8000000000000000ULL;
 
-//SAMPLE_FMT_NONE has been renamed in later versions of FFmpeg
-#if not defined SAMPLE_FMT_NONE
-  #define SAMPLE_FMT_NONE AV_SAMPLE_FMT_NONE
-#endif
 signed char
 FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
   uint8_t pDataBuffer[32768];//65536];
@@ -430,8 +426,6 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
           outs << codec.sample_rate;
           ar.addTriplet(streamuri, sampleratePropertyName, outs.str());
         }
-        // if (codec.sample_fmt != SAMPLE_FMT_NONE) {}//FIXME sample format
-          
       } else { // video stream
         
         ar.addTriplet(streamuri, typePropertyName, videoClassName);
@@ -461,7 +455,6 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
           outs << stream.r_frame_rate.num / stream.r_frame_rate.den;
           ar.addTriplet(streamuri, frameRatePropertyName, outs.str());
         }
-        // if (codec.pix_fmt != AV_PIX_FMT_NONE) {}//FIXME pixel format
       }
       
     }
