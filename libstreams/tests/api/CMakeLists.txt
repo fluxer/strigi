@@ -22,17 +22,17 @@ set(streamtests
     StringStreamTest.cpp # this maybe works with mingw
 )
 
-CREATE_TEST_SOURCELIST(Tests ${streamtests})
+create_test_sourcelist(Tests ${streamtests})
 
-ADD_EXECUTABLE(testrunner-streams ${Tests}
+add_executable(testrunner-streams ${Tests}
     ../sharedtestcode/inputstreamtests.cpp
 )
 target_link_libraries(testrunner-streams streams)
 
-SET (TestsToRun ${Tests})
-REMOVE (TestsToRun testrunner.cpp)
+set(TestsToRun ${Tests})
+remove(TestsToRun testrunner.cpp)
 
-FOREACH (test ${TestsToRun})
-    GET_FILENAME_COMPONENT(TName ${test} NAME_WE)
-    ADD_TEST(${TName} testrunner-streams ${TName} ${libstreams_SOURCE_DIR}/tests/data)
-ENDFOREACH (test)
+foreach(test ${TestsToRun})
+    get_filename_component(TName ${test} NAME_WE)
+    add_test(${TName} testrunner-streams ${TName} ${libstreams_SOURCE_DIR}/tests/data)
+endforeach()

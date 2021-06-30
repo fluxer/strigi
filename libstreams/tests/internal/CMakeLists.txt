@@ -20,4 +20,4 @@ foreach(TESTTORUN ${TESTSTORUN})
     add_test(${TESTNAME} testrunner-libstreams-internal
         ${TESTNAME} ${libstreams_SOURCE_DIR}/tests/data
     )
-endforeach(TESTTORUN)
+endforeach()

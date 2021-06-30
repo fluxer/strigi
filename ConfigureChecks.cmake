@@ -1,4 +1,4 @@
-# test for some functions that are missing on a particular system
+# test for some functions and struct members that are missing on a particular system
 include(CheckFunctionExists)
 include(CheckStructHasMember)
 

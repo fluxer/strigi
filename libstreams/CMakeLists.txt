@@ -1,14 +1,11 @@
-project (libstreams)
+project(libstreams)
 
-##### environment inspection #####
-
-# Generate include/strigi/strigiconfig.h
+# generate include/strigi/strigiconfig.h
 configure_file(
     ${libstreams_SOURCE_DIR}/strigiconfig.h.cmake
     ${libstreams_BINARY_DIR}/include/strigi/strigiconfig.h
 )
 
-##### building and testing #####
 # every directory needs the headers that will be installed
 include_directories(
     ${libstreams_SOURCE_DIR}/include
@@ -25,17 +22,14 @@ if(ENABLE_TESTING)
     add_subdirectory(tests)
 endif()
 
-# Create strigi_export header
+# create strigi_export header
 generate_export_header(streams BASE_NAME strigi)
 configure_file(
     ${CMAKE_CURRENT_BINARY_DIR}/strigi_export.h
     include/strigi/strigi_export.h
 )
 
-##### installing #####
-
-# all installed files are listed here
-# headers
+# all installed header files are listed here
 file(GLOB STRIGI_HEADERS include/strigi/*.h)
 install(
     FILES

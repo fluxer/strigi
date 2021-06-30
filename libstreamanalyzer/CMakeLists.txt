@@ -1,6 +1,4 @@
-project (libstreamanalyzer)
-
-##### building and testing #####
+project(libstreamanalyzer)
 
 # every directory needs the headers that will be installed
 include_directories(
@@ -19,12 +17,8 @@ include_directories(
 
 add_subdirectory(lib)
 add_subdirectory(plugins)
-#add_subdirectory(tests)
 
-##### installing #####
-
-# all installed files are listed here
-# headers
+# all installed header files are listed here
 file(GLOB STRIGI_HEADERS include/strigi/*.h)
 install(
     FILES ${STRIGI_HEADERS}
@@ -38,7 +32,6 @@ install(
     DESTINATION ${DATA_DESTINATION}/strigi/fieldproperties/
 )
 
-# library
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/libstreamanalyzer.pc.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/lib/libstreamanalyzer.pc
