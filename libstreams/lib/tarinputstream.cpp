@@ -24,7 +24,6 @@
 #include <iostream>
 
 using namespace Strigi;
-using namespace std;
 
 TarInputStream::TarInputStream(InputStream* input)
         : SubStreamProvider(input) {

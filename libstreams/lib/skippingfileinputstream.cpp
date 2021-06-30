@@ -27,7 +27,6 @@
 #include <cstdlib>
 
 using namespace Strigi;
-using namespace std;
 
 SkippingFileInputStream::SkippingFileInputStream(const char* filepath) {
     buffer = 0;
@@ -47,7 +46,7 @@ SkippingFileInputStream::open(FILE* f, const char* path) {
     file = f;
     filepath.assign(path);
     if (file == 0) {
-        cerr << "ohoh" << endl;
+        std::cerr << "ohoh" << std::endl;
         // handle error
         m_error = "Could not read file '";
         m_error += filepath;
@@ -91,13 +90,13 @@ SkippingFileInputStream::read(const char*& start, int32_t _min, int32_t _max) {
          return -2; // error
     }
     // take a decent buffersize that can hold the request
-    int32_t n = max(_min, _max);
+    int32_t n = std::max(_min, _max);
     if (_max <= 0) {
-        n = max(1024, max(buffersize, _min));
+        n = std::max(1024, std::max(buffersize, _min));
     }
     if (n > buffersize) {
         if (_max <= 0) {
-            n = max(n, 2 * buffersize);
+            n = std::max(n, 2 * buffersize);
             if (m_size != -1 && n > m_size - m_position) {
                 n = m_size - m_position + 1;
             }

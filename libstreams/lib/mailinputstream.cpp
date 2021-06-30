@@ -40,7 +40,6 @@
      #define ICONV_CONST
 #endif
 
-using namespace std;
 using namespace Strigi;
 
 char
@@ -54,20 +53,20 @@ class Decoder {
 private:
     char* buffer;
     size_t bufferlen;
-    map<string, iconv_t> iconvs;
+    std::map<std::string, iconv_t> iconvs;
 public:
     Decoder() :buffer(0), bufferlen(0) {}
     ~Decoder() {
         free(buffer);
-        map<string, iconv_t>::const_iterator i;
+        std::map<std::string, iconv_t>::const_iterator i;
         for (i = iconvs.begin(); i != iconvs.end(); ++i) {
             iconv_close(i->second);
         }
     }
-    void decode(const string& enc, string& data);
+    void decode(const std::string& enc, std::string& data);
 };
 void
-Decoder::decode(const string& enc, string& data) {
+Decoder::decode(const std::string& enc, std::string& data) {
     iconv_t conv;
     if (iconvs.find(enc) == iconvs.end()) {
         conv = iconvs[enc] = iconv_open("UTF-8", enc.c_str());
@@ -94,18 +93,18 @@ Decoder::decode(const string& enc, string& data) {
 
 class QuotedPrintableDecoder {
 private:
-    string decoded;
+    std::string decoded;
 public:
-    string& decodeQuotedPrintable(const char* v, uint32_t len);
+    std::string& decodeQuotedPrintable(const char* v, uint32_t len);
 };
 class HeaderDecoder : public QuotedPrintableDecoder, Decoder {
 private:
-    string decoded;
+    std::string decoded;
 public:
-    const string& decodedHeaderValue(const char* v, uint32_t len);
+    const std::string& decodedHeaderValue(const char* v, uint32_t len);
 };
 
-string&
+std::string&
 QuotedPrintableDecoder::decodeQuotedPrintable(const char* v, uint32_t len) {
     if (decoded.size() < len) {
         decoded.reserve(len);
@@ -136,7 +135,7 @@ QuotedPrintableDecoder::decodeQuotedPrintable(const char* v, uint32_t len) {
 /**
  * This function can decode a mail header if it contains utf8 encoded in base64.
  **/
-const string&
+const std::string&
 HeaderDecoder::decodedHeaderValue(const char* v, uint32_t len) {
     if (decoded.size() < len) {
         decoded.reserve(len*2);
@@ -166,16 +165,16 @@ HeaderDecoder::decodedHeaderValue(const char* v, uint32_t len) {
             q2++;
             // find the end
             if (*q1 == 'b' || *q1 == 'B') {
-                string str(Base64InputStream::decode(q2, end-q2));
+                std::string str(Base64InputStream::decode(q2, end-q2));
                 if (strncasecmp("utf-8", s, 5)) {
-                    string encoding(s, q1-s-1);
+                    std::string encoding(s, q1-s-1);
                     decode(encoding, str);
                 }
                 decoded.append(str);
             } else if (*q1 == 'q' || *q1 =='Q') {
-                string& str(decodeQuotedPrintable(q2, end-q2));
+                std::string& str(decodeQuotedPrintable(q2, end-q2));
                 if (strncasecmp("utf-8", s, 5) != 0) {
-                    string encoding(s, q1-s-1);
+                    std::string encoding(s, q1-s-1);
                     decode(encoding, str);
                 }
                 decoded.append(str);
@@ -394,7 +393,7 @@ MailInputStream::Private::readHeaderLine() {
         } else if (linepos >= maxlinesize) {
             // error line is too long
             m->m_status = Error;
-            ostringstream out;
+            std::ostringstream out;
             out << "mail header line is too long: more than " << linepos
                 << " bytes.";
             m->m_error = out.str();
@@ -441,10 +440,10 @@ MailInputStream::Private::readHeaderLine() {
     } while (!completeLine);
     nextLineStartPosition += linepos;
 }
-string
-MailInputStream::Private::value(const char* n, const string& headerline) const {
+std::string
+MailInputStream::Private::value(const char* n, const std::string& headerline) const {
     size_t nl = strlen(n);
-    string value;
+    std::string value;
     // get the value
     const char* hl = headerline.c_str();
     const char* v = strcasestr(hl, n);
@@ -559,7 +558,7 @@ MailInputStream::Private::handleHeaderLine() {
         while (offset < len && isspace(linestart[offset])) offset++;
         m->m_contenttype = std::string(linestart+offset, len-offset);
         // get the boundary
-        string b = value("boundary", m->m_contenttype);
+        std::string b = value("boundary", m->m_contenttype);
         if (b.size()) {
             boundary.push(b);
         }
@@ -631,7 +630,7 @@ void
 MailInputStream::Private::ensureFileName() {
     entrynumber++;
     if (m->m_entryinfo.filename.length() == 0) {
-        ostringstream o;
+        std::ostringstream o;
         o << entrynumber;
         m->m_entryinfo.filename = o.str();
     }

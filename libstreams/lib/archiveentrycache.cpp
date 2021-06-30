@@ -20,30 +20,28 @@
 #include "archiveentrycache.h"
 #include <iostream>
 
-using namespace std;
-
 ArchiveEntryCache::SubEntry::~SubEntry() {
     SubEntryMap::iterator i;
     for (i=entries.begin(); i!=entries.end(); ++i) {
         delete i->second;
     }
 }
-map<string, ArchiveEntryCache::RootSubEntry*>::const_iterator
-ArchiveEntryCache::findRootEntry(const string& url) const {
-    string n(url);
+std::map<std::string, ArchiveEntryCache::RootSubEntry*>::const_iterator
+ArchiveEntryCache::findRootEntry(const std::string& url) const {
+    std::string n(url);
     size_t p = n.size();
     do {
-        map<string, RootSubEntry*>::const_iterator i = cache.find(n);
+        std::map<std::string, RootSubEntry*>::const_iterator i = cache.find(n);
         if (i != cache.end()) {
             // the root entry is in the cache - we're done
             return i;
         }
         // remove the last element in the path, and look for that
         p = n.rfind('/');
-        if (p != string::npos) {
+        if (p != std::string::npos) {
             n.resize(p);
         }
-    } while (p != string::npos);
+    } while (p != std::string::npos);
     // couldn't find it
     return cache.end();
 }
@@ -51,9 +49,9 @@ ArchiveEntryCache::findRootEntry(const string& url) const {
  * Find the entry corresponding to @p url.
  **/
 const ArchiveEntryCache::SubEntry*
-ArchiveEntryCache::findEntry(const string& url) const {
+ArchiveEntryCache::findEntry(const std::string& url) const {
     // find the root entry that should contain the wanted entry
-    map<string, RootSubEntry*>::const_iterator ei = findRootEntry(url);
+    std::map<std::string, RootSubEntry*>::const_iterator ei = findRootEntry(url);
     if (ei == cache.end()) return 0; // no root could be find
     if (ei->first == url) {
         // the requested entry is a root entry: we are done
@@ -67,10 +65,10 @@ ArchiveEntryCache::RootSubEntry::findEntry(const std::string& rootpath,
     // use the path components as keys to find the entry
     const SubEntry* e = this;
     size_t p = rootpath.length();
-    string name;
+    std::string name;
     do {
         size_t np = url.find('/', p+1);
-        if (np == string::npos) {
+        if (np == std::string::npos) {
             name.assign(url, p+1, url.size());
         } else {
             name.assign(url, p+1, np-p-1);
@@ -85,7 +83,7 @@ ArchiveEntryCache::RootSubEntry::findEntry(const std::string& rootpath,
         if (p == url.length()) {
             return e;
         }
-    } while(e && p != string::npos);
+    } while(e && p != std::string::npos);
 
     return e;
 }

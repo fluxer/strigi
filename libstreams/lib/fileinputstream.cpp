@@ -27,7 +27,6 @@
 #include <cstring>
 
 using namespace Strigi;
-using namespace std;
 
 const int32_t FileInputStream::defaultBufferSize = 1048576;
 

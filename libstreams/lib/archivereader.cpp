@@ -29,19 +29,18 @@
 #include <iostream>
 #include <set>
 
-using namespace std;
 using namespace Strigi;
 
 class ArchiveReader::DirLister::Private {
 private:
     int pos;
-    vector<EntryInfo> entries;
+    std::vector<EntryInfo> entries;
     ListingInProgress* listing;
     const ArchiveEntryCache::SubEntry* entry;
-    set<std::string> done;
+    std::set<std::string> done;
 public:
     const std::string url;
-    explicit Private(const vector<EntryInfo>& v, int p = 0)
+    explicit Private(const std::vector<EntryInfo>& v, int p = 0)
         :pos(p), entries(v), listing(NULL), entry(NULL) {
     }
     explicit Private(ListingInProgress* l, const std::string& u)
@@ -169,7 +168,7 @@ public:
     int localStat(const std::string& url, EntryInfo& e);
     ArchiveReaderPrivate();
     ~ArchiveReaderPrivate();
-    ListingInProgress* findListingInProgress(const string& url) const;
+    ListingInProgress* findListingInProgress(const std::string& url) const;
 };
 ArchiveReader::ArchiveReaderPrivate::ArchiveReaderPrivate() {
     typedef std::pair<bool (*)(const char*, int32_t),
@@ -190,15 +189,15 @@ ArchiveReader::ArchiveReaderPrivate::ArchiveReaderPrivate() {
 }
 ArchiveReader::ArchiveReaderPrivate::~ArchiveReaderPrivate() {
     if (openstreams.size() > 0) {
-        cerr << openstreams.size() << " streams were not closed." << endl;
+        std::cerr << openstreams.size() << " streams were not closed." << std::endl;
         OpenstreamsType::iterator i;
         for (i = openstreams.begin(); i != openstreams.end(); ++i) {
             freeStreamList(i->second);
         }
     }
-    map<string, ListingInProgress*>::const_iterator end
+    std::map<std::string, ListingInProgress*>::const_iterator end
         = listingsInProgress.end();
-    for (map<string, ListingInProgress*>::const_iterator i
+    for (std::map<std::string, ListingInProgress*>::const_iterator i
             = listingsInProgress.begin(); i != end; ++i) {
         if (i->second->unref()) delete i->second;
     }
@@ -209,13 +208,13 @@ ArchiveReader::ArchiveReaderPrivate::~ArchiveReaderPrivate() {
  * This continues until a stream can be opened or the remaining '/' does not
  * contain '/'.
  **/
-vector<size_t>
-ArchiveReader::ArchiveReaderPrivate::cullName(const string& url,
+std::vector<size_t>
+ArchiveReader::ArchiveReaderPrivate::cullName(const std::string& url,
         InputStream*& stream) const {
-    vector<size_t> partpos;
+    std::vector<size_t> partpos;
     size_t p = url.rfind('/');
     stream = open(url);
-    while (p != string::npos && p != 0 && !stream) {
+    while (p != std::string::npos && p != 0 && !stream) {
         stream = open(url.substr(0, p));
         partpos.push_back(p+1);
         p = url.rfind('/', p-1);
@@ -228,11 +227,11 @@ ArchiveReader::ArchiveReaderPrivate::cullName(const string& url,
  * On failure, 0 is returned.
  **/
 SubStreamProvider*
-ArchiveReader::ArchiveReaderPrivate::positionedProvider(const string& url) {
+ArchiveReader::ArchiveReaderPrivate::positionedProvider(const std::string& url) {
     InputStream* stream = 0;
 
     // cull the url until a stream can be opened
-    vector<size_t> partpos = cullName(url, stream);
+    std::vector<size_t> partpos = cullName(url, stream);
     if (!stream) {
         return 0;
     }
@@ -240,8 +239,8 @@ ArchiveReader::ArchiveReaderPrivate::positionedProvider(const string& url) {
     // open the substreams until the complete path has been opened
     SubStreamProvider* provider;
     InputStream* substream = stream;
-    vector<size_t>::reverse_iterator i;
-    list<StreamPtr> streams;
+    std::vector<size_t>::reverse_iterator i;
+    std::list<StreamPtr> streams;
     streams.push_back(stream);
     for (i = partpos.rbegin(); i != partpos.rend(); ++i) {
         // try to open the stream as a SubStreamProvider
@@ -292,9 +291,9 @@ ArchiveReader::ArchiveReaderPrivate::positionedProvider(const string& url) {
  * Try with each of the streamopeners to open a stream.
  **/
 InputStream*
-ArchiveReader::ArchiveReaderPrivate::open(const string& url) const {
+ArchiveReader::ArchiveReaderPrivate::open(const std::string& url) const {
     InputStream* stream = 0;
-    list<StreamOpener*>::const_iterator i;
+    std::list<StreamOpener*>::const_iterator i;
     for (i = openers.begin(); i != openers.end() && stream == 0; ++i) {
         stream = (*i)->openStream(url);
     }
@@ -304,7 +303,7 @@ int
 ArchiveReader::ArchiveReaderPrivate::localStat(const std::string& url,
         EntryInfo& e) {
     // try with the supplied streamOpeners
-    list<StreamOpener*>::const_iterator i;
+    std::list<StreamOpener*>::const_iterator i;
     for (i = openers.begin(); i != openers.end(); ++i) {
         if ((*i)->stat(url, e) == 0) {
             if (!(e.type & EntryInfo::File)) {
@@ -312,7 +311,7 @@ ArchiveReader::ArchiveReaderPrivate::localStat(const std::string& url,
             }
 
             // check if a ListingInProgress points to this url
-            map<string, ListingInProgress*>::const_iterator li =
+            std::map<std::string, ListingInProgress*>::const_iterator li =
                 listingsInProgress.find(url);
             if (li != listingsInProgress.end()) {
                 // use the information in this entry
@@ -321,7 +320,7 @@ ArchiveReader::ArchiveReaderPrivate::localStat(const std::string& url,
             }
  
             // check if this file is in the cache
-            map<string, ArchiveEntryCache::RootSubEntry*>::const_iterator se
+            std::map<std::string, ArchiveEntryCache::RootSubEntry*>::const_iterator se
                 = cache.cache.find(url);
             if (se != cache.cache.end()) {
                 if (se->second->entry.mtime == e.mtime) {
@@ -336,7 +335,7 @@ ArchiveReader::ArchiveReaderPrivate::localStat(const std::string& url,
 
             // The file exists, but is it an archive?
             InputStream* s = (*i)->openStream(url);
-            list<StreamPtr> streams;
+            std::list<StreamPtr> streams;
             SubStreamProvider* provider = subStreamProvider(subs, s, streams);
             if (provider) {
                 // this file contains substreams
@@ -376,7 +375,7 @@ ArchiveReader::stat(const std::string& url, EntryInfo& e) {
     }
     // try reading the entries from the collection to which this file belongs
     size_t pos = url.rfind('/');
-    if (pos == string::npos) return -1;
+    if (pos == std::string::npos) return -1;
     std::string parenturl(url, 0, pos);
     ArchiveReader::DirLister dirlister(dirEntries(parenturl));
     while (dirlister.nextEntry(e)) {
@@ -387,7 +386,7 @@ ArchiveReader::stat(const std::string& url, EntryInfo& e) {
     return -1;
 }
 InputStream*
-ArchiveReader::openStream(const string& url) {
+ArchiveReader::openStream(const std::string& url) {
     InputStream* stream = p->open(url);
     if (stream) return stream;
 
@@ -445,13 +444,13 @@ ArchiveReader::dirEntries(const std::string& url) {
     if (subentry == NULL && lip == NULL) {
         // this entry is not in the cache, we try to open it
         InputStream* s = 0;
-        vector<size_t> l = p->cullName(url, s);
+        std::vector<size_t> l = p->cullName(url, s);
         // no entries were found: we return an empty dirlister
         // we have no other way of signaling failure
         // the caller should have checked with stat if the entry is valid
         if (!s) return DirLister(new DirLister::Private(v));
 
-        string name(url);
+        std::string name(url);
         if (l.size()) {
             // let name be the name of physical file
             name.resize(l[l.size()-1]-1);
@@ -491,19 +490,19 @@ ArchiveReader::canHandle(const std::string& url) {
     size_t pos = url.rfind('/');
     EntryInfo e;
     int r = p->localStat(url, e);
-    while (pos != string::npos && pos != 0 && r == -1) {
+    while (pos != std::string::npos && pos != 0 && r == -1) {
         r = p->localStat(url.substr(0, pos), e);
         pos = url.rfind('/', pos-1);
     }
     return r == 0 && e.type & EntryInfo::File && e.type & EntryInfo::Dir;
 }
 ListingInProgress*
-ArchiveReader::ArchiveReaderPrivate::findListingInProgress(const string& url)
+ArchiveReader::ArchiveReaderPrivate::findListingInProgress(const std::string& url)
         const {
-    string n(url);
+    std::string n(url);
     size_t p = n.size();
     do {
-        map<string, ListingInProgress*>::const_iterator i
+        std::map<std::string, ListingInProgress*>::const_iterator i
             = listingsInProgress.find(n);
         if (i != listingsInProgress.end()) {
             // the root entry is in the map - we are done
@@ -511,10 +510,10 @@ ArchiveReader::ArchiveReaderPrivate::findListingInProgress(const string& url)
         }
         // remove the last element in the path, and look for that
         p = n.rfind('/');
-        if (p != string::npos) {
+        if (p != std::string::npos) {
             n.resize(p);
         }
-    } while (p != string::npos);
+    } while (p != std::string::npos);
     // couldn't find it
     return 0;
 }

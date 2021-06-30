@@ -28,7 +28,6 @@
 #include <algorithm>
 
 using namespace Strigi;
-using namespace std;
 
 MMapFileInputStream::MMapFileInputStream(const char* filepath) {
     int fd = ::open(filepath, O_RDONLY);
@@ -71,7 +70,7 @@ int32_t
 MMapFileInputStream::read(const char*& start, int32_t _min, int32_t _max) {
     if (m_status == Error) return -2;
     if (m_status == Eof) return -1;
-    int32_t n = max(_min, _max);
+    int32_t n = std::max(_min, _max);
     if (n >= m_size - m_position) {
         m_status = Eof;
         n = (int32_t)(m_size - m_position);

@@ -26,7 +26,6 @@ extern "C" {
 #include <sstream>
 
 using namespace Strigi;
-using namespace std;
 
 class LZMAInputStream::Private {
 public:
@@ -149,7 +148,7 @@ LZMAInputStream::Private::fillBuffer(char* start, int32_t space) {
     next_in += (int32_t)inProcessed;
     bytesDecompressed += outProcessed;
     if (res != SZ_OK) {
-        ostringstream str;
+        std::ostringstream str;
         str << "error decompressing dicsize: " << props.dicSize
             << " size: " << p->m_size
             << " decompressed: " << bytesDecompressed;

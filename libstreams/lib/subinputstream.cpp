@@ -22,7 +22,6 @@
 #include <iostream>
 #include <cassert>
 
-using namespace std;
 using namespace Strigi;
 
 SubInputStream::SubInputStream(InputStream *i, int64_t length)
@@ -82,8 +81,8 @@ SubInputStream::reset(int64_t newpos) {
 //         m_position, newpos, m_offset, m_size);
     m_position = m_input->reset(newpos + m_offset);
     if (m_position < m_offset) {
-        cerr << "########### m_position " << m_position << " newpos " << newpos
-            << endl;
+        std::cerr << "########### m_position " << m_position << " newpos " << newpos
+            << std::endl;
         m_status = Error;
         m_error = m_input->error();
     } else {

@@ -22,8 +22,8 @@
 #include <strigi/bufferedstream.h>
 #include <iostream>
 #include <set>
+
 using namespace Strigi;
-using namespace std;
 
 namespace {
 class OleEntryStream;
@@ -83,7 +83,7 @@ public:
 void
 printEntry(const char* d) {
     char type = d[0x42];
-    string name;
+    std::string name;
     for (int i=0; i< d[0x40]; ++i) {
         name.append(d+2*i,1);
     }
@@ -115,7 +115,7 @@ OleEntryStream::fillBuffer(char* start, int32_t space) {
         if (d == 0) {
             m_status = Error;
             fprintf(stderr, "error in small blocks\n");
-	    return -1;
+            return -1;
         }
     } else {
         d = parent->data+(1+parent->currentDataBlock)*512;
@@ -123,8 +123,8 @@ OleEntryStream::fillBuffer(char* start, int32_t space) {
     if (d < parent->data || parent->data + parent->size < d + n) {
         m_status = Error;
         m_error = "Invalid OLE stream.";
-        cerr << "not 0 < " << d-parent->data << " < " << m_size << " "
-            << blocksize << endl;
+        std::cerr << "not 0 < " << d-parent->data << " < " << m_size << " "
+            << blocksize << std::endl;
         return -1;
     }
     memcpy(start, d+blockoffset, n);
@@ -157,7 +157,7 @@ bool
 OleInputStream::Private::readInt32(int32_t offset, int32_t& val) {
     if (offset < 0 || offset + 4 >= size) {
         stream->m_status = Error;
-        stream->m_error = string("pointer out of range.");
+        stream->m_error = std::string("pointer out of range.");
         return false;
     }
     val = readLittleEndianInt32(data + offset);
@@ -189,7 +189,7 @@ OleInputStream::Private::Private(OleInputStream* s, InputStream* input)
     int32_t max = 0;
     batIndex.reserve(nBat);
     data += 76;
-    for (int i = 0; i < ::min(109, nBat); ++i) {
+    for (int i = 0; i < std::min(109, nBat); ++i) {
         int32_t p;
         if (!readInt32(4*i, p)) { return; }
         batIndex.push_back(p);
@@ -210,7 +210,7 @@ OleInputStream::Private::Private(OleInputStream* s, InputStream* input)
     if (size != input->size()) {
         stream->m_status = Error;
         stream->m_error
-            = string("File cannot be read completely: ")+input->error();
+            = std::string("File cannot be read completely: ")+input->error();
         return;
     }
     maxindex = size/512-2;
@@ -345,7 +345,7 @@ OleInputStream::Private::readEntryInfo() {
         currentDataBlock = -1;
         return;
     }
-    string name;
+    std::string name;
     int32_t namesize = d[0x40];
     if (namesize < 2) namesize = 2;
     if (namesize > 0x40) namesize = 0x40;

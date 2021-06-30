@@ -24,7 +24,6 @@
 #include <list>
 #include <cstring>
 
-using namespace std;
 using namespace Strigi;
 
 const char unsigned* CpioInputStream::magic = (const char unsigned *)"070701";

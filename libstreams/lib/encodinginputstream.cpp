@@ -24,6 +24,7 @@
 #include <strigi/encodinginputstream.h>
 #include <iconv.h>
 #include <cerrno>
+
 using namespace Strigi;
 
 #ifdef ICONV_SECOND_ARGUMENT_IS_CONST

@@ -24,10 +24,8 @@
 #include <strigi/bz2inputstream.h>
 #include <strigi/subinputstream.h>
 #include <strigi/textutils.h>
-
 #include <list>
 
-using namespace std;
 using namespace Strigi;
 
 class RpmInputStream::RpmHeaderInfo {
@@ -107,10 +105,10 @@ RpmInputStream::RpmInputStream(InputStream* input)
         if (end > hsize) end = hsize;
 // TODO actually put the data into the objects so the analyzers can use them
 /*        if (type == 6) {
-            string s(b+nindex*16+offset, end-offset);
+            std::string s(b+nindex*16+offset, end-offset);
             printf("%s\n", s.c_str());
         } else if (type == 8 || type == 9) {
-            list<string> v;
+            std::list<std::string> v;
             // TODO handle string arrays
         }
         printf("%i\t%i\t%i\t%i\n", tag, type, offset, count);*/

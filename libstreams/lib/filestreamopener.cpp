@@ -27,15 +27,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#ifdef __MINGW64_VERSION_MAJOR
-#undef stat
-#endif
-
-using namespace std;
 using namespace Strigi;
 
 InputStream*
-FileStreamOpener::openStream(const string& url) {
+FileStreamOpener::openStream(const std::string& url) {
     InputStream* stream = new FileInputStream(url.c_str());
     if (stream->status() != Ok) {
         delete stream;
@@ -44,7 +39,7 @@ FileStreamOpener::openStream(const string& url) {
     return stream;
 }
 int
-FileStreamOpener::stat(const string& url, EntryInfo& e) {
+FileStreamOpener::stat(const std::string& url, EntryInfo& e) {
     struct stat s;
     if (::stat(url.c_str(), &s) == -1) {
         return -1;
@@ -59,7 +54,7 @@ FileStreamOpener::stat(const string& url, EntryInfo& e) {
     e.size = s.st_size;
     e.mtime = s.st_mtime;
     size_t p = url.rfind('/');
-    if (p == string::npos) {
+    if (p == std::string::npos) {
         e.filename = url;
     } else {
         e.filename = url.substr(p+1);

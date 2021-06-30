@@ -24,10 +24,9 @@
 #include <iostream>
 
 using namespace Strigi;
-using namespace std;
 
-void freeStreamList(list<StreamPtr>& l) {
-    list<StreamPtr>::iterator i;
+void freeStreamList(std::list<StreamPtr>& l) {
+    std::list<StreamPtr>::iterator i;
     for (i=l.begin(); i!=l.end(); ++i) {
         i->free();
     }
@@ -47,10 +46,10 @@ addEntry(ArchiveEntryCache::SubEntry* parent,
         ArchiveEntryCache::SubEntry* se) {
     // split path into components, the components are placed in the array
     // 'names'. The filename is kept in the filename member of se
-    vector<string> names;
-    string& name = se->entry.filename;
-    string::size_type p = name.find('/');
-    while (p != string::npos) {
+    std::vector<std::string> names;
+    std::string& name = se->entry.filename;
+    std::string::size_type p = name.find('/');
+    while (p != std::string::npos) {
         names.push_back(name.substr(0, p));
         name.erase(0, p + 1);
         p = name.find('/');
@@ -77,7 +76,7 @@ addEntry(ArchiveEntryCache::SubEntry* parent,
 
 SubStreamProvider*
 subStreamProvider(const Subs& subs, InputStream* input,
-         list<StreamPtr>& streams) {
+         std::list<StreamPtr>& streams) {
     if (input == 0) return 0;
     InputStream* s = input;
 
@@ -132,7 +131,7 @@ subStreamProvider(const Subs& subs, InputStream* input,
     int32_t n = s->read(c, 1024, 0);
     s->reset(0);
     SubStreamProvider* ss;
-    map<bool (*)(const char*, int32_t),
+    std::map<bool (*)(const char*, int32_t),
         SubStreamProvider* (*)(InputStream*)>::const_iterator i;
     for (i = subs.begin(); i != subs.end(); ++i) {
         // check if the header matches for each substreamprovider
@@ -223,7 +222,7 @@ ListingInProgress::nextEntry(int depth) {
             InputStream *es = e->p->currentEntry();
             const char* c;
             while (es->read(c, 1, 0) > 0) {}
-            ce->entry->entry.size = max(es->size(), (int64_t)0);
+            ce->entry->entry.size = std::max(es->size(), (int64_t)0);
         }
         addEntry(e->entry, ce->entry);
         if (!e->p->nextEntry()) {

@@ -21,7 +21,6 @@
 
 #include <cstring>
 
-using namespace std;
 using namespace Strigi;
 
 /* code is based on public domain code at
@@ -50,7 +49,7 @@ bool inalphabet[256];
 unsigned char decoder[133];
 bool initializedAlphabet = false;
 void initialize();
-string decode(const char* in, string::size_type length);
+std::string decode(const char* in, std::string::size_type length);
 
 
 void
@@ -182,13 +181,13 @@ Base64InputStream::Private::fillBuffer(char* start, int32_t space) {
     }
     return nwritten;
 }
-string
-Base64InputStream::decode(const char* in, string::size_type length) {
+std::string
+Base64InputStream::decode(const char* in, std::string::size_type length) {
     initialize();
-    string d;
+    std::string d;
     if (length%4) return d;
     initialize();
-    string::size_type words = length/4;
+    std::string::size_type words = length/4;
     d.reserve(words*3);
     const unsigned char* c = (const unsigned char*)in;
     const unsigned char* e = c + length;
@@ -206,7 +205,7 @@ Base64InputStream::decode(const char* in, string::size_type length) {
             b[2] = (char)((l             << 6) + (decoder[c[3]]));
             d.append(b, 3);
          } else {
-             return string();
+             return std::string();
          }
     }
     if (in[length-2] == '=') {
@@ -214,7 +213,7 @@ Base64InputStream::decode(const char* in, string::size_type length) {
             b[0] = (char)((decoder[c[0]] << 2)+((decoder[c[1]] >> 4)));
             d.append(b, 1);
         } else {
-            return string();
+            return std::string();
         }
     } else if (in[length-1] == '=') {
         if (inalphabet[c[0]]  && inalphabet[c[1]] && inalphabet[c[2]]) {
@@ -223,7 +222,7 @@ Base64InputStream::decode(const char* in, string::size_type length) {
             b[1] = (char)((k             << 4) + (decoder[c[2]] >> 2));
             d.append(b, 2);
         } else {
-            return string();
+            return std::string();
         }
     }
     return d;

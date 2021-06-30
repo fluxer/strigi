@@ -26,7 +26,6 @@
      http://www-igm.univ-mlv.fr/~lecroq/string/node15.html
 */
 
-using namespace std;
 using namespace Strigi;
 
 void
@@ -94,7 +93,7 @@ KmpSearcher::KmpSearcher(const std::string& query) :table(0) {
     setQuery(query);
 }
 void
-KmpSearcher::setQuery(const string& query) {
+KmpSearcher::setQuery(const std::string& query) {
     m_query = query;
     len = (int32_t)query.length();
     const char* p = query.c_str();
@@ -141,13 +140,13 @@ KmpSearcher::search(const char* haystack, int32_t haylen) const {
             v = len - 1 - i;
             turboShift = u - v;
             bcShift = table[(unsigned char)jp[i]] + i;
-            shift = max(turboShift, bcShift);
-            shift = max(shift, bmGs[i]);
+            shift = std::max(turboShift, bcShift);
+            shift = std::max(shift, bmGs[i]);
             if (shift == bmGs[i]) {
-                u = min(len - shift, v);
+                u = std::min(len - shift, v);
             } else {
                 if (turboShift < bcShift) {
-                    shift = max(shift, u + 1);
+                    shift = std::max(shift, u + 1);
                 }
                 u = 0;
             }
@@ -160,7 +159,7 @@ KmpSearcher::search(const char* haystack, int32_t haylen) const {
         if (i < 0) {
             break;
         } else {
-            jp += max(bmGs[i], table[(unsigned char)jp[i]] + i);
+            jp += std::max(bmGs[i], table[(unsigned char)jp[i]] + i);
         }
     }
 #endif

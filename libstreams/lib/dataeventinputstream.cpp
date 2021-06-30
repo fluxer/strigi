@@ -22,7 +22,6 @@
 #include <iostream>
 #include <cassert>
 
-using namespace std;
 using namespace Strigi;
 
 DataEventInputStream::DataEventInputStream(InputStream *i,
@@ -69,9 +68,9 @@ DataEventInputStream::read(const char*& start, int32_t min, int32_t max) {
         }
 #ifndef NDEBUG
         if (totalread != -1 && (m_size != m_position || m_size != totalread)) {
-            cerr << "m_size: " << m_size << " m_position: " << m_position
-                << " totalread: " << totalread << " nread: " << nread << endl;
-            cerr << input->status() << " " << input->error() << endl;
+            std::cerr << "m_size: " << m_size << " m_position: " << m_position
+                << " totalread: " << totalread << " nread: " << nread << std::endl;
+            std::cerr << input->status() << " " << input->error() << std::endl;
         }
 #endif
         assert(m_size == m_position);

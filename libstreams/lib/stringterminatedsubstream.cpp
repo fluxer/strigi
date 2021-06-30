@@ -23,7 +23,6 @@
 #include <cassert>
 #include <iostream>
 
-using namespace std;
 using namespace Strigi;
 
 // TODO add a mechanism that avoid searching for a stop point again after a

@@ -27,7 +27,6 @@
 #include <strigi/textutils.h>
 #include <cstring>
 
-
 using namespace Strigi;
 
 bool

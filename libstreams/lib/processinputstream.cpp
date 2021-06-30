@@ -24,12 +24,11 @@
 #include <unistd.h>
 #include <signal.h>
 
-using namespace std;
 using namespace Strigi;
 
 extern char **environ;
 
-ProcessInputStream::ProcessInputStream(const vector<string>& a,
+ProcessInputStream::ProcessInputStream(const std::vector<std::string>& a,
         InputStream* input) {
     this->input = input;
     fdin = fdout = pid = -1;

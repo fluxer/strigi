@@ -23,11 +23,10 @@
 #include <sstream>
 #include <cstring>
 
-using namespace std;
 using namespace Strigi;
 
-const string SdfInputStream::delimiter("$$$$");
-const string SdfInputStream::label("V2000");
+const std::string SdfInputStream::delimiter("$$$$");
+const std::string SdfInputStream::label("V2000");
 
 SdfInputStream::SdfInputStream(InputStream* input)
         : SubStreamProvider(input), substream(0), entrynumber(0),
@@ -49,7 +48,7 @@ const char*
 skip80Line(const char* data, int32_t size) {
     if (size <= 0) return 0;
     // EOL can be at position 80
-    int max = min(size, 81);
+    int max = std::min(size, 81);
     int i;
     for (i=0; i<max && data[i] != '\n' && data[i] != '\r'; ++i) {
     }
@@ -154,7 +153,7 @@ SdfInputStream::nextEntry() {
 
         m_entryinfo.filename.assign("Molecule");
         entrynumber++;
-        ostringstream o;
+        std::ostringstream o;
         o << entrynumber;
         m_entryinfo.filename.append(o.str());
 
