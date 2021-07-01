@@ -32,7 +32,6 @@
 #include "../rdfnamespaces.h"
 
 using namespace Strigi;
-using namespace std;
 
 static const char *dcNS = "http://purl.org/dc/elements/1.1/";
 static const char *metaNS = "urn:oasis:names:tc:opendocument:xmlns:meta:1.0";
@@ -41,7 +40,7 @@ static const char *opfNS = "http://www.idpf.org/2007/opf";
 //static const char *svgNS = "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0";
 //static const char *textNS = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
 
-const string
+const std::string
     typePropertyName(
         STRIGI_RDF "type"),
     fullnamePropertyName(
@@ -132,7 +131,7 @@ void OdfMetaHelperAnalyzer::startElement(const char *localname, const char *pref
 		   if(strcmp(attributes[2+i*5], metaNS) ==0) {
 			const char *attrName(attributes[0+i*5]);
 			int stringLength = strlen(attributes[3+i*5]) - strlen(attributes[4+i*5]);
-			string line(attributes[3+i*5],stringLength);
+			std::string line(attributes[3+i*5],stringLength);
 
 		   	if(strcmp(attrName, "word-count") ==0 ){
 				result->addTriplet(result->path(), wordCountPropertyName, line);
@@ -175,11 +174,11 @@ void OdfMetaHelperAnalyzer::characters(const char *data, uint32_t length) {
 
     if(m_currentField != NULL) {
 	if(m_currentField == &creatorPropertyName) {
-	    string creatorUri = result->newAnonymousUri();
+	    std::string creatorUri = result->newAnonymousUri();
 	    result->addTriplet(result->path(), *m_currentField, creatorUri);
 	    result->addTriplet(creatorUri, typePropertyName, contactClassName);
-	    result->addTriplet(creatorUri, fullnamePropertyName, string(data,length));
+	    result->addTriplet(creatorUri, fullnamePropertyName, std::string(data,length));
 	} else
-	    result->addTriplet(result->path(), *m_currentField, string(data, length));
+	    result->addTriplet(result->path(), *m_currentField, std::string(data, length));
     }
 }

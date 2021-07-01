@@ -23,16 +23,16 @@
 #include <strigi/fieldpropertiesdb.h>
 #include <iostream>
 #include <stdio.h>
-using namespace Strigi;
-using namespace std;
 
-RegisteredField::RegisteredField(const string& k, const string& t, int m,
+using namespace Strigi;
+
+RegisteredField::RegisteredField(const std::string& k, const std::string& t, int m,
         const RegisteredField* p)
         : m_key(k), m_type(t), m_maxoccurs(m), m_parent(p), m_writerdata(0),
 	  m_properties(FieldPropertiesDb::db().properties(k)) {
 }
 
-RegisteredField::RegisteredField(const string& fieldname):
+RegisteredField::RegisteredField(const std::string& fieldname):
     m_key(fieldname),
     m_type(FieldPropertiesDb::db().properties(fieldname).typeUri()), // obsolete - is never used
     m_maxoccurs(FieldPropertiesDb::db().properties(fieldname).maxCardinality()), // obsolete - is never used
@@ -41,25 +41,25 @@ RegisteredField::RegisteredField(const string& fieldname):
     m_properties(FieldPropertiesDb::db().properties(fieldname)) {
 }
 
-const string FieldRegister::floatType = "float";
-const string FieldRegister::integerType = "integer";
-const string FieldRegister::binaryType = "binary";
-const string FieldRegister::stringType = "string";
-const string FieldRegister::datetimeType = "datetime";
+const std::string FieldRegister::floatType = "float";
+const std::string FieldRegister::integerType = "integer";
+const std::string FieldRegister::binaryType = "binary";
+const std::string FieldRegister::stringType = "string";
+const std::string FieldRegister::datetimeType = "datetime";
 
-const string FieldRegister::pathFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#url";
-const string FieldRegister::parentLocationFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#isPartOf";
-const string FieldRegister::encodingFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#characterSet";
-const string FieldRegister::mimetypeFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#mimeType";
-const string FieldRegister::filenameFieldName = "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileName";
-const string FieldRegister::contentFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#plainTextContent";
-const string FieldRegister::extensionFieldName = "http://freedesktop.org/standards/xesam/1.0/core#fileExtension";
-const string FieldRegister::embeddepthFieldName = "http://strigi.sf.net/ontologies/0.9#depth";
-const string FieldRegister::mtimeFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#lastModified";
-const string FieldRegister::sizeFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#contentSize";
-const string FieldRegister::typeFieldName = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+const std::string FieldRegister::pathFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#url";
+const std::string FieldRegister::parentLocationFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#isPartOf";
+const std::string FieldRegister::encodingFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#characterSet";
+const std::string FieldRegister::mimetypeFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#mimeType";
+const std::string FieldRegister::filenameFieldName = "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileName";
+const std::string FieldRegister::contentFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#plainTextContent";
+const std::string FieldRegister::extensionFieldName = "http://freedesktop.org/standards/xesam/1.0/core#fileExtension";
+const std::string FieldRegister::embeddepthFieldName = "http://strigi.sf.net/ontologies/0.9#depth";
+const std::string FieldRegister::mtimeFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#lastModified";
+const std::string FieldRegister::sizeFieldName = "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#contentSize";
+const std::string FieldRegister::typeFieldName = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 
-const string FieldRegister::defaultNamespace = "http://strigi.sf.net/ontologies/0.9#";
+const std::string FieldRegister::defaultNamespace = "http://strigi.sf.net/ontologies/0.9#";
 
 FieldRegister::FieldRegister() {
     pathField = registerField(pathFieldName);
@@ -76,14 +76,14 @@ FieldRegister::FieldRegister() {
 }
 
 FieldRegister::~FieldRegister() {
-    map<string, RegisteredField*>::const_iterator i;
+    std::map<std::string, RegisteredField*>::const_iterator i;
     for (i = m_fields.begin(); i != m_fields.end(); ++i) {
         delete i->second;
     }
 }
 const RegisteredField*
-FieldRegister::registerField(const string& fieldname,
-        const string& type, int maxoccurs, const RegisteredField* parent) {
+FieldRegister::registerField(const std::string& fieldname,
+        const std::string& type, int maxoccurs, const RegisteredField* parent) {
 	
     //TODO (neksa) uncomment the warning.
     // fprintf(stderr, "WARNING: this FieldRegister::registerField call is obsolete. Use registerField(\"%s\") instead.\n",
@@ -94,8 +94,8 @@ FieldRegister::registerField(const string& fieldname,
     return registerField(fieldname);
 }
 const RegisteredField*
-FieldRegister::registerField(const string& fieldname) {
-    map<string, RegisteredField*>::iterator i = m_fields.find(fieldname);
+FieldRegister::registerField(const std::string& fieldname) {
+    std::map<std::string, RegisteredField*>::iterator i = m_fields.find(fieldname);
     if (i == m_fields.end()) {
 	// if an instance of the RegisteredField has never been created before:
         //  - check with the fieldpropertiesdb first

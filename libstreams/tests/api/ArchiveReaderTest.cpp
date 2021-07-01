@@ -24,7 +24,6 @@
 #include <dirent.h>
 #include <unistd.h>
 
-using namespace std;
 using namespace Strigi;
 
 int errors;
@@ -49,7 +48,7 @@ test2(const char* path) {
     ArchiveReader::DirLister dl = r.dirEntries(path);
     EntryInfo e;
     while (dl.nextEntry(e)) {
-        string filepath(path);
+        std::string filepath(path);
         filepath += "/";
         filepath += e.filename;
         if (e.type == EntryInfo::File) {
@@ -66,7 +65,7 @@ walkdirectories(const char* path, void (*callback)(const char*)) {
         callback(path);
         return;
     }
-    string p(path);
+    std::string p(path);
     if (p.size() > 0 && p[p.size()-1] != '/') {
         p.append("/");
     }
@@ -77,8 +76,8 @@ walkdirectories(const char* path, void (*callback)(const char*)) {
             subdir = readdir(dir);
             continue;
         }
-        string name = subdir->d_name;
-        string filepath = p + name;
+        std::string name = subdir->d_name;
+        std::string filepath = p + name;
         if (lstat(filepath.c_str(), &dirstat) == 0) {
             if (S_ISREG(dirstat.st_mode)) {
                 callback(filepath.c_str());

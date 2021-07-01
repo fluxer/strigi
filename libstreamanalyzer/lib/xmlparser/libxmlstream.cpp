@@ -21,11 +21,10 @@
 #include <cstring>
 #include <stack>
 #include <libxml/parser.h>
-using namespace std;
 
 class SimpleNodeParser {
     int depth;
-    stack<SimpleNode*> nodes;
+    std::stack<SimpleNode*> nodes;
     xmlSAXHandler handler;
     static void charactersSAXFunc(void* ctx, const xmlChar * ch, int len);
     static void errorSAXFunc(void* /*ctx*/, const char * /*msg*/, ...) {}
@@ -42,10 +41,10 @@ public:
     }
     ~SimpleNodeParser() {
     }
-    void parse(const string& xml, SimpleNode& node);
+    void parse(const std::string& xml, SimpleNode& node);
 };
 void
-SimpleNodeParser::parse(const string& xml, SimpleNode& node) {
+SimpleNodeParser::parse(const std::string& xml, SimpleNode& node) {
     depth = 0;
     nodes.push(&node);
     if (xmlSAXUserParseMemory(&handler, this, xml.c_str(), (int)xml.length())) {
@@ -100,7 +99,7 @@ SimpleNodeParser::endElementSAXFunc(void* ctx, const xmlChar* name) {
     p->nodes.pop();
     p->depth--;
 }
-SimpleNode::SimpleNode(const string& xml) :parent(0), next(0) {
+SimpleNode::SimpleNode(const std::string& xml) :parent(0), next(0) {
     SimpleNodeParser parser;
     parser.parse(xml, *this);
 }

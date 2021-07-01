@@ -26,7 +26,6 @@
 #include <cstring>
 
 using namespace Strigi;
-using namespace std;
 
 SaxHelperAnalyzer::SaxHelperAnalyzer() {
     ctxt = 0;

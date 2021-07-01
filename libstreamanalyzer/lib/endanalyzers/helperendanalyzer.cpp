@@ -36,7 +36,6 @@
 #include <unistd.h>
 
 using namespace Strigi;
-using namespace std;
 
 void
 HelperEndAnalyzerFactory::registerFields(FieldRegister& reg) {
@@ -47,7 +46,7 @@ class HelperProgramConfig::HelperRecord {
 public:
     const unsigned char* magic;
     ssize_t magicsize;
-    vector<string> arguments;
+    std::vector<std::string> arguments;
     bool readfromstdin;
 };
 
@@ -57,14 +56,14 @@ HelperProgramConfig::HelperProgramConfig() {
     };*/
 
     // make a vector with all the paths
-    vector<string> paths;
-    string path;
+    std::vector<std::string> paths;
+    std::string path;
     if (getenv("PATH")) {
         path.assign(getenv("PATH"));
     }
-    string::size_type start = 0;
-    string::size_type end = path.find(':');
-    while (end != string::npos) {
+    std::string::size_type start = 0;
+    std::string::size_type end = path.find(':');
+    while (end != std::string::npos) {
         if (path[start] == '/') {
             paths.push_back(path.substr(start, end-start));
         }
@@ -75,7 +74,7 @@ HelperProgramConfig::HelperProgramConfig() {
         paths.push_back(path.substr(start));
     }
 
-    string exepath = findPath("pdftotext", paths);
+    std::string exepath = findPath("pdftotext", paths);
     if (exepath.length()) {
         HelperRecord* h = new HelperRecord();
         h->magic = (unsigned char*)"%PDF-1.";
@@ -106,7 +105,7 @@ HelperProgramConfig::findPath(const std::string& exe,
         const std::vector<std::string>& paths) const {
     struct stat s;
     for (uint i=0; i<paths.size(); ++i) {
-        string path(paths[i]);
+        std::string path(paths[i]);
         path += '/';
         path += exe;
         if (stat(path.c_str(), &s) == 0 && S_ISREG(s.st_mode)) {
@@ -116,14 +115,14 @@ HelperProgramConfig::findPath(const std::string& exe,
     return "";
 }
 HelperProgramConfig::~HelperProgramConfig() {
-    vector<HelperRecord*>::const_iterator i;
+    std::vector<HelperRecord*>::const_iterator i;
     for (i = helpers.begin(); i != helpers.end(); ++i) {
         delete *i;
     }
 }
 HelperProgramConfig::HelperRecord*
 HelperProgramConfig::findHelper(const char* header, int32_t headersize) const {
-    vector<HelperRecord*>::const_iterator i;
+    std::vector<HelperRecord*>::const_iterator i;
     for (i = helpers.begin(); i != helpers.end(); ++i) {
         HelperRecord* h = *i;
         if (headersize >= h->magicsize) {
@@ -158,14 +157,14 @@ HelperEndAnalyzer::analyze(AnalysisResult& idx, InputStream* in){
                 TextEndAnalyzer t;
                 state = t.analyze(idx, &pis);
             } else {
-                string filepath;
+                std::string filepath;
                 bool fileisondisk = checkForFile(idx);
                 if (fileisondisk) {
                     filepath = idx.path();
                 } else {
                     filepath = writeToTempFile(in);
                 }
-                vector<string> args = h->arguments;
+                std::vector<std::string> args = h->arguments;
                 for (uint j=0; j<args.size(); ++j) {
                     if (args[j] == "%s") {
                         args[j] = filepath;
@@ -187,9 +186,9 @@ HelperEndAnalyzer::analyze(AnalysisResult& idx, InputStream* in){
     }
     return state;
 }
-string
+std::string
 HelperEndAnalyzer::writeToTempFile(InputStream *in) const {
-    string filepath = "/tmp/strigiXXXXXX";
+    std::string filepath = "/tmp/strigiXXXXXX";
     char* p = (char*)filepath.c_str();
     int fd = mkstemp(p);
     if (fd == -1) {

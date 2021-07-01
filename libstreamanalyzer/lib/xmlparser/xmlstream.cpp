@@ -23,17 +23,16 @@
 #include <vector>
 #include <stack>
 #include <stdlib.h>
-using namespace std;
 
 class XMLStream::Private {
 private:
 public:
     const SimpleNode root;
     const SimpleNode* activeNode;
-    Private(const string& xml) :root(xml), activeNode(&root) {
+    Private(const std::string& xml) :root(xml), activeNode(&root) {
     }
 };
-XMLStream::XMLStream(const string& xml) {
+XMLStream::XMLStream(const std::string& xml) {
     p = new Private(xml);
 }
 XMLStream::~XMLStream() {
@@ -41,7 +40,7 @@ XMLStream::~XMLStream() {
 }
 void
 XMLStream::setFromAttribute(bool& v, const char* name) {
-    map<string, string>::const_iterator i = p->activeNode->atts.find(name);
+    std::map<std::string, std::string>::const_iterator i = p->activeNode->atts.find(name);
     if (i != p->activeNode->atts.end()
             && (i->second == "true" || i->second == "1")) {
         v = true;
@@ -51,7 +50,7 @@ XMLStream::setFromAttribute(bool& v, const char* name) {
 }
 void
 XMLStream::setFromAttribute(int& v, const char* name) {
-    map<string, string>::const_iterator i = p->activeNode->atts.find(name);
+    std::map<std::string, std::string>::const_iterator i = p->activeNode->atts.find(name);
     if (i == p->activeNode->atts.end()) {
         v = 0;
     } else {
@@ -59,15 +58,15 @@ XMLStream::setFromAttribute(int& v, const char* name) {
     }
 }
 void
-XMLStream::setFromAttribute(string& v, const char* name) {
-    map<string, string>::const_iterator i = p->activeNode->atts.find(name);
+XMLStream::setFromAttribute(std::string& v, const char* name) {
+    std::map<std::string, std::string>::const_iterator i = p->activeNode->atts.find(name);
     if (i == p->activeNode->atts.end()) {
         v = "";
     } else {
         v = i->second;
     }
 }
-const string&
+const std::string&
 XMLStream::getTagName() const {
     return p->activeNode->tagname;
 }
@@ -82,7 +81,7 @@ operator>>(XMLStream& in, int& e) {
     return in;
 }
 XMLStream&
-operator>>(XMLStream& in, string& e) {
+operator>>(XMLStream& in, std::string& e) {
     e = in.currentNode().text;
     return in;
 }

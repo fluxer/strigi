@@ -25,14 +25,13 @@
 #include <strigi/streamlineanalyzer.h>
 #include <iostream>
 
-using namespace std;
 using namespace Strigi;
 
 EventThroughAnalyzer::~EventThroughAnalyzer() {
     if (datastream) {
         delete datastream;
     }
-    vector<StreamEventAnalyzer*>::iterator e;
+    std::vector<StreamEventAnalyzer*>::iterator e;
     for (e = event.begin(); e != event.end(); ++e) {
         delete *e;
     }
@@ -51,7 +50,7 @@ EventThroughAnalyzer::connectInputStream(InputStream* in) {
     if (event.size()) {
         datastream = new DataEventInputStream(in, *this);
         ready = false;
-        vector<StreamEventAnalyzer*>::iterator i;
+        std::vector<StreamEventAnalyzer*>::iterator i;
         for (i = event.begin(); i != event.end(); ++i) {
             (*i)->startAnalysis(result);
         }
@@ -65,7 +64,7 @@ EventThroughAnalyzer::isReadyWithStream() {
 bool
 EventThroughAnalyzer::handleData(const char* data, uint32_t size) {
     if (ready) return false;
-    vector<StreamEventAnalyzer*>::iterator i;
+    std::vector<StreamEventAnalyzer*>::iterator i;
     bool more = false;
     for (i = event.begin(); i != event.end(); ++i) {
         (*i)->handleData(data, size);
@@ -79,26 +78,26 @@ EventThroughAnalyzer::handleData(const char* data, uint32_t size) {
 }
 void
 EventThroughAnalyzer::handleEnd() {
-    vector<StreamEventAnalyzer*>::iterator i;
+    std::vector<StreamEventAnalyzer*>::iterator i;
     for (i = event.begin(); i != event.end(); ++i) {
         (*i)->endAnalysis(datastream->status() == Eof);
     }
 }
 StreamThroughAnalyzer*
 EventThroughAnalyzerFactory::newInstance() const {
-    vector<StreamEventAnalyzer*> event;
-    vector<StreamEventAnalyzerFactory*>::iterator ea;
+    std::vector<StreamEventAnalyzer*> event;
+    std::vector<StreamEventAnalyzerFactory*>::iterator ea;
     for (ea = eventfactories.begin(); ea != eventfactories.end(); ++ea) {
         event.push_back((*ea)->newInstance());
     }
-    vector<StreamSaxAnalyzer*> sax;
-    vector<StreamSaxAnalyzerFactory*>::iterator sa;
+    std::vector<StreamSaxAnalyzer*> sax;
+    std::vector<StreamSaxAnalyzerFactory*>::iterator sa;
     for (sa = saxfactories.begin(); sa != saxfactories.end(); ++sa) {
         sax.push_back((*sa)->newInstance());
     }
     event.push_back(new SaxEventAnalyzer(sax));
-    vector<StreamLineAnalyzer*> line;
-    vector<StreamLineAnalyzerFactory*>::iterator la;
+    std::vector<StreamLineAnalyzer*> line;
+    std::vector<StreamLineAnalyzerFactory*>::iterator la;
     for (la = linefactories.begin(); la != linefactories.end(); ++la) {
         line.push_back((*la)->newInstance());
     }
@@ -108,15 +107,15 @@ EventThroughAnalyzerFactory::newInstance() const {
 }
 void
 EventThroughAnalyzerFactory::registerFields(Strigi::FieldRegister& reg) {
-    vector<StreamEventAnalyzerFactory*>::iterator ea;
+    std::vector<StreamEventAnalyzerFactory*>::iterator ea;
     for (ea = eventfactories.begin(); ea != eventfactories.end(); ++ea) {
         (*ea)->registerFields(reg);
     }
-    vector<StreamSaxAnalyzerFactory*>::iterator sa;
+    std::vector<StreamSaxAnalyzerFactory*>::iterator sa;
     for (sa = saxfactories.begin(); sa != saxfactories.end(); ++sa) {
         (*sa)->registerFields(reg);
     }
-    vector<StreamLineAnalyzerFactory*>::iterator la;
+    std::vector<StreamLineAnalyzerFactory*>::iterator la;
     for (la = linefactories.begin(); la != linefactories.end(); ++la) {
         (*la)->registerFields(reg);
     }

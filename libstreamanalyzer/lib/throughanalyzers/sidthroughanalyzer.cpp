@@ -26,10 +26,8 @@
 #include <strigi/fieldtypes.h>
 #include "rdfnamespaces.h"
 #include <cstring>
-
 #include <iostream>
 
-using namespace std;
 using namespace Strigi;
 
 // AnalyzerFactory
@@ -69,9 +67,9 @@ SidThroughAnalyzer::connectInputStream(InputStream* in) {
     int version;
     int num_songs;
     int start_song;
-    string title;
-    string artist;
-    string copyright;
+    std::string title;
+    std::string artist;
+    std::string copyright;
 
     // read the beginning of the stream and make sure it looks ok
     if (4 != in->read(c, 4, 4)) {
@@ -140,7 +138,7 @@ SidThroughAnalyzer::connectInputStream(InputStream* in) {
     copyright = c;
     
     // read the data on the 1st icon
-    string artistUri = analysisResult->newAnonymousUri();
+    std::string artistUri = analysisResult->newAnonymousUri();
 
     analysisResult->addValue(factory->artistField, artistUri);
     analysisResult->addTriplet(artistUri,

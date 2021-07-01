@@ -26,7 +26,6 @@
 #include <strigi/analysisresult.h>
 #include <strigi/fieldtypes.h>
 
-using namespace std;
 using namespace Strigi;
 
 void

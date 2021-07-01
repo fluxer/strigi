@@ -24,7 +24,6 @@
 #include <strigi/fieldtypes.h>
 #include <cstring>
 
-using namespace std;
 using namespace Strigi;
 
 // AnalyzerFactory

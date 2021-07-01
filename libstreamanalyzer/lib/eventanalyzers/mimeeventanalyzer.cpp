@@ -30,7 +30,6 @@
 // http://standards.freedesktop.org/shared-mime-info-spec/shared-mime-info-spec-0.12.html
 
 using namespace Strigi;
-using namespace std;
 
 class MimeEventAnalyzer::Private {
 public:
@@ -66,7 +65,7 @@ void MimeEventAnalyzer::handleData(const char* data, uint32_t length) {
     if (wasCalled) return;
     wasCalled = true;
 
-    const string mime = magic_buffer(p->magic, data, length);
+    const std::string mime = magic_buffer(p->magic, data, length);
     if (mime.size() > 0) {
         p->analysisResult->addValue(p->factory->mimetypefield, mime);
         p->analysisResult->setMimeType(mime);

@@ -26,7 +26,6 @@
 #include <strigi/analysisresult.h>
 #include <strigi/fieldtypes.h>
 
-using namespace std;
 using namespace Strigi;
 
 void
@@ -60,7 +59,7 @@ LzmaEndAnalyzer::analyze(AnalysisResult& idx, InputStream* in) {
         return TarEndAnalyzer::staticAnalyze(idx, &stream);
     } else {
         std::string name = idx.fileName();
-        string::size_type len = name.length();
+        std::string::size_type len = name.length();
         if (len > 5 && name.substr(len-5)==".lzma") {
             name = name.substr(0, len-5);
         }

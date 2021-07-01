@@ -23,8 +23,8 @@
 #include <strigi/analysisresult.h>
 #include <strigi/textutils.h>
 #include <iostream>
+
 using namespace Strigi;
-using namespace std;
 
 void
 TextEndAnalyzerFactory::registerFields(FieldRegister& reg) {

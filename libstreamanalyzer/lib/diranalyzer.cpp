@@ -31,7 +31,6 @@
 #include <sys/stat.h>
 
 using namespace Strigi;
-using namespace std;
 
 class DirAnalyzer::Private {
 public:
@@ -47,13 +46,13 @@ public:
     }
     ~Private() {
     }
-    int analyzeDir(const string& dir, int nthreads, AnalysisCaller* caller,
-        const string& lastToSkip);
-    int updateDirs(const vector<string>& dir, int nthreads,
+    int analyzeDir(const std::string& dir, int nthreads, AnalysisCaller* caller,
+        const std::string& lastToSkip);
+    int updateDirs(const std::vector<std::string>& dir, int nthreads,
         AnalysisCaller* caller);
     void analyze(StreamAnalyzer*);
     void update(StreamAnalyzer*);
-    int analyzeFile(const string& path, time_t mtime, bool realfile);
+    int analyzeFile(const std::string& path, time_t mtime, bool realfile);
 };
 
 struct DA {
@@ -88,7 +87,7 @@ DirAnalyzer::~DirAnalyzer() {
     delete p;
 }
 int
-DirAnalyzer::Private::analyzeFile(const string& path, time_t mtime,
+DirAnalyzer::Private::analyzeFile(const std::string& path, time_t mtime,
         bool realfile) {
     AnalysisResult analysisresult(path, mtime, *manager.indexWriter(),
         analyzer, "");
@@ -105,16 +104,16 @@ void
 DirAnalyzer::Private::analyze(StreamAnalyzer* analyzer) {
     IndexWriter& indexWriter = *manager.indexWriter();
     try {
-        string parentpath;
-        vector<pair<string, struct stat> > dirfiles;
+        std::string parentpath;
+        std::vector<std::pair<std::string, struct stat> > dirfiles;
         int r = dirlister.nextDir(parentpath, dirfiles);
 
         while (r == 0 && (caller == 0 || caller->continueAnalysis())) {
-            vector<pair<string, struct stat> >::const_iterator end
+            std::vector<std::pair<std::string, struct stat> >::const_iterator end
                 = dirfiles.end();
-            for (vector<pair<string, struct stat> >::const_iterator i
+            for (std::vector<std::pair<std::string, struct stat> >::const_iterator i
                     = dirfiles.begin(); i != end; ++i) {
-                const string& filepath(i->first);
+                const std::string& filepath(i->first);
                 struct stat s = i->second;
                 AnalysisResult analysisresult(filepath, s.st_mtime,
                     indexWriter, *analyzer, parentpath);
@@ -136,12 +135,12 @@ DirAnalyzer::Private::analyze(StreamAnalyzer* analyzer) {
 void
 DirAnalyzer::Private::update(StreamAnalyzer* analyzer) {
     IndexReader* reader = manager.indexReader();
-    vector<pair<string, struct stat> > dirfiles;
-    map<string, time_t> dbdirfiles;
-    vector<string> toDelete;
-    vector<pair<string, struct stat> > toIndex;
+    std::vector<std::pair<std::string, struct stat> > dirfiles;
+    std::map<std::string, time_t> dbdirfiles;
+    std::vector<std::string> toDelete;
+    std::vector<std::pair<std::string, struct stat> > toIndex;
     try {
-        string path;
+        std::string path;
         // loop over all files that exist in the index
         int r = dirlister.nextDir(path, dirfiles);
         while (r >= 0 && (caller == 0 || caller->continueAnalysis())) {
@@ -149,16 +148,16 @@ DirAnalyzer::Private::update(StreamAnalyzer* analyzer) {
             reader->getChildren(path, dbdirfiles);
 
             // get all files in this directory
-            vector<pair<string, struct stat> >::const_iterator end
+            std::vector<std::pair<std::string, struct stat> >::const_iterator end
                 = dirfiles.end();
-            map<string, time_t>::const_iterator dbend = dbdirfiles.end();
-            for (vector<pair<string, struct stat> >::const_iterator i
+            std::map<std::string, time_t>::const_iterator dbend = dbdirfiles.end();
+            for (std::vector<std::pair<std::string, struct stat> >::const_iterator i
                     = dirfiles.begin(); i != end; ++i) {
-                const string& filepath(i->first);
+                const std::string& filepath(i->first);
                 time_t mtime = i->second.st_mtime;
 
                 // check if this file is new or not
-                map<string, time_t>::iterator j = dbdirfiles.find(filepath);
+                std::map<std::string, time_t>::iterator j = dbdirfiles.find(filepath);
                 bool newfile = j == dbend;
                 bool updatedfile = !newfile && j->second != mtime;
 
@@ -177,16 +176,16 @@ DirAnalyzer::Private::update(StreamAnalyzer* analyzer) {
             }
             // all the files left in dbdirfiles, are not in the current
             // directory and should be deleted
-            for (map<string, time_t>::const_iterator i = dbdirfiles.begin();
+            for (std::map<std::string, time_t>::const_iterator i = dbdirfiles.begin();
                     i != dbend; ++i) {
                 toDelete.push_back(i->first);
             }
             if (toDelete.size() > 0) {
                 manager.indexWriter()->deleteEntries(toDelete);
             }
-            vector<pair<string, struct stat> >::const_iterator fend
+            std::vector<std::pair<std::string, struct stat> >::const_iterator fend
                 = toIndex.end();
-            for (vector<pair<string, struct stat> >::const_iterator i
+            for (std::vector<std::pair<std::string, struct stat> >::const_iterator i
                     = toIndex.begin(); i != fend; ++i) {
                 AnalysisResult analysisresult(i->first, i->second.st_mtime,
                     *manager.indexWriter(), *analyzer, path);
@@ -207,14 +206,14 @@ DirAnalyzer::Private::update(StreamAnalyzer* analyzer) {
     }
 }
 int
-DirAnalyzer::analyzeDir(const string& dir, int nthreads, AnalysisCaller* c,
-        const string& lastToSkip) {
+DirAnalyzer::analyzeDir(const std::string& dir, int nthreads, AnalysisCaller* c,
+        const std::string& lastToSkip) {
     return p->analyzeDir(dir, nthreads, c, lastToSkip);
 }
 namespace {
-string
-removeTrailingSlash(const string& path) {
-    string cleanpath(path);
+std::string
+removeTrailingSlash(const std::string& path) {
+    std::string cleanpath(path);
     if (path.length() && path[path.length()-1] == '/') {
         cleanpath.resize(path.length()-1);
     }
@@ -222,12 +221,12 @@ removeTrailingSlash(const string& path) {
 }
 }
 int
-DirAnalyzer::Private::analyzeDir(const string& dir, int nthreads,
-        AnalysisCaller* c, const string& lastToSkip) {
+DirAnalyzer::Private::analyzeDir(const std::string& dir, int nthreads,
+        AnalysisCaller* c, const std::string& lastToSkip) {
     caller = c;
     // check if the path exists and if it is a file or a directory
     struct stat s;
-    const string path(removeTrailingSlash(dir));
+    const std::string path(removeTrailingSlash(dir));
     int retval;
     if (path.size() == 0) {
         // special case for analyzing the root directory '/' on unix
@@ -250,13 +249,13 @@ DirAnalyzer::Private::analyzeDir(const string& dir, int nthreads,
     }
 
     if (nthreads < 1) nthreads = 1;
-    vector<StreamAnalyzer*> analyzers(nthreads);
+    std::vector<StreamAnalyzer*> analyzers(nthreads);
     analyzers[0] = &analyzer;
     for (int i=1; i<nthreads; ++i) {
         analyzers[i] = new StreamAnalyzer(config);
         analyzers[i]->setIndexWriter(*manager.indexWriter());
     }
-    vector<STRIGI_THREAD_TYPE> threads;
+    std::vector<STRIGI_THREAD_TYPE> threads;
     threads.resize(nthreads-1);
     for (int i=1; i<nthreads; i++) {
         DA* da = new DA();
@@ -273,13 +272,13 @@ DirAnalyzer::Private::analyzeDir(const string& dir, int nthreads,
     return 0;
 }
 int
-DirAnalyzer::updateDir(const string& dir, int nthreads, AnalysisCaller* caller){
-    vector<string> dirs;
+DirAnalyzer::updateDir(const std::string& dir, int nthreads, AnalysisCaller* caller){
+    std::vector<std::string> dirs;
     dirs.push_back(dir);
     return p->updateDirs(dirs, nthreads, caller);
 }
 int
-DirAnalyzer::Private::updateDirs(const vector<string>& dirs, int nthreads,
+DirAnalyzer::Private::updateDirs(const std::vector<std::string>& dirs, int nthreads,
         AnalysisCaller* c) {
     IndexReader* reader = manager.indexReader();
     if (reader == 0) return -1;
@@ -287,17 +286,17 @@ DirAnalyzer::Private::updateDirs(const vector<string>& dirs, int nthreads,
 
     // create the streamanalyzers
     if (nthreads < 1) nthreads = 1;
-    vector<StreamAnalyzer*> analyzers(nthreads);
+    std::vector<StreamAnalyzer*> analyzers(nthreads);
     analyzers[0] = &analyzer;
     for (int i=1; i<nthreads; ++i) {
         analyzers[i] = new StreamAnalyzer(config);
         analyzers[i]->setIndexWriter(*manager.indexWriter());
     }
-    vector<STRIGI_THREAD_TYPE> threads;
+    std::vector<STRIGI_THREAD_TYPE> threads;
     threads.resize(nthreads-1);
 
     // loop over all directories that should be updated
-    for (vector<string>::const_iterator d =dirs.begin(); d != dirs.end(); ++d) {
+    for (std::vector<std::string>::const_iterator d =dirs.begin(); d != dirs.end(); ++d) {
         dirlister.startListing(removeTrailingSlash(*d));
         for (int i=1; i<nthreads; i++) {
             DA* da = new DA();
@@ -318,8 +317,8 @@ DirAnalyzer::Private::updateDirs(const vector<string>& dirs, int nthreads,
     }
 
     // remove the files that were not encountered from the index
-/*    vector<string> todelete(1);
-    map<string,time_t>::iterator it = dbfiles.begin();
+/*    std::vector<std::string> todelete(1);
+    std::map<std::string,time_t>::iterator it = dbfiles.begin();
     while (it != dbfiles.end()) {
         todelete[0].assign(it->first);
         manager.indexWriter()->deleteEntries(todelete);
@@ -331,7 +330,7 @@ DirAnalyzer::Private::updateDirs(const vector<string>& dirs, int nthreads,
     return 0;
 }
 int
-DirAnalyzer::updateDirs(const vector<string>& dirs, int nthreads,
+DirAnalyzer::updateDirs(const std::vector<std::string>& dirs, int nthreads,
         AnalysisCaller* caller) {
     return p->updateDirs(dirs, nthreads, caller);
 }

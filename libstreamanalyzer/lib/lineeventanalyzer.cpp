@@ -29,8 +29,8 @@
 #include <cstring>
 #include <cassert>
 #include <cerrno>
+
 using namespace Strigi;
-using namespace std;
 
 #ifdef ICONV_SECOND_ARGUMENT_IS_CONST
      #define ICONV_CONST const
@@ -41,7 +41,7 @@ using namespace std;
 // end of line is \r, \n or \r\n
 #define CONVBUFSIZE 65536
 
-LineEventAnalyzer::LineEventAnalyzer(vector<StreamLineAnalyzer*>& l)
+LineEventAnalyzer::LineEventAnalyzer(std::vector<StreamLineAnalyzer*>& l)
         :line(l), converter((iconv_t)-1), numAnalyzers((uint)l.size()),
          convBuffer(new char[CONVBUFSIZE]), ready(true), initialized(false) {
     started = new bool[l.size()];
@@ -50,7 +50,7 @@ LineEventAnalyzer::LineEventAnalyzer(vector<StreamLineAnalyzer*>& l)
     }
 }
 LineEventAnalyzer::~LineEventAnalyzer() {
-    vector<StreamLineAnalyzer*>::iterator l;
+    std::vector<StreamLineAnalyzer*>::iterator l;
     for (l = line.begin(); l != line.end(); ++l) {
         delete *l;
     }
@@ -218,7 +218,7 @@ LineEventAnalyzer::handleUtf8Data(const char* data, uint32_t length) {
     if (p) {
         // the data ends in an incomplete character
         if (missingBytes > 0) {
-            string::size_type charStartSize = length - (p - data);
+            std::string::size_type charStartSize = length - (p - data);
             // store the start of the character
             byteBuffer.assign(p, charStartSize);
             // do not consider this incomplete character in the rest of this
@@ -293,7 +293,7 @@ void
 LineEventAnalyzer::emitData(const char*data, uint32_t length) {
 //    fprintf(stderr, "%.*s\n", length, data);
     bool more = false;
-    vector<StreamLineAnalyzer*>::iterator i;
+    std::vector<StreamLineAnalyzer*>::iterator i;
     if (!initialized) {
         for (uint j = 0; j < numAnalyzers; ++j) {
             StreamLineAnalyzer* s = line[j];

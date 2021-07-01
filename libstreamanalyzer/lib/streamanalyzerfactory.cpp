@@ -18,12 +18,12 @@
  * Boston, MA 02110-1301, USA.
  */
 #include <strigi/streamanalyzerfactory.h>
+
 using namespace Strigi;
-using namespace std;
 
 class StreamAnalyzerFactory::Private {
 public:
-    vector<const RegisteredField*> fields;
+    std::vector<const RegisteredField*> fields;
 };
 
 StreamAnalyzerFactory::StreamAnalyzerFactory() : p(new Private()) {}

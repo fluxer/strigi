@@ -35,7 +35,6 @@ extern "C" {
 #include <cassert>
 
 using namespace Strigi;
-using namespace std;
 
 class FFMPEGEndAnalyzerFactory;
 
@@ -94,7 +93,7 @@ private:
     const RegisteredField* hasPartProperty;
 };
 
-const string
+const std::string
   videoClassName = 
     STRIGI_NFO "Video",
   audioClassName = 
@@ -245,18 +244,18 @@ handle subtitles
 */
 
 int read_data(void *opaque, uint8_t *buf, int buf_size) {
-  //cout<<"READ";
+  //std::cout<<"READ";
   InputStream *s = (InputStream *) opaque;
   if (!s)
     return -1;
 
   const char *sbuf;
-  //cout<<s->position()<<" "<<flush;
+  //std::cout<<s->position()<<" "<<flush;
   int32_t len = s->read(sbuf, buf_size, buf_size);
-  // cout<<s->position()<<" "<<buf_size<<" "<<len<<" "<<s->size()<<flush;
+  // std::cout<<s->position()<<" "<<buf_size<<" "<<len<<" "<<s->size()<<flush;
   if (len>0)
     memcpy( buf, sbuf, len);
-  //cout<<" OK\n"<<flush;
+  //std::cout<<" OK\n"<<flush;
   return len;
 }
 
@@ -265,7 +264,7 @@ int64_t seek_data(void *opaque, int64_t offset, int whence) {
   int64_t target = -1;
   int64_t size;
   
-  //cout<<"SEEK"<<offset<<" "<<whence<<"\n"<<flush;
+  //std::cout<<"SEEK"<<offset<<" "<<whence<<"\n"<<flush;
   
   if ( whence== SEEK_SET) {
     target = offset;
@@ -279,7 +278,7 @@ int64_t seek_data(void *opaque, int64_t offset, int whence) {
     return -1;
 
   int64_t t= s->reset(target);
-  //cout<<t<<"\n"<<flush;
+  //std::cout<<t<<"\n"<<flush;
   return (t == target ? target : -1);
 }
 
@@ -346,7 +345,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
   if(fc->bit_rate)
     ar.addValue(factory->bitrateProperty, (uint32_t)fc->bit_rate);
   else if (fc->duration!= no_bitrate && fc->duration > 0) {
-    cout<<"Trying to estimate bitrate\n";
+    std::cout<<"Trying to estimate bitrate\n";
     int64_t size;
     if ((size = in->size()) >= 0)
       ar.addValue(factory->bitrateProperty, (uint32_t)((size/(fc->duration/AV_TIME_BASE))*8) );
@@ -354,7 +353,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
   if(fc->duration!= no_bitrate)
     ar.addValue(factory->durationProperty, (uint32_t)(fc->duration / AV_TIME_BASE));
   else if(fc->bit_rate) {
-    cout<<"Trying to estimate duration\n";
+    std::cout<<"Trying to estimate duration\n";
     int64_t size;
     if ((size = in->size()) >= 0)
       ar.addValue(factory->durationProperty, (uint32_t)(size/(fc->bit_rate/8)));
@@ -371,13 +370,13 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
     const AVCodecContext &codec = *stream.codec;
     
     if (codec.codec_type == AVMEDIA_TYPE_AUDIO || codec.codec_type == AVMEDIA_TYPE_VIDEO) {
-      const string streamuri = ar.newAnonymousUri();
+      const std::string streamuri = ar.newAnonymousUri();
       ar.addValue(factory->hasPartProperty, streamuri);
       ar.addTriplet(streamuri, partOfPropertyName, ar.path());
       ar.addTriplet(streamuri, typePropertyName, embeddedClassName);
       
       if ((stream.duration != no_bitrate) && stream.time_base.num && stream.time_base.den) {
-        ostringstream outs;
+        std::ostringstream outs;
         outs << (stream.duration * stream.time_base.num / stream.time_base.den);
         ar.addTriplet(streamuri, durationPropertyName,outs.str());
       }
@@ -393,7 +392,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
       if (entry != NULL) {
         const char *languageValue = entry->value;
         if (size_t len = strlen(languageValue)) {
-          ar.addTriplet(streamuri, languagePropertyName, string(languageValue, len));
+          ar.addTriplet(streamuri, languagePropertyName, std::string(languageValue, len));
         }
       }
       const AVCodec *p = avcodec_find_decoder(codec.codec_id);
@@ -404,14 +403,14 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
 #endif
       if (p) {
         if (size_t len = strlen(p->name)) {
-          ar.addTriplet(streamuri, codecPropertyName, string(p->name, len));
+          ar.addTriplet(streamuri, codecPropertyName, std::string(p->name, len));
         }
       } else if (size_t len = strlen(codecName)) {
-        ar.addTriplet(streamuri, codecPropertyName, string(codecName, len));
+        ar.addTriplet(streamuri, codecPropertyName, std::string(codecName, len));
       }
 
       if (codec.bit_rate) {
-        ostringstream outs;
+        std::ostringstream outs;
         outs << codec.bit_rate;
         ar.addTriplet(streamuri, bitratePropertyName, outs.str());
       }
@@ -420,12 +419,12 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
         
         ar.addTriplet(streamuri, typePropertyName, audioClassName);
         if (codec.channels) {
-          ostringstream outs;
+          std::ostringstream outs;
           outs << codec.channels;
           ar.addTriplet(streamuri, channelsPropertyName, outs.str());
         }
         if (codec.sample_rate) {
-          ostringstream outs;
+          std::ostringstream outs;
           outs << codec.sample_rate;
           ar.addTriplet(streamuri, sampleratePropertyName, outs.str());
         }
@@ -433,12 +432,12 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
         
         ar.addTriplet(streamuri, typePropertyName, videoClassName);
         if (codec.width) {
-          ostringstream outs;
+          std::ostringstream outs;
           outs << codec.width;
           ar.addTriplet(streamuri, widthPropertyName, outs.str());
           if (codec.sample_aspect_ratio.num) {
             AVRational aspectratio;
-            ostringstream outs;
+            std::ostringstream outs;
             av_reduce(&aspectratio.num, &aspectratio.den,
                       int64_t(codec.width) * int64_t(codec.sample_aspect_ratio.num),
                       int64_t(codec.height) * int64_t(codec.sample_aspect_ratio.den),
@@ -449,12 +448,12 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
           }
         }
         if (codec.height) {
-          ostringstream outs;
+          std::ostringstream outs;
           outs << codec.height;
           ar.addTriplet(streamuri, heightPropertyName, outs.str());
         }
         if (stream.r_frame_rate.num && stream.r_frame_rate.den) {
-          ostringstream outs;
+          std::ostringstream outs;
           outs << stream.r_frame_rate.num / stream.r_frame_rate.den;
           ar.addTriplet(streamuri, frameRatePropertyName, outs.str());
         }
@@ -474,7 +473,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
   {
     const char *titleValue = entry->value;
     if (int32_t len = strlen(titleValue)) {
-      ar.addValue(factory->titleProperty, string(titleValue, len) );
+      ar.addValue(factory->titleProperty, std::string(titleValue, len) );
     }
   }
 
@@ -487,10 +486,10 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
   {
     const char *authorValue = entry->value;
     if (int32_t len = strlen(authorValue)) {
-      const string creatoruri = ar.newAnonymousUri();
+      const std::string creatoruri = ar.newAnonymousUri();
       ar.addValue(factory->creatorProperty, creatoruri);
       ar.addTriplet(creatoruri, typePropertyName, contactClassName);
-      ar.addTriplet(creatoruri, fullnamePropertyName, string(authorValue, len) );
+      ar.addTriplet(creatoruri, fullnamePropertyName, std::string(authorValue, len) );
     }
   }
 
@@ -503,7 +502,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
   {
     const char *copyrightValue = entry->value;
     if (int32_t len = strlen(copyrightValue)) {
-      ar.addValue(factory->copyrightProperty, string(copyrightValue, len) );
+      ar.addValue(factory->copyrightProperty, std::string(copyrightValue, len) );
     }
   }
 
@@ -516,7 +515,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
   {
     const char *commentValue = entry->value;
     if (int32_t len = strlen(commentValue)) {
-      ar.addValue(factory->commentProperty, string(commentValue, len) );
+      ar.addValue(factory->commentProperty, std::string(commentValue, len) );
     }
   }
 
@@ -529,10 +528,10 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
   {
     const char *albumValue = entry->value;
     if (int32_t len = strlen(albumValue)) {
-      const string album = ar.newAnonymousUri();
+      const std::string album = ar.newAnonymousUri();
       ar.addValue(factory->albumProperty, album);
     ar.addTriplet(album, typePropertyName, albumClassName);
-    ar.addTriplet(album, titlePropertyName, string(albumValue, len) );
+    ar.addTriplet(album, titlePropertyName, std::string(albumValue, len) );
     }
   }
 
@@ -545,7 +544,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
   {
     const char *genreValue = entry->value;
     if (int32_t len = strlen(genreValue)) {
-      ar.addValue(factory->genreProperty, string(genreValue, len) );
+      ar.addValue(factory->genreProperty, std::string(genreValue, len) );
     }
   }
 
@@ -559,8 +558,8 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
     const char *trackValue = entry->value;
     if (int32_t len = strlen(trackValue)) {
         //Deal with things like '1/12'
-        string str = string(trackValue,len);
-        string sub = str.substr(0,str.find('/'));
+        std::string str = std::string(trackValue,len);
+        std::string sub = str.substr(0,str.find('/'));
       ar.addValue(factory->trackProperty, sub );
     }
   }
@@ -574,7 +573,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
   {
     const char *yearValue = entry->value;
     if (int32_t len = strlen(yearValue)) {
-      ar.addValue(factory->createdProperty, string(yearValue, len) );
+      ar.addValue(factory->createdProperty, std::string(yearValue, len) );
     }
   }
 
@@ -595,9 +594,9 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
 */
 class Factory : public AnalyzerFactoryFactory {
 public:
-    list<StreamEndAnalyzerFactory*>
+    std::list<StreamEndAnalyzerFactory*>
     streamEndAnalyzerFactories() const {
-        list<StreamEndAnalyzerFactory*> af;
+        std::list<StreamEndAnalyzerFactory*> af;
         af.push_back(new FFMPEGEndAnalyzerFactory());
         return af;
     }

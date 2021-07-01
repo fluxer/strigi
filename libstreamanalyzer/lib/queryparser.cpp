@@ -24,7 +24,6 @@
 
 #include "xesamparser.h"
 
-using namespace std;
 using namespace Strigi;
 
 void 
@@ -79,7 +78,7 @@ parse(const char* p, Query& q) {
 
     // do we have a field name?
     if (*rel && rel < space && rel < quote) {
-        q.fields().push_back(string(p, rel));
+        q.fields().push_back(std::string(p, rel));
         p = rel+1;
         if (*rel == '=') {
             q.setType(Query::Equals);
@@ -107,7 +106,7 @@ parse(const char* p, Query& q) {
         if (pairquote != NULL) {
             pairquote++;
             // quoted phrase, could be with spaces
-            q.term().setValue(string(quote+1, pairquote-1));
+            q.term().setValue(std::string(quote+1, pairquote-1));
             if (*space) {
                 if (space < pairquote) {
                     // everything between pairquote and next space is a modifier
@@ -120,7 +119,7 @@ parse(const char* p, Query& q) {
             }
         }
     } else {
-        q.term().setValue(string(p, space));
+        q.term().setValue(std::string(p, space));
     }
     return space+1;
 }
@@ -128,27 +127,27 @@ void
 prependXesamNamespace(Query& query) {
     // prepend the field names with the xesam namespace
     // this will be elaborated once the xesam spec continues
-    vector<string>::iterator end(query.fields().end());
+    std::vector<std::string>::iterator end(query.fields().end());
     FieldPropertiesDb& db = FieldPropertiesDb::db();
-    for (vector<string>::iterator i = query.fields().begin(); i != end; ++i) {
+    for (std::vector<std::string>::iterator i = query.fields().begin(); i != end; ++i) {
         *i = db.propertiesByAlias(*i).uri();
     }
     std::vector<Query>::iterator qend(query.subQueries().end());
-    for (vector<Query>::iterator i = query.subQueries().begin(); i!=qend; ++i) {
+    for (std::vector<Query>::iterator i = query.subQueries().begin(); i!=qend; ++i) {
         prependXesamNamespace(*i);
     }
 }
-string
+std::string
 removeXML(const std::string& q) {
-    string::size_type tagstart = q.find("<userQuery");
-    string::size_type tagend = -1;
-    string::size_type queryend = q.size();
-    if (tagstart != string::npos) {
+    std::string::size_type tagstart = q.find("<userQuery");
+    std::string::size_type tagend = -1;
+    std::string::size_type queryend = q.size();
+    if (tagstart != std::string::npos) {
         // the query is enclosed in a tag
         tagend = q.find(">", tagstart);
-        if (tagend != string::npos) {
+        if (tagend != std::string::npos) {
             queryend = q.find("<", tagend);
-            if (queryend == string::npos) {
+            if (queryend == std::string::npos) {
                 queryend = q.size();
             }
         } else {
@@ -164,12 +163,12 @@ QueryParser::buildQuery(const std::string& xmlq) {
 
     Query query;
 
-    string::size_type tagstart = xmlq.find("<query");
-    if (tagstart != string::npos) { // xesam language query
+    std::string::size_type tagstart = xmlq.find("<query");
+    if (tagstart != std::string::npos) { // xesam language query
         XesamParser parser;
         parser.buildQuery(xmlq, query);
     } else { // user language query
-        const string q(removeXML(xmlq));
+        const std::string q(removeXML(xmlq));
 
         query.setType(Query::And);
         query.subQueries().clear();

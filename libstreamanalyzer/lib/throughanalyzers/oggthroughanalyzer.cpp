@@ -27,10 +27,10 @@
 #include <iostream>
 #include <cctype>
 #include <cstring>
-using namespace Strigi;
-using namespace std;
 
-const string
+using namespace Strigi;
+
+const std::string
     typePropertyName(
         "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
     fullnamePropertyName(
@@ -72,7 +72,7 @@ OggThroughAnalyzerFactory::registerFields(FieldRegister& r) {
 
 inline
 void
-addStatement(AnalysisResult* indexable, string& subject, const string& predicate, const string& object) {
+addStatement(AnalysisResult* indexable, std::string& subject, const std::string& predicate, const std::string& object) {
   if (subject.empty())
     subject = indexable->newAnonymousUri();
   indexable->addTriplet(subject, predicate, object);
@@ -138,8 +138,8 @@ OggThroughAnalyzer::connectInputStream(InputStream* in) {
     // in Vorbis comments the "artist" field is used for the performer in modern music
     // but for the composer in calssical music. Thus, we cache both and make the decision
     // at the end
-    string artist, performer;
-    string albumUri;
+    std::string artist, performer;
+    std::string albumUri;
 
     // read all the comments
     p2 += 4;
@@ -151,16 +151,16 @@ OggThroughAnalyzer::connectInputStream(InputStream* in) {
             uint32_t eq = 1;
             while (eq < size && p2[eq] != '=') eq++;
             if (size > eq) {
-                string name(p2, eq);
+                std::string name(p2, eq);
                 // convert field name to lower case
-                const string::size_type length = name.length();
-                for(string::size_type k=0; k!=length; ++k) {
+                const std::string::size_type length = name.length();
+                for(std::string::size_type k=0; k!=length; ++k) {
                     name[k] = (char)std::tolower(name[k]);
                 }
                 // check if we can handle this field and if so handle it
-                map<string, const RegisteredField*>::const_iterator iter
+                std::map<std::string, const RegisteredField*>::const_iterator iter
                     = factory->fields.find(name);
-                string value(p2+eq+1, size-eq-1);
+                std::string value(p2+eq+1, size-eq-1);
                 if (iter != factory->fields.end()) {
                     // Hack: the tracknumber sometimes contains the track count, too
                     int pos = 0;
@@ -177,18 +177,18 @@ OggThroughAnalyzer::connectInputStream(InputStream* in) {
                     artist = value;
                 } else if(name=="album") {
                     addStatement(indexable, albumUri, titlePropertyName, value);
-		} else if(name=="composer") {
-		    string composerUri = indexable->newAnonymousUri();
+                } else if(name=="composer") {
+                    std::string composerUri = indexable->newAnonymousUri();
 
-		    indexable->addValue(factory->composerField, composerUri);
-		    indexable->addTriplet(composerUri, typePropertyName, contactClassName);
-		    indexable->addTriplet(composerUri, fullnamePropertyName, value);
-		} else if(name=="performer") {
+                    indexable->addValue(factory->composerField, composerUri);
+                    indexable->addTriplet(composerUri, typePropertyName, contactClassName);
+                    indexable->addTriplet(composerUri, fullnamePropertyName, value);
+                } else if(name=="performer") {
                     performer = value;
-		}
+                }
             }
         } else {
-            cerr << "problem with tag size of " << size << endl;
+            std::cerr << "problem with tag size of " << size << std::endl;
             return in;
         }
         p2 += size;
@@ -210,14 +210,14 @@ OggThroughAnalyzer::connectInputStream(InputStream* in) {
         performerField = factory->performerField;
     }
     if (artistField) {
-        const string artistUri( indexable->newAnonymousUri() );
+        const std::string artistUri( indexable->newAnonymousUri() );
 
         indexable->addValue(artistField, artistUri);
         indexable->addTriplet(artistUri, typePropertyName, contactClassName);
         indexable->addTriplet(artistUri, fullnamePropertyName, artist);
     }
     if (performerField) {
-        const string performerUri( indexable->newAnonymousUri() );
+        const std::string performerUri( indexable->newAnonymousUri() );
 
         indexable->addValue(performerField, performerUri);
         indexable->addTriplet(performerUri, typePropertyName, contactClassName);

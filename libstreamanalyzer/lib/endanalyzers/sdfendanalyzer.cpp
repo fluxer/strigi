@@ -21,8 +21,8 @@
 #include <strigi/sdfinputstream.h>
 #include <strigi/fieldtypes.h>
 #include <iostream>
+
 using namespace Strigi;
-using namespace std;
 
 void
 SdfEndAnalyzerFactory::registerFields(FieldRegister& r) {
@@ -50,19 +50,19 @@ SdfEndAnalyzer::analyze(AnalysisResult& idx, InputStream* in) {
     
     // explicit exit if not an SDfile (possibly MDL, since header matched)
     if (!s)
-	return 0;
+        return 0;
     
     int moleculeCount = 0;
     while (s) {
-	moleculeCount++;
-	std::string file = sdf.entryInfo().filename;
-	idx.indexChild(file, idx.mTime(), s);
+        moleculeCount++;
+        std::string file = sdf.entryInfo().filename;
+        idx.indexChild(file, idx.mTime(), s);
         idx.finishIndexChild();
 
-	s = sdf.nextEntry();
+        s = sdf.nextEntry();
     }
     if (moleculeCount)
-	idx.addValue(factory->moleculeCountField, moleculeCount);
+        idx.addValue(factory->moleculeCountField, moleculeCount);
 
     if (sdf.status() == Error) {
         m_error = sdf.error();

@@ -23,7 +23,6 @@
 #include "../sharedtestcode/inputstreamtests.h"
 #include <iostream>
 
-using namespace std;
 using namespace Strigi;
 
 int

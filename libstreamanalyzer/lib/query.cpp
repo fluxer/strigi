@@ -18,7 +18,7 @@
  * Boston, MA 02110-1301, USA.
  */
 #include <strigi/query.h>
-using namespace std;
+
 using namespace Strigi;
 
 class Strigi::TermPrivate {
@@ -152,30 +152,30 @@ Term::setValue(const char* s) {
     p->s_value.assign(s);
     p->type = String;
 }
-const string&
+const std::string&
 Term::string() const {
     return p->s_value;
 }
-ostream&
-operator<< ( ostream &stream, Strigi::Term term ) {
-    stream << "<term>" << endl;
-    stream << "<slack>" << term.slack() << "</slack>" << endl;
-    stream << "<fuzzy>" << term.fuzzy() << "</fuzzy>" << endl;
-    stream << "<string>" << term.string() << "</string>" << endl;
+std::ostream&
+operator<< ( std::ostream &stream, Strigi::Term term ) {
+    stream << "<term>" << std::endl;
+    stream << "<slack>" << term.slack() << "</slack>" << std::endl;
+    stream << "<fuzzy>" << term.fuzzy() << "</fuzzy>" << std::endl;
+    stream << "<string>" << term.string() << "</string>" << std::endl;
     stream << "<proximityDistance>" << term.proximityDistance()
-            << "</proximityDistance>" << endl;
+            << "</proximityDistance>" << std::endl;
     stream << "<stemming>" << ( term.stemming() ? "yes" : "no" )
-            << "</stemming>" << endl;
+            << "</stemming>" << std::endl;
     stream << "<ordered>" << ( term.ordered() ? "yes" : "no" )
-            << "</ordered>" << endl;
+            << "</ordered>" << std::endl;
     stream << "<diacriticSensitive>"
             << ( term.diacriticSensitive() ? "yes" : "no" )
-            << "</diacriticSensitive>" << endl;
+            << "</diacriticSensitive>" << std::endl;
     stream << "<wordbased>" << ( term.wordBased() ? "yes" : "no" )
-            << "</wordbased>" << endl;
+            << "</wordbased>" << std::endl;
     stream << "<caseSensitive>" << ( term.caseSensitive() ? "yes" : "no" )
-            << "</caseSensitive>" << endl;
-    stream << "</term>" << endl;
+            << "</caseSensitive>" << std::endl;
+    stream << "</term>" << std::endl;
     return stream;
 }
 Query::Query() :p(new QueryPrivate()) {
@@ -225,19 +225,19 @@ void
 Query::setNegate(bool n) {
     p->negate = n;
 }
-const vector<string>&
+const std::vector<std::string>&
 Query::fields() const {
     return p->fields;
 }
-vector<string>&
+std::vector<std::string>&
 Query::fields() {
     return p->fields;
 }
-const vector<Query>&
+const std::vector<Query>&
 Query::subQueries() const {
     return p->subs;
 }
-vector<Query>&
+std::vector<Query>&
 Query::subQueries() {
     return p->subs;
 }
@@ -245,86 +245,86 @@ bool
 Query::valid() const {
     return p->valid;
 }
-ostream &
-operator<< ( ostream &stream, Strigi::Query query )
+std::ostream &
+operator<< ( std::ostream &stream, Strigi::Query query )
 {
-    stream << "<query>" << endl;
+    stream << "<query>" << std::endl;
     stream << query.term();
-    stream << "<Boost>" << query.boost() << "</Boost>" << endl;
+    stream << "<Boost>" << query.boost() << "</Boost>" << std::endl;
 
     stream << "<negate>" << ( query.negate() ? "yes" : "no" )
-            << "</negate>" << endl;
+            << "</negate>" << std::endl;
 
-    for ( std::vector<string>::iterator it = query.fields().begin();
+    for ( std::vector<std::string>::iterator it = query.fields().begin();
           it != query.fields().end(); ++it )
     {
-        stream << "<field>"<< *it << "</field>" << endl;
+        stream << "<field>"<< *it << "</field>" << std::endl;
     }
 
     if ( query.fields().size() == 0 )
-        stream << "<field/>" << endl;
+        stream << "<field/>" << std::endl;
 
-    string typeTag;
+    std::string typeTag;
 
     switch ( query.type() )
     {
         case Strigi::Query::And:
-            stream << "<And>" << endl;
+            stream << "<And>" << std::endl;
             typeTag = "And";
             break;
         case Strigi::Query::Or:
-            stream << "<Or>" << endl;
+            stream << "<Or>" << std::endl;
             typeTag = "Or";
             break;
         case Strigi::Query::Proximity:
-            stream << "<Proximity>" << endl;
+            stream << "<Proximity>" << std::endl;
             typeTag = "Proximity";
             break;
         case Strigi::Query::RegExp:
-            stream << "<RegExp>" << endl;
+            stream << "<RegExp>" << std::endl;
             typeTag = "RegExp";
             break;
         case Strigi::Query::Equals:
-            stream << "<Equals>" << endl;
+            stream << "<Equals>" << std::endl;
             typeTag = "Equals";
             break;
         case Strigi::Query::Contains:
-            stream << "<Contains>" << endl;
+            stream << "<Contains>" << std::endl;
             typeTag = "Contains";
             break;
         case Strigi::Query::LessThan:
-            stream << "<LessThan>" << endl;
+            stream << "<LessThan>" << std::endl;
             typeTag = "LessThan";
             break;
         case Strigi::Query::LessThanEquals:
-            stream << "<LessThanEquals>" << endl;
+            stream << "<LessThanEquals>" << std::endl;
             typeTag = "LessThanEquals";
             break;
         case Strigi::Query::GreaterThan:
-            stream << "<GreaterThan>" << endl;
+            stream << "<GreaterThan>" << std::endl;
             typeTag = "GreaterThan";
             break;
         case Strigi::Query::GreaterThanEquals:
-            stream << "<GreaterThanEquals>" << endl;
+            stream << "<GreaterThanEquals>" << std::endl;
             typeTag = "GreaterThanEquals";
             break;
         case Strigi::Query::StartsWith:
-            stream << "<StartsWith>" << endl;
+            stream << "<StartsWith>" << std::endl;
             typeTag = "StartsWith";
             break;
         case Strigi::Query::FullText:
-            stream << "<FullText>" << endl;
+            stream << "<FullText>" << std::endl;
             typeTag = "FullText";
             break;
         case Strigi::Query::Keyword:
-            stream << "<Keyword>" << endl;
+            stream << "<Keyword>" << std::endl;
             typeTag = "Keyword";
             break;
     }
 
     if (!query.subQueries().empty())
     {
-        stream << "<subQueries>" << endl;
+        stream << "<subQueries>" << std::endl;
         unsigned int counter = 0;
         for ( std::vector<Strigi::Query>::iterator it = query.subQueries().begin();
               it != query.subQueries().end(); it++, counter++ )
@@ -332,11 +332,11 @@ operator<< ( ostream &stream, Strigi::Query query )
             Strigi::Query subQuery = *it;
             stream << subQuery;
         }
-        stream << "</subQueries>" << endl;
+        stream << "</subQueries>" << std::endl;
     }
 
-    stream << "</" << typeTag << ">" << endl;
+    stream << "</" << typeTag << ">" << std::endl;
 
-    stream << "</query>" << endl;
+    stream << "</query>" << std::endl;
     return stream;
 }

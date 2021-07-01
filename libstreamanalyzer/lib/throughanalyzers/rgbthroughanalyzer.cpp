@@ -27,7 +27,6 @@
 #include <cstring>
 #include <map>
 
-using namespace std;
 using namespace Strigi;
 
 
@@ -105,7 +104,7 @@ RgbThroughAnalyzer::connectInputStream(InputStream* in) {
         // not a valid RGB file
         return in;
     }
-    string imagename(c+24, 79); // should be 79 ascii characters
+    std::string imagename(c+24, 79); // should be 79 ascii characters
 
     if (dimension == 1)
         ysize = 1;

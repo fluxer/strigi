@@ -27,7 +27,6 @@
 #include <errno.h>
 
 using namespace Strigi;
-using namespace std;
 
 class XattrAnalyzer : public Strigi::StreamThroughAnalyzer {
 private:
@@ -119,9 +118,9 @@ private:
 
 class Factory : public AnalyzerFactoryFactory {
 public:
-    list<StreamThroughAnalyzerFactory*>
+    std::list<StreamThroughAnalyzerFactory*>
     streamThroughAnalyzerFactories() const {
-        list<StreamThroughAnalyzerFactory*> af;
+        std::list<StreamThroughAnalyzerFactory*> af;
         af.push_back(new XattrThroughAnalyzerFactory());
         return af;
     }

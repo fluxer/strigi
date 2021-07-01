@@ -24,6 +24,7 @@
 #include <strigi/analysisresult.h>
 #include <strigi/analyzerconfiguration.h>
 #include <strigi/fieldtypes.h>
+
 using namespace Strigi;
 
 void

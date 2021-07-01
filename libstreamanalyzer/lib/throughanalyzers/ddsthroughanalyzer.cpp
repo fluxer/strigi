@@ -26,7 +26,6 @@
 #include <strigi/fieldtypes.h>
 #include <cstring>
 
-using namespace std;
 using namespace Strigi;
 
 // this analyzer reads the DirectDraw Surface graphics file format

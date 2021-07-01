@@ -26,7 +26,6 @@
 #include <strigi/fieldtypes.h>
 
 using namespace Strigi;
-using namespace std;
 
 void
 GZipEndAnalyzerFactory::registerFields(FieldRegister& reg) {

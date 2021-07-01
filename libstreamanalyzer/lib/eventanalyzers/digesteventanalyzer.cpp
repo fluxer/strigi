@@ -23,7 +23,6 @@
 #include <strigi/fieldtypes.h>
 #include <list>
 
-using namespace std;
 using namespace Strigi;
 
 DigestEventAnalyzer::DigestEventAnalyzer(const DigestEventAnalyzerFactory* f)
@@ -43,13 +42,13 @@ DigestEventAnalyzer::handleData(const char* data, uint32_t length) {
     sha1.Update((unsigned char*)data, length);
 }
 namespace {
-    const string type("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-    const string nfoFileHash(
+    const std::string type("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+    const std::string nfoFileHash(
         "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileHash");
-    const string nfohashAlgorithm(
+    const std::string nfohashAlgorithm(
         "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#hashAlgorithm");
-    const string SHA1("SHA1");
-    const string hashValue(
+    const std::string SHA1("SHA1");
+    const std::string hashValue(
         "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#hashValue");
 }
 void
@@ -65,7 +64,7 @@ DigestEventAnalyzer::endAnalysis(bool complete) {
         sprintf(d + 2 * i, "%02x", digest[i]);
     }
     hash.assign(d);
-    const string hashUri = analysisresult->newAnonymousUri();
+    const std::string hashUri = analysisresult->newAnonymousUri();
     analysisresult->addValue(factory->shafield, hashUri);
     analysisresult->addTriplet(hashUri, type, nfoFileHash);
     analysisresult->addTriplet(hashUri, nfohashAlgorithm, SHA1);

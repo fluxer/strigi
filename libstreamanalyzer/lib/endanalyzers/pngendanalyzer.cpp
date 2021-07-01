@@ -29,7 +29,7 @@
 #include <strigi/fieldtypes.h>
 #include <strigi/gzipinputstream.h>
 #include <strigi/textutils.h>
-using namespace std;
+
 using namespace Strigi;
 
 /*
@@ -45,13 +45,13 @@ static const char* colors[] = {
 };
 */
 
-const string
+const std::string
     typeFieldName(
-	"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
     fullnameFieldName(
-	"http://www.semanticdesktop.org/ontologies/2007/03/22/nco#fullname"),
+        "http://www.semanticdesktop.org/ontologies/2007/03/22/nco#fullname"),
     contactClassName(
-	"http://www.semanticdesktop.org/ontologies/2007/03/22/nco#Contact");
+        "http://www.semanticdesktop.org/ontologies/2007/03/22/nco#Contact");
 
 
 void
@@ -246,7 +246,7 @@ PngEndAnalyzer::analyzeText(Strigi::AnalysisResult& as,
     int32_t nlen = 0;
     while (nlen < nread && c[nlen]) nlen++;
     if (nlen == nread) return -1;
-    const string name(c, nlen); // do something with the name!
+    const std::string name(c, nlen); // do something with the name!
     in->reset(nlen+1);
     return addMetaData(name, as, in);
 }
@@ -262,7 +262,7 @@ PngEndAnalyzer::analyzeZText(Strigi::AnalysisResult& as,
     int32_t nlen = 0;
     while (nlen < nread && c[nlen]) nlen++;
     if (nlen == nread) return -1;
-    const string name(c, nlen); // do something with the name!
+    const std::string name(c, nlen); // do something with the name!
     in->reset(nlen+2);
     GZipInputStream z(in, GZipInputStream::ZLIBFORMAT);
     return addMetaData(name, as, &z);
@@ -316,7 +316,7 @@ PngEndAnalyzer::analyzeTime(Strigi::AnalysisResult& as,
     return 0;
 }
 signed char
-PngEndAnalyzer::addMetaData(const string& key,
+PngEndAnalyzer::addMetaData(const std::string& key,
         Strigi::AnalysisResult& as, InputStream* in) {
     // try to store 1KB (should we get more?)
     const char* b;
@@ -326,15 +326,15 @@ PngEndAnalyzer::addMetaData(const string& key,
         return -1;
     }
     if (0 < nread) {
-        const string value(b, nread);
+        const std::string value(b, nread);
         if ("Title" == key) {
             as.addValue(factory->titleField, value);
         } else if ("Author" == key) {
-	    string authorUri = as.newAnonymousUri();
+            std::string authorUri = as.newAnonymousUri();
 
             as.addValue(factory->authorField, authorUri);
-	    as.addTriplet(authorUri, typeFieldName, contactClassName);
-	    as.addTriplet(authorUri, fullnameFieldName, value);
+            as.addTriplet(authorUri, typeFieldName, contactClassName);
+            as.addTriplet(authorUri, fullnameFieldName, value);
         } else if ("Description" == key) {
             as.addValue(factory->descriptionField, value);
         } else if ("Copyright" == key) {

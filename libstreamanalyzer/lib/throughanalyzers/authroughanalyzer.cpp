@@ -25,10 +25,9 @@
 #include <strigi/textutils.h>
 #include "rdfnamespaces.h"
 
-using namespace std;
 using namespace Strigi;
 
-const string
+const std::string
     musicClassName(
         STRIGI_NMM_DRAFT "MusicPiece");
 

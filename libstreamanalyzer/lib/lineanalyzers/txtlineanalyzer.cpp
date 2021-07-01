@@ -23,7 +23,6 @@
 #include <strigi/analysisresult.h>
 #include <strigi/fieldtypes.h>
 
-using namespace std;
 using namespace Strigi;
 
 // AnalyzerFactory
@@ -37,8 +36,8 @@ TxtLineAnalyzerFactory::registerFields(FieldRegister& reg) {
         "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#characterCount");
     maxLineLengthField = reg.registerField(
         "http://strigi.sf.net/ontologies/homeless#maxLineLength");
-//TODO: this field should receive a proper name. What is meant is whether
-// the file uses uses unix (\n), dos (\r\n) or mac (\r) line endings
+    //TODO: this field should receive a proper name. What is meant is whether
+    // the file uses uses unix (\n), dos (\r\n) or mac (\r) line endings
     formatField = reg.registerField(
         "http://strigi.sf.net/ontologies/homeless#lineEndingFormat");
     typeField = reg.typeField;

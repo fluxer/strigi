@@ -26,7 +26,6 @@
 #include <strigi/textutils.h>
 
 using namespace Strigi;
-using namespace std;
 
 void
 PcxThroughAnalyzerFactory::registerFields(FieldRegister& reg) {
@@ -84,9 +83,9 @@ PcxThroughAnalyzer::connectInputStream(InputStream* in) {
     indexable->addValue(factory->colorDepthField, (int32_t)bpp);
     /* //FIXME: either get rid of this or replace with NIE equivalent
     if ( header[2] == 1 ) {
-	indexable->addValue(factory->compressionField, "RLE");
+        indexable->addValue(factory->compressionField, "RLE");
     } else {
-	indexable->addValue(factory->compressionField, "None");
+        indexable->addValue(factory->compressionField, "None");
     }
     */
     indexable->addValue(factory->hResolutionField, (int32_t)readLittleEndianUInt16(header+12));

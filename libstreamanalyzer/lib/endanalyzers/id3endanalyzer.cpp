@@ -42,9 +42,8 @@
 #endif
 
 using namespace Strigi;
-using namespace std;
 
-const string
+const std::string
     typePropertyName(
         STRIGI_RDF "type"),
     fullnamePropertyName(
@@ -85,7 +84,7 @@ VBR detection
 
 #define ID3_NUMBER_OF_GENRES 148
 
-static const string genres[ID3_NUMBER_OF_GENRES] = {
+static const std::string genres[ID3_NUMBER_OF_GENRES] = {
   "Blues",
   "Classic Rock",
   "Country",
@@ -246,8 +245,8 @@ const char * encodings[5] = {"ISO-8859-1", "UTF-16", "UTF-16BE", "UTF-8", "UTF-1
 size_t
 strnlen(const char *s, size_t maxlen) {
     for(size_t i=0; i<maxlen; i++)
-	if (s[i]==0)
-	    return i;
+        if (s[i]==0)
+            return i;
     return maxlen;
 }
 #endif
@@ -259,7 +258,7 @@ class UTF8Convertor {
     size_t capacity;
   public:
      UTF8Convertor(const char *encoding);
-     const string convert(const char *data, size_t len);
+     const std::string convert(const char *data, size_t len);
      ~UTF8Convertor();
 };
 UTF8Convertor::UTF8Convertor(const char *encoding) :conv(iconv_open("UTF-8", encoding)), out(0), capacity(0) {
@@ -268,10 +267,10 @@ UTF8Convertor::~UTF8Convertor() {
     iconv_close(conv);
     if (out) free(out);
 }
-const string
+const std::string
 UTF8Convertor::convert(const char *data, size_t len) {
   if (!len)
-      return string();
+      return std::string();
   if ( capacity<len*3 ||	// is the buffer too small or too large?
       (capacity>10000 && capacity>len*8) ) {
       capacity = len*3;
@@ -284,7 +283,7 @@ UTF8Convertor::convert(const char *data, size_t len) {
   ICONV_CONST char *input = (char *)data;
   iconv(conv, &input, &len, &result, &reslen);
 
-  return string(out,capacity-reslen);
+  return std::string(out,capacity-reslen);
 }
 
 void
@@ -315,9 +314,9 @@ ID3EndAnalyzerFactory::registerFields(FieldRegister& r) {
 
 inline
 void
-addStatement(AnalysisResult &indexable, string& subject, const string& predicate, const string& object) {
+addStatement(AnalysisResult &indexable, std::string& subject, const std::string& predicate, const std::string& object) {
     if (subject.empty())
-	subject = indexable.newAnonymousUri();
+        subject = indexable.newAnonymousUri();
     indexable.addTriplet(subject, predicate, object);
 }
 
@@ -356,21 +355,21 @@ ID3EndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
 
 }
 
-static void trim(string& s,const string& drop = " ")
+static void trim(std::string& s,const std::string& drop = " ")
 {
-    string r = s.erase(s.find_last_not_of(drop)+1);
+    std::string r = s.erase(s.find_last_not_of(drop)+1);
     r.erase(0, r.find_first_not_of(drop));
 }
 
-static bool extract_and_trim(const char* buf, int offset, int length, string& s)
+static bool extract_and_trim(const char* buf, int offset, int length, std::string& s)
 {
     // We're extracting here the ID3v1 tags and doing some sanity checks:
     // 1) Strip of all leading and prefixed spaces
     // 2) Test if string contains at least something
     if (!buf[offset])
-	return false;
+        return false;
     
-    s = string(buf + offset, strnlen(buf + offset, length));
+    s = std::string(buf + offset, strnlen(buf + offset, length));
     trim(s);
     // Return true if the extracted value is not empty (read: contains something)
     return !s.empty();
@@ -384,29 +383,29 @@ class genre_number_parser {
   private:
     bool success;
     long result;
-    void parse_string( string genre ) {
+    void parse_string( std::string genre ) {
         char* endptr;
         int r = strtol(genre.c_str(),&endptr, 10);
         if(*endptr == '\0') { //to check if the convertion went more or less ok
-	    if(r >=0 && r < ID3_NUMBER_OF_GENRES ) { //to ensure it is within the range we have
-	        success=true;
-	        result=r;
-	    }
+            if(r >=0 && r < ID3_NUMBER_OF_GENRES ) { //to ensure it is within the range we have
+                success=true;
+                result=r;
+            }
         }
     }
   public:
     /**
      * constructor taking the genre string you want parsed as a number
      */
-    genre_number_parser(string genre) : success(false), result(-1) {
+    genre_number_parser(std::string genre) : success(false), result(-1) {
         if(genre.size()==0) {
-	  //if the string is empty, there is no need to try to parse it
-	    return;
+            //if the string is empty, there is no need to try to parse it
+            return;
         }
         //the string might start and end with parenthesis
         if(genre[0]=='(' && genre[genre.size()-1]==')') {
-	    parse_string(genre.substr(1,genre.length()-2));
-	    return;
+            parse_string(genre.substr(1,genre.length()-2));
+            return;
         }
         parse_string(genre);
     }
@@ -431,10 +430,10 @@ ID3EndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream* 
         return -1;
 
     bool found_title = false, found_artist = false,
-	  found_album = false, found_comment = false,
-	  found_year = false, found_track = false,
-	  found_genre = false, found_tag = false;
-    string albumUri;
+        found_album = false, found_comment = false,
+        found_year = false, found_track = false,
+        found_genre = false, found_tag = false;
+    std::string albumUri;
     char albumArtNum = '\0';
 
     // read 10 byte header
@@ -471,13 +470,13 @@ ID3EndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream* 
 		break;
 	    }
 
-	    string value;
+	    std::string value;
 	    uint8_t enc = p[10];
 	    const char *encoding = enc>4 ? encodings[0] : encodings[enc] ;
 	    UTF8Convertor conv(encoding);
 	    const char *decoded_value;
 	    int32_t decoded_value_size;
-	    string deunsyncbuf;
+	    std::string deunsyncbuf;
 	    if (unsync) {
 	      deunsyncbuf.reserve(size-1);
 	      for(int32_t i = 0; i<size-1; i++)
@@ -501,13 +500,13 @@ ID3EndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream* 
 		    if(content<decoded_value+decoded_value_size) {
                         StringInputStream picstream(content,
                                           (uint32_t)(decoded_value+decoded_value_size-content), false);
-			string picname;
+			std::string picname;
 			picname = (char)('0'+albumArtNum++);
 			indexable.indexChild(picname, indexable.mTime(), &picstream);
 
 			if (desclen && indexable.child()) {
 			    if (enc == 0 || enc == 3) {
-				indexable.child()->addValue(factory->descriptionField, string(desc, desclen) );
+				indexable.child()->addValue(factory->descriptionField, std::string(desc, desclen) );
 			    } else {
 				indexable.child()->addValue(factory->descriptionField, conv.convert(desc, desclen) );
 			    }
@@ -519,7 +518,7 @@ ID3EndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream* 
 	    }
 
 	    if (enc == 0 || enc == 3) {
-		value = string(decoded_value, strnlen(decoded_value, decoded_value_size));
+		value = std::string(decoded_value, strnlen(decoded_value, decoded_value_size));
 	    } else {
 		value = conv.convert(decoded_value, decoded_value_size); // FIXME: add similar workaround
 	    }
@@ -545,21 +544,21 @@ ID3EndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream* 
 		} else if ((strncmp("TPE1", p, 4) == 0) ||
 			    (strncmp("TPE3", p, 4) == 0) ||
 			    (strncmp("TPE4", p, 4) == 0)) {
-		    string performerUri = indexable.newAnonymousUri();
+		    std::string performerUri = indexable.newAnonymousUri();
 
 		    indexable.addValue(factory->performerField, performerUri);
 		    indexable.addTriplet(performerUri, typePropertyName, contactClassName);
 		    indexable.addTriplet(performerUri, fullnamePropertyName, value);
 		    found_artist = true;
 		} else if (strncmp("TPE2", p, 4) == 0) {
-		    const string albumArtistUri( indexable.newAnonymousUri() );
+		    const std::string albumArtistUri( indexable.newAnonymousUri() );
 
 		    addStatement(indexable, albumUri, albumArtistPropertyName, albumArtistUri);
 		    indexable.addTriplet(albumArtistUri, typePropertyName, contactClassName);
 		    indexable.addTriplet(albumArtistUri, fullnamePropertyName, value);
 		} else if ((strncmp("TPUB", p, 4) == 0) ||
 			    (strncmp("TENC", p, 4) == 0)) {
-		    string publisherUri = indexable.newAnonymousUri();
+		    std::string publisherUri = indexable.newAnonymousUri();
 
 		    indexable.addValue(factory->publisherField, publisherUri);
 		    indexable.addTriplet(publisherUri, typePropertyName, contactClassName);
@@ -583,19 +582,19 @@ ID3EndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream* 
 		} else if (strncmp("TLEN", p, 4) == 0) {
 		    indexable.addValue(factory->durationField, value);
 		} else if (strncmp("TEXT", p, 4) == 0) {
-		    string lyricistUri = indexable.newAnonymousUri();
+		    std::string lyricistUri = indexable.newAnonymousUri();
 
 		    indexable.addValue(factory->lyricistField, lyricistUri);
 		    indexable.addTriplet(lyricistUri, typePropertyName, contactClassName);
 		    indexable.addTriplet(lyricistUri, fullnamePropertyName, value);
 		} else if (strncmp("TCOM", p, 4) == 0) {
-		    string composerUri = indexable.newAnonymousUri();
+		    std::string composerUri = indexable.newAnonymousUri();
 
 		    indexable.addValue(factory->composerField, composerUri);
 		    indexable.addTriplet(composerUri, typePropertyName, contactClassName);
 		    indexable.addTriplet(composerUri, fullnamePropertyName, value);
 		} else if (strncmp("TRCK", p, 4) == 0) {
-		    istringstream ins(value);
+		    std::istringstream ins(value);
 		    int tnum;
 		    ins >> tnum;
 		    if (!ins.fail()) {
@@ -605,13 +604,13 @@ ID3EndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream* 
 			int tcount;
 			ins >> tcount;
 			if (!ins.fail()) {
-			    ostringstream outs;
+			    std::ostringstream outs;
 			    outs << tcount;
 			    addStatement(indexable, albumUri, albumTrackCountPropertyName, outs.str());
 			}
 		    }
 		} else if (strncmp("TPOS", p, 4) == 0) {
-		    istringstream ins(value);
+		    std::istringstream ins(value);
 		    int dnum;
 		    ins >> dnum;
 		    if (!ins.fail()) {
@@ -620,7 +619,7 @@ ID3EndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream* 
 			int dcount;
 			ins >> dcount;
 			if (!ins.fail()) {
-			    ostringstream outs;
+			    std::ostringstream outs;
 			    outs << dcount;
 			    addStatement(indexable, albumUri, discCountPropertyName, outs.str());
 			}
@@ -639,15 +638,15 @@ ID3EndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream* 
       && ((bitrateindex = ((unsigned char)buf[2+i]>>4)) != 0xf)
       && ((samplerateindex = (((unsigned char)buf[2+i]>>2)&3)) != 3 )) { // is this MP3?
 
-	indexable.addValue(factory->typeField, audioClassName);
-	// FIXME: no support for VBR :(
-	// ideas: compare bitrate from the frame with stream size/duration from ID3 tags
-	// check several consecutive frames to see if bitrate is different
-	// in neither case you can be sure to properly detected VBR :(
-	indexable.addValue(factory->bitrateField, bitrate[bitrateindex]);
-	indexable.addValue(factory->samplerateField, samplerate[samplerateindex]);
-	indexable.addValue(factory->codecField, "MP3");
-	indexable.addValue(factory->channelsField, ((buf[3+i]>>6) == 3 ? 1:2 ) );
+        indexable.addValue(factory->typeField, audioClassName);
+        // FIXME: no support for VBR :(
+        // ideas: compare bitrate from the frame with stream size/duration from ID3 tags
+        // check several consecutive frames to see if bitrate is different
+        // in neither case you can be sure to properly detected VBR :(
+        indexable.addValue(factory->bitrateField, bitrate[bitrateindex]);
+        indexable.addValue(factory->samplerateField, samplerate[samplerateindex]);
+        indexable.addValue(factory->codecField, "MP3");
+        indexable.addValue(factory->channelsField, ((buf[3+i]>>6) == 3 ? 1:2 ) );
     }
 
     // Parse ID3v1 tag
@@ -655,47 +654,47 @@ ID3EndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream* 
     int64_t insize;
     if ( (insize = in->size()) > (128+nread)) {
 
-      // read the tag and check signature
-	int64_t nskip = insize-128-nread;
-	if (nskip == in->skip(nskip))
-	if (in->read(buf, 128, 128)==128)
-	if (!strncmp("TAG", buf, 3)) {
+        // read the tag and check signature
+        int64_t nskip = insize-128-nread;
+        if (nskip == in->skip(nskip))
+        if (in->read(buf, 128, 128)==128)
+        if (!strncmp("TAG", buf, 3)) {
 
-	    found_tag = true;
-	    
-	    std::string s;
+            found_tag = true;
+            
+            std::string s;
 
-	    if (!found_title && extract_and_trim(buf, 3, 30, s)) {
-		indexable.addValue(factory->titleField, s);
-	    }
-	    if (!found_artist && extract_and_trim(buf, 33, 30, s)) {
-                const string performerUri = indexable.newAnonymousUri();
+            if (!found_title && extract_and_trim(buf, 3, 30, s)) {
+                indexable.addValue(factory->titleField, s);
+            }
+            if (!found_artist && extract_and_trim(buf, 33, 30, s)) {
+                const std::string performerUri = indexable.newAnonymousUri();
                 indexable.addValue(factory->performerField, performerUri);
                 indexable.addTriplet(performerUri, typePropertyName, contactClassName);
                 indexable.addTriplet(performerUri, fullnamePropertyName, s);
             }
-	    if (!found_album && extract_and_trim(buf, 63, 30, s))
-		addStatement(indexable, albumUri, titlePropertyName, s);
-	    if (!found_year && extract_and_trim(buf, 93, 4, s))
-		indexable.addValue(factory->createdField, s);
-	    if (!found_comment && extract_and_trim(buf, 97, 30, s)) {
-		indexable.addValue(factory->commentField, s);
-	    }
-	    if (!found_track && !buf[125] && buf[126]) {
-		indexable.addValue(factory->trackNumberField, (int)(buf[126]));
-	    }
-	    if (!found_genre && (unsigned char)(buf[127]) < ID3_NUMBER_OF_GENRES)
-		indexable.addValue(factory->genreField, genres[(uint8_t)buf[127]]);
-	}
+            if (!found_album && extract_and_trim(buf, 63, 30, s))
+                addStatement(indexable, albumUri, titlePropertyName, s);
+            if (!found_year && extract_and_trim(buf, 93, 4, s))
+                indexable.addValue(factory->createdField, s);
+            if (!found_comment && extract_and_trim(buf, 97, 30, s)) {
+                indexable.addValue(factory->commentField, s);
+            }
+            if (!found_track && !buf[125] && buf[126]) {
+                indexable.addValue(factory->trackNumberField, (int)(buf[126]));
+            }
+            if (!found_genre && (unsigned char)(buf[127]) < ID3_NUMBER_OF_GENRES)
+                indexable.addValue(factory->genreField, genres[(uint8_t)buf[127]]);
+        }
     }
 
     if(!albumUri.empty()) {
-	indexable.addValue(factory->albumField, albumUri);
-	indexable.addTriplet(albumUri, typePropertyName, albumClassName);
+        indexable.addValue(factory->albumField, albumUri);
+        indexable.addTriplet(albumUri, typePropertyName, albumClassName);
     }
 
     if (found_tag)
-	indexable.addValue(factory->typeField, musicClassName);
+        indexable.addValue(factory->typeField, musicClassName);
 
     return 0;
 }

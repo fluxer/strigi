@@ -26,6 +26,7 @@
 #include <strigi/analyzerconfiguration.h>
 #include <strigi/fieldtypes.h>
 #include "../rdfnamespaces.h"
+
 using namespace Strigi;
 
 /* TODO:
@@ -45,7 +46,7 @@ OdfEndAnalyzerFactory::registerFields(FieldRegister& reg) {
 bool
 OdfEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
     return !strncmp(header, "PK", 2)
-	&& !strncmp(header+30, "mimetypeapplication/vnd.oasis.opendocument.", 43);
+        && !strncmp(header+30, "mimetypeapplication/vnd.oasis.opendocument.", 43);
 }
 
 signed char

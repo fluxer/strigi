@@ -24,7 +24,6 @@
 #include <strigi/fieldtypes.h>
 #include <cstring>
 
-using namespace std;
 using namespace Strigi;
 
 // AnalyzerFactory
@@ -91,10 +90,10 @@ CppLineAnalyzer::handleLine(const char* data, uint32_t length) {
 
             //TODO Add code here for counting strings.
             //Look for included files.
-            string include1(data + macroStart + 8, length - macroStart - 8);
+            std::string include1(data + macroStart + 8, length - macroStart - 8);
             size_t pos2 = include1.find("<",0);
             size_t pos3 = include1.find(">",0);
-            if((pos2 != string::npos) && (pos3 != string::npos)){
+            if((pos2 != std::string::npos) && (pos3 != std::string::npos)){
                 // We cannot use nie:depends here since it has a range of nie:DataObject and the includes cannot be represented as data objects
                 // includes will only be resolved at compile time.
                 //analysisResult->addValue(factory->includeField, include1.substr(1+pos2,((pos3-1)-pos2)));
@@ -102,7 +101,7 @@ CppLineAnalyzer::handleLine(const char* data, uint32_t length) {
             }
             size_t pos4 = include1.find("\"",0);
             size_t pos5 = include1.find("\"", pos4+1);
-            if((pos4 != string::npos) && (pos5 != string::npos)){
+            if((pos4 != std::string::npos) && (pos5 != std::string::npos)){
                 // FIXME: we need a useful new property or new DataObject type to describe a C header
                 // which does not have an absolute path.
                 //analysisResult->addValue(factory->includeField, include1.substr(1+pos4,((pos5-1)-pos4)));
@@ -119,7 +118,7 @@ void
 CppLineAnalyzer::endAnalysis(bool complete) {
     // we assume all cpp files must have includes
     if (includes && complete) {
-	//FIXME: either get rid of this or replace with NIE equivalent
+        //FIXME: either get rid of this or replace with NIE equivalent
         //analysisResult->addValue(factory->codeLinesField, (int32_t)codeLines);
         //analysisResult->addValue(factory->commentLinesField, (int32_t)commentLines);
         analysisResult->addValue(factory->programmingLanguageField, "C++");

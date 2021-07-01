@@ -28,9 +28,8 @@
 #include <iostream>
 
 using namespace Strigi;
-using namespace std;
 
-const string
+const std::string
     titleFieldName(
         "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#subject"),
     fromFieldName(
@@ -95,8 +94,8 @@ bool
 MailEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
     return MailInputStream::checkHeader(header, headersize);
 }
-string
-charset(const string& contenttype) {
+std::string
+charset(const std::string& contenttype) {
     const char* s = strstr(contenttype.c_str(), "charset");
     if (s) {
         char c = s[8];
@@ -104,16 +103,16 @@ charset(const string& contenttype) {
             s += 9;
             const char* e = strchr(s, c);
             if (e) {
-                return string(s, e-s);
+                return std::string(s, e-s);
             }
         }
     }
-    return string();
+    return std::string();
 }
 void
-splitAddress(const string& addr, string& name, string& email) {
+splitAddress(const std::string& addr, std::string& name, std::string& email) {
   size_t p;
-  if( (p = addr.find("<"))!= string::npos ) {
+  if( (p = addr.find("<"))!= std::string::npos ) {
     name = addr.substr(0, p);
     email = addr.substr(p+1, addr.rfind(">") -p -1);
   } else {
@@ -121,18 +120,18 @@ splitAddress(const string& addr, string& name, string& email) {
     email = addr;
   }
 }
-string 
-processAddress(Strigi::AnalysisResult& idx, const string& address) {
-    string uri(idx.newAnonymousUri());
-    string cmUri;
-    string name, email;
+std::string 
+processAddress(Strigi::AnalysisResult& idx, const std::string& address) {
+    std::string uri(idx.newAnonymousUri());
+    std::string cmUri;
+    std::string name, email;
 
     splitAddress(address, name, email);
     cmUri = "mailto:" + email;
 
     idx.addTriplet(uri, typeFieldName, contactClassName);
     if (name.size())
-	idx.addTriplet(uri, fullnameFieldName, name);
+        idx.addTriplet(uri, fullnameFieldName, name);
     idx.addTriplet(uri, hasEmailAddressFieldName, cmUri);
     idx.addTriplet(cmUri, typeFieldName, emailAddressClassName);
     idx.addTriplet(cmUri, emailAddressFieldName, email);
@@ -150,7 +149,7 @@ MailEndAnalyzer::analyze(AnalysisResult& idx, InputStream* in) {
         m_error = mail.error();
         return -1;
     }
-    string enc(charset(mail.contentType()));
+    std::string enc(charset(mail.contentType()));
     if (enc.length()) {
         idx.setEncoding(enc.c_str());
     }
@@ -166,16 +165,16 @@ MailEndAnalyzer::analyze(AnalysisResult& idx, InputStream* in) {
     if (mail.messageid().length() > 0)
         idx.addValue(factory->contentidField, mail.messageid());
     if (mail.inreplyto().length() > 0) {
-	string uri(idx.newAnonymousUri());
+        std::string uri(idx.newAnonymousUri());
         idx.addValue(factory->emailInReplyToField, uri);
-	idx.addTriplet(uri, typeFieldName, emailClassName);
-	idx.addTriplet(uri, contentidFieldName, mail.inreplyto());
+        idx.addTriplet(uri, typeFieldName, emailClassName);
+        idx.addTriplet(uri, contentidFieldName, mail.inreplyto());
     }
     if (mail.references().length() > 0) {
-	string uri(idx.newAnonymousUri());
-	idx.addValue(factory->contentlinkField, uri);
-	idx.addTriplet(uri, typeFieldName, emailClassName);
-	idx.addTriplet(uri, contentidFieldName, mail.references());
+        std::string uri(idx.newAnonymousUri());
+        idx.addValue(factory->contentlinkField, uri);
+        idx.addTriplet(uri, typeFieldName, emailClassName);
+        idx.addTriplet(uri, contentidFieldName, mail.references());
     }
     if (s != 0) {
         TextEndAnalyzer tea;

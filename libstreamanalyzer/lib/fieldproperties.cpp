@@ -22,13 +22,13 @@
 #include <strigi/fieldpropertiesdb.h>
 #include "fieldproperties_private.h"
 #include <map>
+
 using namespace Strigi;
-using namespace std;
 
 FieldProperties::FieldProperties() :p(new Private()) {
 }
 FieldProperties::FieldProperties(const Private& pr) :p(new Private(pr)) {}
-FieldProperties::FieldProperties(const string& k)
+FieldProperties::FieldProperties(const std::string& k)
         :p(new Private(k)) {
     const FieldProperties& fp = FieldPropertiesDb::db().properties(k);
     if (fp.valid()) {
@@ -50,19 +50,19 @@ bool
 FieldProperties::valid() const {
     return p->uri.size() != 0;
 }
-const string&
+const std::string&
 FieldProperties::uri() const {
     return p->uri;
 }
-const string&
+const std::string&
 FieldProperties::name() const {
     return p->name;
 }
-const string&
+const std::string&
 FieldProperties::typeUri() const {
     return p->typeuri;
 }
-const string&
+const std::string&
 FieldProperties::description() const {
     return p->description;
 }
@@ -98,25 +98,25 @@ const std::vector<std::string>&
 FieldProperties::locales() const {
     return p->locales;
 }
-const string&
-FieldProperties::localizedName(const string& locale) const {
-    map<string,Localized>::iterator i = p->localized.find(locale);
+const std::string&
+FieldProperties::localizedName(const std::string& locale) const {
+    std::map<std::string,Localized>::iterator i = p->localized.find(locale);
     return (i == p->localized.end()) ?empty() :i->second.name;
 }
-const string&
-FieldProperties::localizedDescription(const string& locale) const {
-    map<string,Localized>::iterator i = p->localized.find(locale);
+const std::string&
+FieldProperties::localizedDescription(const std::string& locale) const {
+    std::map<std::string,Localized>::iterator i = p->localized.find(locale);
     return (i == p->localized.end()) ?empty() :i->second.description;
 }
-const vector<string>&
+const std::vector<std::string>&
 FieldProperties::parentUris() const {
     return p->parentUris;
 }
-const vector<string>&
+const std::vector<std::string>&
 FieldProperties::childUris() const {
     return p->childUris;
 }
-const vector<string>&
+const std::vector<std::string>&
 FieldProperties::applicableClasses() const {
     return p->applicableClasses;
 }

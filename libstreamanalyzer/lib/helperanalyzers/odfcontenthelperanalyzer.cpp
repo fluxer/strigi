@@ -30,7 +30,6 @@
 #include "../rdfnamespaces.h"
 
 using namespace Strigi;
-using namespace std;
 
 void OdfContentHelperAnalyzer::startAnalysis(AnalysisResult &r) {
     result = &r;

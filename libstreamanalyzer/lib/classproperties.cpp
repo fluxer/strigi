@@ -22,13 +22,13 @@
 #include <strigi/fieldpropertiesdb.h>
 #include "fieldproperties_private.h"
 #include <map>
+
 using namespace Strigi;
-using namespace std;
 
 ClassProperties::ClassProperties() :p(new Private()) {
 }
 ClassProperties::ClassProperties(const Private& pr) :p(new Private(pr)) {}
-ClassProperties::ClassProperties(const string& k)
+ClassProperties::ClassProperties(const std::string& k)
         :p(new Private(k)) {
     const ClassProperties& fp = FieldPropertiesDb::db().classes(k);
     if (fp.valid()) {
@@ -50,15 +50,15 @@ bool
 ClassProperties::valid() const {
     return p->uri.size() != 0;
 }
-const string&
+const std::string&
 ClassProperties::uri() const {
     return p->uri;
 }
-const string&
+const std::string&
 ClassProperties::name() const {
     return p->name;
 }
-const string&
+const std::string&
 ClassProperties::description() const {
     return p->description;
 }
@@ -66,25 +66,25 @@ const std::vector<std::string>&
 ClassProperties::locales() const {
     return p->locales;
 }
-const string&
-ClassProperties::localizedName(const string& locale) const {
-    map<string,Localized>::iterator i = p->localized.find(locale);
+const std::string&
+ClassProperties::localizedName(const std::string& locale) const {
+    std::map<std::string,Localized>::iterator i = p->localized.find(locale);
     return (i == p->localized.end()) ?empty() :i->second.name;
 }
-const string&
-ClassProperties::localizedDescription(const string& locale) const {
-    map<string,Localized>::iterator i = p->localized.find(locale);
+const std::string&
+ClassProperties::localizedDescription(const std::string& locale) const {
+    std::map<std::string,Localized>::iterator i = p->localized.find(locale);
     return (i == p->localized.end()) ?empty() :i->second.description;
 }
-const vector<string>&
+const std::vector<std::string>&
 ClassProperties::parentUris() const {
     return p->parentUris;
 }
-const vector<string>&
+const std::vector<std::string>&
 ClassProperties::childUris() const {
     return p->childUris;
 }
-const vector<string>&
+const std::vector<std::string>&
 ClassProperties::applicableProperties() const {
     return p->applicableProperties;
 }

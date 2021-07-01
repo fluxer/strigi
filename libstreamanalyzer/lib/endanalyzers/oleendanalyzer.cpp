@@ -35,7 +35,6 @@
 #include <cmath>
 
 using namespace Strigi;
-using namespace std;
 
 #ifdef ICONV_SECOND_ARGUMENT_IS_CONST
      #define ICONV_CONST const
@@ -140,9 +139,9 @@ OleEndAnalyzerFactory::registerFields(FieldRegister& reg) {
     static const unsigned char docSummaryKey[]= {
         0x02,0xD5,0xCD,0xD5,0x9C,0x2E,0x1B,0x10,
         0x93,0x97,0x08,0x00,0x2B,0x2C,0xF9,0xAE};
-    string key;
+    std::string key;
     key.assign((const char*)summaryKey, 16);
-    map<int,const RegisteredField*>* m = &fieldsMaps[key];
+    std::map<int,const RegisteredField*>* m = &fieldsMaps[key];
 
     // register the fields for the Summary Information Stream
     (*m)[2] = reg.registerField(
@@ -179,9 +178,9 @@ OleEndAnalyzerFactory::registerFields(FieldRegister& reg) {
     typeField = reg.typeField;
     addField(typeField);
 }
-const map<int, const RegisteredField*>*
-OleEndAnalyzerFactory::getFieldMap(const string& key) const {
-    map<string, map<int,const RegisteredField*> >::const_iterator i
+const std::map<int, const RegisteredField*>*
+OleEndAnalyzerFactory::getFieldMap(const std::string& key) const {
+    std::map<std::string, std::map<int,const RegisteredField*> >::const_iterator i
         = fieldsMaps.find(key);
     return (i == fieldsMaps.end()) ?0 :&i->second;
 }
@@ -240,7 +239,7 @@ OleEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
     return OleInputStream::checkHeader(header, headersize);
 }
 bool
-tryThumbsdbEntry(const string& name, AnalysisResult& ar, InputStream* in) {
+tryThumbsdbEntry(const std::string& name, AnalysisResult& ar, InputStream* in) {
     static const char magic[] = {0x0c, 0, 0, 0, 0x01, 0, 0, 0};
     const char* d;
     uint32_t nread = in->read(d, 12, 12);
@@ -261,7 +260,7 @@ void
 tryPictures(AnalysisResult& ar, InputStream* in) {
     const char* d;
     int32_t nread = in->read(d, 25, 25);
-    ostringstream s;
+    std::ostringstream s;
     int pos = 1;
     while (nread == 25) {
         uint32_t size = readLittleEndianInt32(d+4)-17;
@@ -329,8 +328,8 @@ void
 OleEndAnalyzer::handlePropertyStream(const char* key, const char* data,
         const char* end) {
     // get the fieldtable
-    string k(key, 16);
-    const map<int, const RegisteredField*>* table = factory->getFieldMap(k);
+    std::string k(key, 16);
+    const std::map<int, const RegisteredField*>* table = factory->getFieldMap(k);
     if (table == 0) {
         return;
     }
@@ -341,7 +340,7 @@ OleEndAnalyzer::handlePropertyStream(const char* key, const char* data,
     if (len < 0 || (len > end-data) || n > end) {
         return;
     }
-    map<int, const RegisteredField*>::const_iterator field;
+    std::map<int, const RegisteredField*>::const_iterator field;
     while (p < n) {
         int32_t id = readLittleEndianInt32(p);
         field = table->find(id);
@@ -357,7 +356,7 @@ OleEndAnalyzer::handlePropertyStream(const char* key, const char* data,
 /**
  * Store the table stream for later reference when parsing the text stream.
  **/
-string
+std::string
 OleEndAnalyzer::getStreamString(InputStream* in) const {
     const char* d;
     int32_t n = 512;
@@ -369,9 +368,9 @@ OleEndAnalyzer::getStreamString(InputStream* in) const {
         in->reset(0);
     }
     if (m > 0) {
-        return string(d, m);
+        return std::string(d, m);
     }
-    return string();
+    return std::string();
 }
 signed char
 OleEndAnalyzer::analyze(AnalysisResult& ar, InputStream* in) {
@@ -383,16 +382,16 @@ OleEndAnalyzer::analyze(AnalysisResult& ar, InputStream* in) {
     InputStream *s = ole.nextEntry();
     if (ole.status()) {
         fprintf(stderr, "error: %s\n", ole.error());
-	return -1;
+        return -1;
     }
     while (s) {
-        string name = ole.entryInfo().filename;
+        std::string name = ole.entryInfo().filename;
         if (name.size()) {
             char first = name[0];
             if (first < 10) {
                 name = name.substr(1);
             }
-	    if (tryFIB(ar, s)) {
+            if (tryFIB(ar, s)) {
             } else if (tryThumbsdbEntry(name, ar, s)) {
             } else if (first == 5) {
                 // todo: handle property stream

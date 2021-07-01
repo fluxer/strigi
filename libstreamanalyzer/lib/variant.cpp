@@ -19,16 +19,15 @@
  */
 #include <strigi/variant.h>
 
-using namespace std;
 using namespace Strigi;
 
 class Strigi::VariantPrivate {
 public:
     int32_t i_value;
     uint32_t u_value;
-    string s_value;
-    vector<string> as_value;
-    vector<vector<string> > aas_value;
+    std::string s_value;
+    std::vector<std::string> as_value;
+    std::vector<std::vector<std::string> > aas_value;
     Variant::Type vartype;
     bool valid;
 
@@ -38,11 +37,11 @@ public:
     bool b() const;
     int32_t i() const;
     uint32_t u() const;
-    string s() const;
-    vector<string> as() const;
-    vector<vector<string> > aas() const;
+    std::string s() const;
+    std::vector<std::string> as() const;
+    std::vector<std::vector<std::string> > aas() const;
 
-    static string itos(int32_t i);
+    static std::string itos(int32_t i);
 };
 Variant::Variant() :p(new VariantPrivate()) {}
 Variant::Variant(bool v) :p(new VariantPrivate()) {
@@ -57,13 +56,13 @@ Variant::Variant(uint32_t v) :p(new VariantPrivate()) {
 Variant::Variant(const char* v) :p(new VariantPrivate()) {
     *this=v;
 }
-Variant::Variant(const string& v) :p(new VariantPrivate()) {
+Variant::Variant(const std::string& v) :p(new VariantPrivate()) {
     *this=v;
 }
-Variant::Variant(const vector<string>& v) :p(new VariantPrivate()) {
+Variant::Variant(const std::vector<std::string>& v) :p(new VariantPrivate()) {
     *this=v;
 }
-Variant::Variant(const vector<vector<string> >& v) :p(new VariantPrivate()) {
+Variant::Variant(const std::vector<std::vector<std::string> >& v) :p(new VariantPrivate()) {
     *this=v;
 }
 Variant::Variant(const Variant& v) :p(new VariantPrivate(*v.p)) {
@@ -105,21 +104,21 @@ Variant::operator=(const char* v) {
     return *this;
 }
 const Variant&
-Variant::operator=(const string& v) {
+Variant::operator=(const std::string& v) {
     p->valid=true;
     p->s_value.assign(v);
     p->vartype = s_val;
     return *this;
 }
 const Variant&
-Variant::operator=(const vector<string>& v) {
+Variant::operator=(const std::vector<std::string>& v) {
     p->valid=true;
     p->as_value = v;
     p->vartype = as_val;
     return *this;
 }
 const Variant&
-Variant::operator=(const vector<vector<string> >& v) {
+Variant::operator=(const std::vector<std::vector<std::string> >& v) {
     p->valid=true;
     p->aas_value = v;
     p->vartype = aas_val;
@@ -194,17 +193,17 @@ VariantPrivate::u() const {
          return ~0U;
     }
 }
-string
+std::string
 VariantPrivate::itos(int32_t i) {
-    ostringstream o;
+    std::ostringstream o;
     o << i;
     return o.str();
 }
-string
+std::string
 Variant::s() const {
     return p->s();
 }
-string
+std::string
 VariantPrivate::s() const {
     switch (vartype) {
     case Variant::b_val:
@@ -219,31 +218,31 @@ VariantPrivate::s() const {
          return "";
     }
 }
-vector<string>
+std::vector<std::string>
 Variant::as() const {
     return p->as();
 }
-vector<string>
+std::vector<std::string>
 VariantPrivate::as() const {
     if (vartype == Variant::as_val) {
         return as_value;
     }
-    vector<string> v;
+    std::vector<std::string> v;
     if (b()) {
         v.push_back(s());
     }
     return v;
 }
-vector<vector<string> >
+std::vector<std::vector<std::string> >
 Variant::aas() const {
     return p->aas();
 }
-vector<vector<string> >
+std::vector<std::vector<std::string> >
 VariantPrivate::aas() const {
     if (vartype == Variant::aas_val) {
         return aas_value;
     }
-    vector<vector<string> > v;
+    std::vector<std::vector<std::string> > v;
     if (b()) {
         v.push_back(as());
     }

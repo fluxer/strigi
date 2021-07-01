@@ -31,10 +31,10 @@
 #include <cctype>
 #include <cstring>
 #include <list>
-using namespace Strigi;
-using namespace std;
 
-const string
+using namespace Strigi;
+
+const std::string
     typePropertyName(
         "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
     fullnamePropertyName(
@@ -119,14 +119,14 @@ FlacEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
 
 inline
 void
-addStatement(AnalysisResult& indexable, string& subject, const string& predicate, const string& object) {
+addStatement(AnalysisResult& indexable, std::string& subject, const std::string& predicate, const std::string& object) {
   if (subject.empty())
     subject = indexable.newAnonymousUri();
   indexable.addTriplet(subject, predicate, object);
 }
 
-string
-removeAlphabets(const string& str) {
+std::string
+removeAlphabets(const std::string& str) {
     std::string newStr;
     newStr.reserve(str.length());
     for( size_t i=0; i<str.length(); i++ )
@@ -154,7 +154,7 @@ FlacEndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream*
       
       //if this isn't the last block, read the header of the next block as well
       nreq = (blocktype & 0x80 ? blocksize : blocksize+4);
-	
+
       nread = in->read(buf, nreq, nreq);
       if (nread!=nreq)
         return -1;
@@ -187,7 +187,7 @@ FlacEndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream*
 	uint32_t desclen = readBigEndianUInt32(p);
 	if (12+mimelen+desclen+20>blocksize) // can the block hold picture and description?
 	   return -1;
-	string description(p+4, desclen);
+	std::string description(p+4, desclen);
 	
 	p += 4+desclen+16;
 	uint32_t piclen = readBigEndianUInt32(p);
@@ -196,7 +196,7 @@ FlacEndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream*
 	  return -1;
 	
 	StringInputStream picstream(p+4, piclen, false);
-	string picname;
+	std::string picname;
 	picname = (char)('0'+albumArtNum++);
 	indexable.indexChild(picname,indexable.mTime(), &picstream);
         if (desclen && indexable.child()) {
@@ -208,12 +208,12 @@ FlacEndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream*
 	const char *p2 = buf + 4 + readLittleEndianUInt32(buf); //skip vendor string. maybe put it into metadata as soon as there's some place for it
 	const char *end = buf + blocksize;
 	uint32_t nfields = readLittleEndianUInt32(p2);
-	string albumUri;
+	std::string albumUri;
 	
         // in Vorbis comments the "artist" field is used for the performer in modern music
         // but for the composer in calssical music. Thus, we cache both and make the decision
         // at the end
-	list<string> artists, performers;
+	std::list<std::string> artists, performers;
 
 	// read all the comments
 	p2 += 4;
@@ -226,7 +226,7 @@ FlacEndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream*
 		while (eq < size && p2[eq] != '=') eq++;
 		if (size > eq) {
 		  
-		    string name(p2, eq);
+		    std::string name(p2, eq);
 		    // convert field name to lower case
                     const size_t length = name.length();
                     for(size_t k=0; k!=length; ++k) {
@@ -234,9 +234,9 @@ FlacEndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream*
 		    }
 		    
 		    // check if we can handle this field and if so handle it
-		    map<string, const RegisteredField*>::const_iterator iter
+		    std::map<std::string, const RegisteredField*>::const_iterator iter
 			= factory->fields.find(name);
-		    string value(p2+eq+1, size-eq-1);
+		    std::string value(p2+eq+1, size-eq-1);
 		    
 		    if (iter != factory->fields.end()) {
                 // Hack: the tracknumber sometimes contains the track count, too
@@ -258,7 +258,7 @@ FlacEndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream*
                         indexable.addText(value.c_str(),
                                           (int32_t)value.length());
 		    } else if(name=="albumartist") {
-			const string albumArtistUri( indexable.newAnonymousUri() );
+			const std::string albumArtistUri( indexable.newAnonymousUri() );
 			addStatement(indexable, albumUri, albumArtistPropertyName, albumArtistUri);
 			indexable.addTriplet(albumArtistUri, typePropertyName, contactClassName);
 			indexable.addTriplet(albumArtistUri, fullnamePropertyName, value);			
@@ -274,13 +274,13 @@ FlacEndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream*
 		    } else if(name=="replaygain_album_peak") {
 			addStatement(indexable, albumUri, albumPeakGainPropertyName, removeAlphabets(value));
 		    } else if(name=="composer") {
-			const string composerUri( indexable.newAnonymousUri() );
+			const std::string composerUri( indexable.newAnonymousUri() );
 
 			indexable.addValue(factory->composerField, composerUri);
 			indexable.addTriplet(composerUri, typePropertyName, contactClassName);
 			indexable.addTriplet(composerUri, fullnamePropertyName, value);
 		    } else if(name=="publisher") {
-			const string publisherUri( indexable.newAnonymousUri() );
+			const std::string publisherUri( indexable.newAnonymousUri() );
 
 			indexable.addValue(factory->publisherField, publisherUri);
 			indexable.addTriplet(publisherUri, typePropertyName, contactClassName);
@@ -312,10 +312,10 @@ FlacEndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream*
             performerField = factory->performerField;
         }
         if (artistField) {
-	    list<string>::iterator aIt;
+            std::list<std::string>::iterator aIt;
 
             for(aIt=artists.begin(); aIt != artists.end(); ++aIt) {
-                const string artistUri( indexable.newAnonymousUri() );
+                const std::string artistUri( indexable.newAnonymousUri() );
 
                 indexable.addValue(artistField, artistUri);
                 indexable.addTriplet(artistUri, typePropertyName, contactClassName);
@@ -323,10 +323,10 @@ FlacEndAnalyzer::analyze(Strigi::AnalysisResult& indexable, Strigi::InputStream*
             }
         }
         if (performerField) {
-            list<string>::iterator pIt;
+            std::list<std::string>::iterator pIt;
 
             for(pIt=performers.begin(); pIt != performers.end(); ++pIt) {
-                const string performerUri( indexable.newAnonymousUri() );
+                const std::string performerUri( indexable.newAnonymousUri() );
 
                 indexable.addValue(performerField, performerUri);
                 indexable.addTriplet(performerUri, typePropertyName, contactClassName);

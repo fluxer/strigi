@@ -40,39 +40,38 @@
 #include <sys/stat.h>
 
 using namespace Strigi;
-using namespace std;
 
 class FieldPropertiesDb::Private {
 public:
-    map<string, FieldProperties> properties;
-    map<string, FieldProperties> propertiesByAlias;
-    map<string, ClassProperties> classes;
+    std::map<std::string, FieldProperties> properties;
+    std::map<std::string, FieldProperties> propertiesByAlias;
+    std::map<std::string, ClassProperties> classes;
     static const FieldProperties& emptyField();
     static const ClassProperties& emptyClass();
 
     Private();
-    static vector<string> getdirs(const string&);
-    static vector<string> getXdgDirs();
+    static std::vector<std::string> getdirs(const std::string&);
+    static std::vector<std::string> getXdgDirs();
     void addEssentialProperties();
-    void loadProperties(const string& dir);
+    void loadProperties(const std::string& dir);
     void parseProperties(FILE* f);
     void storeProperties(FieldProperties::Private& props);
-    void warnIfLocale(const char* name, size_t len, const string& locale);
+    void warnIfLocale(const char* name, size_t len, const std::string& locale);
 
-// SAX Callbacks and stuff
-    map<string, FieldProperties::Private> pProperties;
-    map<string, ClassProperties::Private> pClasses;
+    // SAX Callbacks and stuff
+    std::map<std::string, FieldProperties::Private> pProperties;
+    std::map<std::string, ClassProperties::Private> pClasses;
 
     bool saxError;
     enum {defNone, defClass, defProperty} currentDefinition;
-    string currentSubElement;
-    string currentElementChars;
-    string currentElementLang;
-    string currentElementResource;
+    std::string currentSubElement;
+    std::string currentElementChars;
+    std::string currentElementLang;
+    std::string currentElementResource;
     bool nestedResource;
     FieldProperties::Private currentField;
     ClassProperties::Private currentClass;
-    map<string, xmlEntity> xmlEntities;
+    std::map<std::string, xmlEntity> xmlEntities;
 
     void setDefinitionAttribute(const char* name, size_t namelen,
         const char * value, size_t valuelen);
@@ -116,7 +115,7 @@ FieldPropertiesDb::~FieldPropertiesDb() {
 }
 const FieldProperties&
 FieldPropertiesDb::properties(const std::string& uri) const {
-    map<std::string, FieldProperties>::const_iterator j
+    std::map<std::string, FieldProperties>::const_iterator j
         = p->properties.find(uri);
     if (j == p->properties.end()) {
         return FieldPropertiesDb::Private::emptyField();
@@ -127,7 +126,7 @@ FieldPropertiesDb::properties(const std::string& uri) const {
 
 const FieldProperties&
 FieldPropertiesDb::propertiesByAlias(const std::string& alias) const {
-    map<std::string, FieldProperties>::const_iterator j
+    std::map<std::string, FieldProperties>::const_iterator j
         = p->propertiesByAlias.find(alias);
     if (j == p->propertiesByAlias.end()) {
         return FieldPropertiesDb::Private::emptyField();
@@ -136,30 +135,30 @@ FieldPropertiesDb::propertiesByAlias(const std::string& alias) const {
     }
 }
 
-const map<string, FieldProperties>&
+const std::map<std::string, FieldProperties>&
 FieldPropertiesDb::allProperties() const {
     return p->properties;
 }
 
 const ClassProperties&
 FieldPropertiesDb::classes(const std::string& uri) const {
-    map<std::string, ClassProperties>::const_iterator j = p->classes.find(uri);
+    std::map<std::string, ClassProperties>::const_iterator j = p->classes.find(uri);
     if (j == p->classes.end()) {
         return FieldPropertiesDb::Private::emptyClass();
     } else {
         return j->second;
     }
 }
-const map<string, ClassProperties>&
+const std::map<std::string, ClassProperties>&
 FieldPropertiesDb::allClasses() const {
     return p->classes;
 }
-vector<string>
-FieldPropertiesDb::Private::getdirs(const string& direnv) {
-    vector<string> dirs;
-    string::size_type lastp = 0;
-    string::size_type p = direnv.find(':');
-    while (p != string::npos) {
+std::vector<std::string>
+FieldPropertiesDb::Private::getdirs(const std::string& direnv) {
+    std::vector<std::string> dirs;
+    std::string::size_type lastp = 0;
+    std::string::size_type p = direnv.find(':');
+    while (p != std::string::npos) {
         dirs.push_back(direnv.substr(lastp, p-lastp));
         lastp = p+1;
         p = direnv.find(':', lastp);
@@ -167,37 +166,37 @@ FieldPropertiesDb::Private::getdirs(const string& direnv) {
     dirs.push_back(direnv.substr(lastp));
     return dirs;
 }
-vector<string>
+std::vector<std::string>
 FieldPropertiesDb::Private::getXdgDirs() {
     // find the XDG HOME directories or if not defined the local HOME dirs
-    vector<string> dirs;
+    std::vector<std::string> dirs;
     const char* dirpath = getenv("XDG_DATA_HOME");
     if (dirpath) {
         dirs = getdirs(dirpath);
     } else {
         dirpath = getenv("HOME");
         if (dirpath) {
-             dirs = getdirs(string(dirpath)+"/.local/share");
+             dirs = getdirs(std::string(dirpath)+"/.local/share");
         }
     }
     // add the XDG DATA directories or if not defined the default dirs
     dirpath = getenv("XDG_DATA_DIRS");
-    vector<string> d;
+    std::vector<std::string> d;
     if (dirpath) {
         d = getdirs(dirpath);
     } else {
         d = getdirs(INSTALLDIR "/share:/usr/local/share:/usr/share");
     }
-    copy(d.begin(), d.end(), back_insert_iterator<vector<string> >(dirs));
+    copy(d.begin(), d.end(), std::back_insert_iterator<std::vector<std::string> >(dirs));
     return dirs;
 }
 FieldPropertiesDb::Private::Private() {
     // some properties are defined hard in the code because they are essential
     addEssentialProperties();
 
-    vector<string> dirs = getXdgDirs();
-    vector<string>::const_iterator i;
-    set<string> done;
+    std::vector<std::string> dirs = getXdgDirs();
+    std::vector<std::string>::const_iterator i;
+    std::set<std::string> done;
     for (i=dirs.begin(); i!=dirs.end(); ++i) {
         if (done.find(*i) == done.end()) {
             done.insert(*i);
@@ -207,42 +206,42 @@ FieldPropertiesDb::Private::Private() {
 
     // Generate childUris, applicable* and locales values.
 
-    for (map<string, FieldProperties::Private>::const_iterator prop
+    for (std::map<std::string, FieldProperties::Private>::const_iterator prop
             = pProperties.begin();
             prop != pProperties.end(); ++prop) {
         FieldProperties::Private property = prop->second;
 
-        for (map<string,FieldProperties::Localized>::iterator l
+        for (std::map<std::string,FieldProperties::Localized>::iterator l
                 = property.localized.begin();
                 l != property.localized.end(); ++l) {
             property.locales.push_back(l->first);
         }
 
-        const vector<string>& parents = property.parentUris;
-        for (vector<string>::const_iterator parent = parents.begin();
+        const std::vector<std::string>& parents = property.parentUris;
+        for (std::vector<std::string>::const_iterator parent = parents.begin();
                 parent != parents.end(); ++parent ) {
             pProperties[*parent].childUris.push_back(property.uri);
         }
-        const vector<string>& applicable = property.applicableClasses;
-        for (vector<string>::const_iterator aclass = applicable.begin();
+        const std::vector<std::string>& applicable = property.applicableClasses;
+        for (std::vector<std::string>::const_iterator aclass = applicable.begin();
                 aclass != applicable.end(); ++aclass ) {
             pClasses[*aclass].applicableProperties.push_back(property.uri);
         }
     }
 
-    for (map<string, ClassProperties::Private>::const_iterator aclass
+    for (std::map<std::string, ClassProperties::Private>::const_iterator aclass
             = pClasses.begin();
             aclass != pClasses.end(); ++aclass) {
         ClassProperties::Private cclass = aclass->second;
 
-        for (map<string,ClassProperties::Localized>::iterator l
+        for (std::map<std::string,ClassProperties::Localized>::iterator l
                 = cclass.localized.begin();
                 l != cclass.localized.end(); ++l) {
             cclass.locales.push_back(l->first);
         }
 
-        const vector<string>& parents = cclass.parentUris;
-        for (vector<string>::const_iterator parent = parents.begin();
+        const std::vector<std::string>& parents = cclass.parentUris;
+        for (std::vector<std::string>::const_iterator parent = parents.begin();
             parent != parents.end(); ++parent ) {
             pClasses[*parent].childUris.push_back(cclass.uri);
         }
@@ -251,19 +250,19 @@ FieldPropertiesDb::Private::Private() {
     copy(pClasses.begin(), pClasses.end(), inserter(classes, classes.end()) );
 
     // Construct properties and propertiesByAlias lists
-    for (map<string, FieldProperties::Private>::const_iterator prop
+    for (std::map<std::string, FieldProperties::Private>::const_iterator prop
             = pProperties.begin(); prop != pProperties.end(); ++prop) {
         FieldProperties property(prop->second);
-        string alias = prop->second.alias;
+        std::string alias = prop->second.alias;
 
         if(alias.size()) {
             if(propertiesByAlias.find(alias) == propertiesByAlias.end()) {
                 propertiesByAlias[alias] = property;
             } else {
 //FIXME: use loging framework
-//                cerr << "Error: alias " << alias << " requested by several properties: " << propertiesByAlias.find(alias)->second.uri()
+//                std::cerr << "Error: alias " << alias << " requested by several properties: " << propertiesByAlias.find(alias)->second.uri()
 //		  << ", " << prop->second.uri
-//		  << endl;
+//		  << std::endl;
             }
         }
 
@@ -311,8 +310,8 @@ FieldPropertiesDb::Private::addEssentialProperties() {
     properties[FieldRegister::parentLocationFieldName] = props;
 }
 void
-FieldPropertiesDb::Private::loadProperties(const string& dir) {
-    string pdir = dir + "/strigi/fieldproperties/";
+FieldPropertiesDb::Private::loadProperties(const std::string& dir) {
+    std::string pdir = dir + "/strigi/fieldproperties/";
     DIR* d = opendir(pdir.c_str());
     if (!d) {
         pdir = dir;
@@ -329,7 +328,7 @@ FieldPropertiesDb::Private::loadProperties(const string& dir) {
     struct stat s;
 #endif
     while (de) {
-        string path(pdir+de->d_name);
+        std::string path(pdir+de->d_name);
         if (path.length() >= 5 && path.compare(path.length() - 5, 5, ".rdfs", 5) == 0 &&
 #ifdef HAVE_DIRENT_D_TYPE
                 de->d_type == DT_REG) {
@@ -393,7 +392,7 @@ FieldPropertiesDb::Private::parseProperties(FILE* f) {
 
     if(saxError) {
 //FIXME: use logging framework
-//        cerr << "saxError in FieldPropertiesDB::parseProperties." << endl;
+//        std::cerr << "saxError in FieldPropertiesDB::parseProperties." << std::endl;
     }
 
     if (ctxt) {
@@ -401,7 +400,7 @@ FieldPropertiesDb::Private::parseProperties(FILE* f) {
         xmlFreeParserCtxt(ctxt);
     }
 
-    for (map<std::string, xmlEntity>::iterator j=xmlEntities.begin();
+    for (std::map<std::string, xmlEntity>::iterator j=xmlEntities.begin();
             j!=xmlEntities.end(); ++j) {
         delete [] j->second.name;
         delete [] j->second.content;
@@ -413,8 +412,8 @@ FieldPropertiesDb::Private::xmlSAX2EntityDecl(void * ctx, const xmlChar * name,
         int type, const xmlChar* publicId, const xmlChar* systemId,
         xmlChar* content) {
     Private* p = (Private*)ctx;
-    string stdname((const char*)name);
-    map<std::string, xmlEntity>::const_iterator j
+    std::string stdname((const char*)name);
+    std::map<std::string, xmlEntity>::const_iterator j
         = p->xmlEntities.find(stdname);
     if (j == p->xmlEntities.end()) {
         xmlEntity& newEntity = p->xmlEntities[stdname];
@@ -429,14 +428,14 @@ FieldPropertiesDb::Private::xmlSAX2EntityDecl(void * ctx, const xmlChar * name,
         newEntity.URI = newEntity.orig;
     } else {
 // FIXME: use logging framework
-//        cerr << "Error: entity " << name << " redeclared." << endl;
+//        std::cerr << "Error: entity " << name << " redeclared." << std::endl;
     }
 }
 
 xmlEntityPtr
 FieldPropertiesDb::Private::getEntitySAXFunc(void * ctx, const xmlChar * name) {
     Private* p = (Private*)ctx;
-    map<std::string, xmlEntity>::iterator j
+    std::map<std::string, xmlEntity>::iterator j
         = p->xmlEntities.find((const char *)name);
     if (j == p->xmlEntities.end()) {
         return NULL;
@@ -456,14 +455,14 @@ void
 FieldPropertiesDb::Private::errorSAXFunc(void* ctx, const char* msg, ...) {
     Private* p = (Private*)ctx;
     p->saxError = true;
-    string e;
+    std::string e;
 
     va_list args;
     va_start(args, msg);
-    e += string(" ")+va_arg(args,char*);
+    e += std::string(" ")+va_arg(args,char*);
     va_end(args);
 // FIXME: use logging framework
-//    cerr << "Error: " << e << endl;
+//    std::cerr << "Error: " << e << std::endl;
 }
 
 bool
@@ -476,8 +475,8 @@ FieldPropertiesDb::Private::isBoolValid(const char *uri, const char* name,
         result = true;
     } else {
 // FIXME: use logging framework
-//	 cerr << name << " flag value[" << value << "] for " << uri
-//            << " is unrecognized. Should be in set {True,False}." << endl;
+//	 std::cerr << name << " flag value[" << value << "] for " << uri
+//            << " is unrecognized. Should be in set {True,False}." << std::endl;
         return false;
     }
     return true;
@@ -505,8 +504,8 @@ FieldPropertiesDb::Private::setDefinitionAttribute(const char* name,
             warnIfLocale(value, valuelen, currentElementLang);
             if (currentField.uri.size()) {
 // FIXME: use logging framework
-//                cerr << "Uri is already defined for " << currentField.uri << "."
-//                   << endl;
+//                std::cerr << "Uri is already defined for " << currentField.uri << "."
+//                   << std::endl;
             } else {
                 currentField.uri.assign(value, valuelen);
             }
@@ -514,8 +513,8 @@ FieldPropertiesDb::Private::setDefinitionAttribute(const char* name,
             warnIfLocale(value, valuelen, currentElementLang);
             if (currentField.alias.size()) {
 // FIXME: use logging framework
-//                cerr << "alias is already defined for " << currentField.uri << "."
-//                   << endl;
+//                std::cerr << "alias is already defined for " << currentField.uri << "."
+//                   << std::endl;
             } else {
                 currentField.alias.assign(value, valuelen);
             }
@@ -523,8 +522,8 @@ FieldPropertiesDb::Private::setDefinitionAttribute(const char* name,
             warnIfLocale(currentField.uri.c_str(), currentField.uri.size(), currentElementLang);
             if (currentField.typeuri.size()) {
 // FIXME: use logging framework
-//               cerr << "range is already defined for " << currentField.uri
-//                   << "." << endl;
+//               std::cerr << "range is already defined for " << currentField.uri
+//                   << "." << std::endl;
             } else {
                 currentField.typeuri.assign(currentElementResource);
             }
@@ -534,17 +533,17 @@ FieldPropertiesDb::Private::setDefinitionAttribute(const char* name,
                     currentField.localized[currentElementLang]);
                 if (l.name.size()) {
 // FIXME: use logging framework
-//                    cerr << "label [" << currentElementLang
+//                    std::cerr << "label [" << currentElementLang
 //                        << "] is already defined for " << currentField.uri
-//                        << "." << endl;
+//                        << "." << std::endl;
                 } else {
                     l.name.assign(value, valuelen);
                     currentField.localized[currentElementLang] = l;
                 }
             } else if (currentField.name.size()) {
 // FIXME: use logging framework
-//                cerr << "label is already defined for " << currentField.uri
-//                    << "." << endl;
+//                std::cerr << "label is already defined for " << currentField.uri
+//                    << "." << std::endl;
             } else {
                 currentField.name.assign(value, valuelen);
             }
@@ -554,17 +553,17 @@ FieldPropertiesDb::Private::setDefinitionAttribute(const char* name,
                     currentField.localized[currentElementLang]);
                 if (l.description.size()) {
 // FIXME: use logging framework
-//                    cerr << "comment[" << currentElementLang
+//                    std::cerr << "comment[" << currentElementLang
 //                        << "] is already defined for " << currentField.uri
-//                        << "." << endl;
+//                        << "." << std::endl;
                 } else {
                     l.description.assign(value, valuelen);
                     currentField.localized[currentElementLang] = l;
                 }
             } else if (currentField.description.size()) {
 // FIXME: use logging framework
-//                cerr << "comment is already defined for " << currentField.uri
-//                    << "." << endl;
+//                std::cerr << "comment is already defined for " << currentField.uri
+//                    << "." << std::endl;
             } else {
                 currentField.description.assign(value, valuelen);
             }
@@ -607,8 +606,8 @@ FieldPropertiesDb::Private::setDefinitionAttribute(const char* name,
             warnIfLocale(value, valuelen, currentElementLang);
             if (currentClass.uri.size()) {
 // FIXME: use logging framework
-//                cerr << "Uri is already defined for " << currentClass.uri
-//                    << "." << endl;
+//                std::cerr << "Uri is already defined for " << currentClass.uri
+//                    << "." << std::endl;
             }
         } else {
             currentClass.uri.assign(value, valuelen);
@@ -619,17 +618,17 @@ FieldPropertiesDb::Private::setDefinitionAttribute(const char* name,
                 currentClass.localized[currentElementLang]);
             if (l.name.size()) {
 // FIXME: use logging framework
-//                cerr << "label[" << currentElementLang
+//                std::cerr << "label[" << currentElementLang
 //                    << "] is already defined for " << currentClass.uri
-//                    << "." << endl;
+//                    << "." << std::endl;
             } else {
                 l.name.assign(value, valuelen);
                 currentClass.localized[currentElementLang] = l;
             }
         } else if (currentClass.name.size()) {
 // FIXME: use logging framework
-//            cerr << "label is already defined for " << currentClass.uri
-//                << "." << endl;
+//            std::cerr << "label is already defined for " << currentClass.uri
+//                << "." << std::endl;
         } else {
             currentClass.name.assign(value, valuelen);
         }
@@ -639,17 +638,17 @@ FieldPropertiesDb::Private::setDefinitionAttribute(const char* name,
                     currentClass.localized[currentElementLang]);
             if (l.description.size()) {
 // FIXME: use logging framework
-//                cerr << "comment[" << currentElementLang
+//                std::cerr << "comment[" << currentElementLang
 //                    << "] is already defined for " << currentClass.uri
-//                    << "." << endl;
+//                    << "." << std::endl;
             } else {
                 l.description.assign(value, valuelen);
                 currentClass.localized[currentElementLang] = l;
             }
         } else if (currentField.description.size()) {
 // FIXME: use logging framework
-//            cerr << "comment is already defined for " << currentClass.uri
-//                << "." << endl;
+//            std::cerr << "comment is already defined for " << currentClass.uri
+//                << "." << std::endl;
         } else {
             currentClass.description.assign(value, valuelen);
         }
@@ -712,7 +711,7 @@ FieldPropertiesDb::Private::endElementNsSAX2Func(void *ctx,
 		if (p->currentField.uri.size()) {
 		    if(!p->currentField.alias.size()) {
 			size_t pos;
-			if ((pos = p->currentField.uri.rfind('#')) != string::npos){
+			if ((pos = p->currentField.uri.rfind('#')) != std::string::npos){
 			    p->currentField.alias = p->currentField.uri.substr(pos+1);
 			}
 		    }
@@ -743,8 +742,8 @@ FieldPropertiesDb::Private::endElementNsSAX2Func(void *ctx,
                 p->currentElementLang = "";
             } else {
 // FIXME: use logging framework
-//                cerr << "ERROR: Wrong closing element " << localname
-//                    << "." << endl;
+//                std::cerr << "ERROR: Wrong closing element " << localname
+//                    << "." << std::endl;
             }
         }
     }
@@ -759,11 +758,11 @@ FieldPropertiesDb::Private::storeProperties(FieldProperties::Private& p) {
 }
 
 void
-FieldPropertiesDb::Private::warnIfLocale(const char* name, size_t len, const string& locale) {
+FieldPropertiesDb::Private::warnIfLocale(const char* name, size_t len, const std::string& locale) {
     if (locale.size()) {
 // FIXME: use logging framework
-//        cerr << "Warning: you cannot define a locale for the resource URI "
-//            << name << "." << endl;
+//        std::cerr << "Warning: you cannot define a locale for the resource URI "
+//            << name << "." << std::endl;
     }
 }
 void

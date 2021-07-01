@@ -29,7 +29,6 @@
 #include <iostream>
 #include <set>
 
-using namespace std;
 using namespace Strigi;
 
 void
@@ -50,7 +49,7 @@ NamespaceHarvesterSaxAnalyzer::startAnalysis(AnalysisResult *i) {
 
 void
 NamespaceHarvesterSaxAnalyzer::endAnalysis(bool /*complete*/) {
-    set<string>::iterator i; // Iterator for looping over list elements
+    std::set<std::string>::iterator i; // Iterator for looping over list elements
     for (i = usedNamespaces.begin(); i != usedNamespaces.end(); ++i) {
         //FIXME: either get rid of this or replace with NIE equivalent
         //analysisResult->addValue(factory->usesNamespaceField, *i);

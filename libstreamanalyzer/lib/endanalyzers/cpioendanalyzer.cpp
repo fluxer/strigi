@@ -22,6 +22,7 @@
 #include <strigi/cpioinputstream.h>
 #include <strigi/subinputstream.h>
 #include <strigi/analysisresult.h>
+
 using namespace Strigi;
 
 void

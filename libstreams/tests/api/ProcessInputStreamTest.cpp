@@ -22,7 +22,6 @@
 #include "../sharedtestcode/inputstreamtests.h"
 #include <vector>
 
-using namespace std;
 using namespace Strigi;
 
 int
@@ -32,7 +31,7 @@ ProcessInputStreamTest(int argc, char* argv[]) {
         return 1;
     }
 
-    vector<string> args;
+    std::vector<std::string> args;
     args.push_back("/bin/cat");
     founderrors = 0;
     for (int i=0; i<ninputstreamtests; ++i) {

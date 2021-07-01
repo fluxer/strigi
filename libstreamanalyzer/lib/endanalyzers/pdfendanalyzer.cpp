@@ -25,7 +25,7 @@
 #include <strigi/textutils.h>
 #include <sstream>
 #include <cstring>
-using namespace std;
+
 using namespace Strigi;
 
 void
@@ -40,7 +40,7 @@ PdfEndAnalyzer::PdfEndAnalyzer(const PdfEndAnalyzerFactory* f) :factory(f) {
 }
 StreamStatus
 PdfEndAnalyzer::handle(InputStream* s) {
-    ostringstream str;
+    std::ostringstream str;
     str << n++;
     char r = analysisresult->indexChild(str.str(), analysisresult->mTime(), s);
     analysisresult->finishIndexChild();

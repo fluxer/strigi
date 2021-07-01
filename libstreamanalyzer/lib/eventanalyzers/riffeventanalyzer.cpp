@@ -35,7 +35,6 @@ const std::string
     videoClassName( STRIGI_NFO "Video"),
     audioClassName( STRIGI_NFO "Audio");
 
-using namespace std;
 using namespace Strigi;
 
 // AnalyzerFactory
@@ -76,7 +75,7 @@ RiffEventAnalyzer::processStrh() {
     uint32_t type = readLittleEndianUInt32(c);
     if (type == 0x73646976) { // vids
         if (isalnum(c[4]) && isalnum(c[5]) && isalnum(c[6]) && isalnum(c[7])) {
-            a->addValue(f->videoCodecField, string(c+4, 4));
+            a->addValue(f->videoCodecField, std::string(c+4, 4));
         } else {
             return false;
         }
@@ -204,7 +203,7 @@ RiffEventAnalyzer::handleChunkData(uint64_t off, const char* data,
     if (s >= max) return;
 
     // determine how many bytes to copy to the buffer
-    uint32_t l = min(max, length - s);
+    uint32_t l = std::min(max, length - s);
     memmove(chunkBuffer + s, data, l);
 
     if (max > s + l) { // not enough data yet

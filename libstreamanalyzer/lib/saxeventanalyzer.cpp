@@ -31,7 +31,6 @@
 #endif
 
 using namespace Strigi;
-using namespace std;
 
 class xmlCleaner {
 public:
@@ -68,7 +67,7 @@ public:
         handler.endElementNs = endElementNsSAX2Func;
     }
     ~Private() {
-        vector<StreamSaxAnalyzer*>::iterator s;
+        std::vector<StreamSaxAnalyzer*>::iterator s;
         for (s = sax.begin(); s != sax.end(); ++s) {
             delete *s;
         }
@@ -107,7 +106,7 @@ void
 SaxEventAnalyzer::Private::charactersSAXFunc(void* ctx, const xmlChar* ch,
         int len) {
     Private* p = (Private*)ctx;
-    vector<StreamSaxAnalyzer*>::iterator i;
+    std::vector<StreamSaxAnalyzer*>::iterator i;
     for (i = p->sax.begin(); i != p->sax.end(); ++i) {
         (*i)->characters((const char*)ch, len);
     }
@@ -116,11 +115,11 @@ void
 SaxEventAnalyzer::Private::errorSAXFunc(void* ctx, const char* msg, ...) {
     Private* p = (Private*)ctx;
     p->error = true;
-    string e;
+    std::string e;
 
     va_list args;
     va_start(args, msg);
-    e += string(" ")+va_arg(args,char*);
+    e += std::string(" ")+va_arg(args,char*);
     va_end(args);
 }
 void
@@ -129,7 +128,7 @@ SaxEventAnalyzer::Private::startElementNsSAX2Func(void * ctx,
         int nb_namespaces, const xmlChar ** namespaces, int nb_attributes,
         int nb_defaulted, const xmlChar ** attributes) {
     Private* p = (Private*)ctx;
-    vector<StreamSaxAnalyzer*>::iterator i;
+    std::vector<StreamSaxAnalyzer*>::iterator i;
     for (i = p->sax.begin(); i != p->sax.end(); ++i) {
         (*i)->startElement((const char*)localname, (const char*)prefix,
             (const char*)URI, nb_namespaces, (const char**)namespaces,
@@ -140,7 +139,7 @@ void
 SaxEventAnalyzer::Private::endElementNsSAX2Func(void *ctx,
         const xmlChar *localname, const xmlChar *prefix, const xmlChar *URI) {
     Private *p = (Private *) ctx;
-    vector<StreamSaxAnalyzer *>::iterator i;
+    std::vector<StreamSaxAnalyzer *>::iterator i;
     for (i = p->sax.begin(); i != p->sax.end(); ++i) {
         (*i)->endElement((const char *) localname, (const char *) prefix,
                          (const char *) URI);
@@ -158,14 +157,14 @@ SaxEventAnalyzer::startAnalysis(AnalysisResult* result) {
     ready = false;
     initialized = false;
 
-    vector<StreamSaxAnalyzer*>::iterator i;
+    std::vector<StreamSaxAnalyzer*>::iterator i;
     for (i = p->sax.begin(); i != p->sax.end(); ++i) {
         (*i)->startAnalysis(p->result);
     }
 }
 void
 SaxEventAnalyzer::endAnalysis(bool complete) {
-    vector<StreamSaxAnalyzer*>::iterator i;
+    std::vector<StreamSaxAnalyzer*>::iterator i;
     for (i = p->sax.begin(); i != p->sax.end(); ++i) {
         (*i)->endAnalysis(complete);
     }
@@ -184,7 +183,7 @@ SaxEventAnalyzer::handleData(const char* data, uint32_t length) {
     // check if we are done
     bool more = false;
     if (!p->error) {
-        vector<StreamSaxAnalyzer*>::iterator i;
+        std::vector<StreamSaxAnalyzer*>::iterator i;
         for (i = p->sax.begin(); i != p->sax.end(); ++i) {
             more = more || !(*i)->isReadyWithStream();
         }

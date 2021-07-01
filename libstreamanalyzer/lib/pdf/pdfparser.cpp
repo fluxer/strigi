@@ -22,7 +22,6 @@
 #include <strigi/subinputstream.h>
 #include <ctype.h>
 
-using namespace std;
 using namespace Strigi;
 
 int32_t streamcount = 0;
@@ -306,8 +305,8 @@ PdfParser::parseDictionaryOrStream() {
     pos += 2;
     skipWhitespaceOrComment();
     bool hasfilter = false;
-    string filter;
-    string type;
+    std::string filter;
+    std::string type;
     int length = -1;
     int offset = 0;
     int numberofobjects = 0;
@@ -611,7 +610,7 @@ PdfParser::DefaultStreamHandler::handle(Strigi::StreamBase<char>* s) {
     return s->status();
 }
 Strigi::StreamStatus
-PdfParser::DefaultTextHandler::handle(const string& s) {
+PdfParser::DefaultTextHandler::handle(const std::string& s) {
     printf("%s\n", s.c_str());
     return Ok;
 }
@@ -627,7 +626,7 @@ PdfParser::forwardStream(StreamBase<char>* s) {
 StreamStatus
 PdfParser::handleSubStream(StreamBase<char>* s, const std::string& type,
         int32_t offset, int32_t numberofobjects, bool hasfilter,
-        const string& filter) {
+        const std::string& filter) {
     if (hasfilter) {
         if (filter == "FlateDecode") {
             GZipInputStream gzip(s, GZipInputStream::ZLIBFORMAT);

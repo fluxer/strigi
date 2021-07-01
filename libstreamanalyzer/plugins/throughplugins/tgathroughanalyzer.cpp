@@ -24,7 +24,6 @@
 #include <strigi/fieldtypes.h>
 #include <strigi/textutils.h>
 
-using namespace std;
 using namespace Strigi;
 
 // AnalyzerFactory
@@ -132,9 +131,9 @@ TgaThroughAnalyzer::isReadyWithStream() {
 //Factory
 class Factory : public AnalyzerFactoryFactory {
 public:
-    list<StreamThroughAnalyzerFactory*>
+    std::list<StreamThroughAnalyzerFactory*>
     streamThroughAnalyzerFactories() const {
-        list<StreamThroughAnalyzerFactory*> af;
+        std::list<StreamThroughAnalyzerFactory*> af;
         af.push_back(new TgaThroughAnalyzerFactory());
         return af;
     }

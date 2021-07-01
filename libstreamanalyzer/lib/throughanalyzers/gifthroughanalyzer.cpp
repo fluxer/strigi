@@ -31,7 +31,6 @@
 // this version does not extract comment at the moment
 // read http://www.w3.org/Graphics/GIF/spec-gif89a.txt on how to do that
 
-using namespace std;
 using namespace Strigi;
 
 namespace Strigi {

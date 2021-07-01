@@ -22,7 +22,7 @@
 #include <strigi/fieldproperties.h>
 #include <strigi/fieldpropertiesdb.h>
 #include <fnmatch.h>
-using namespace std;
+
 using namespace Strigi;
 
 class Strigi::AnalyzerConfigurationPrivate {
@@ -91,7 +91,7 @@ AnalyzerConfiguration::indexType(const RegisteredField* field) const {
 }
 bool
 AnalyzerConfiguration::indexFile(const char* path, const char* filename) const {
-    vector<AnalyzerConfigurationPrivate::Pattern>::const_iterator i;
+    std::vector<AnalyzerConfigurationPrivate::Pattern>::const_iterator i;
     for (i = p->m_patterns.begin(); i != p->m_patterns.end(); ++i) {
         bool match;
         if (i->matchfullpath) {
@@ -117,7 +117,7 @@ AnalyzerConfiguration::setIndexArchiveContents( bool b ) {
 }
 bool
 AnalyzerConfiguration::indexDir(const char* path, const char* filename) const {
-    vector<AnalyzerConfigurationPrivate::Pattern>::const_iterator i;
+    std::vector<AnalyzerConfigurationPrivate::Pattern>::const_iterator i;
     for (i = p->m_dirpatterns.begin(); i != p->m_dirpatterns.end(); ++i) {
         bool match;
         if (i->matchfullpath) {
@@ -144,11 +144,11 @@ void
 AnalyzerConfiguration::setFilters(
         const std::vector<std::pair<bool,std::string> >& f) {
     p->m_filters = f;
-    vector<pair<bool,string> >::const_iterator i;
+    std::vector<std::pair<bool,std::string> >::const_iterator i;
     p->m_patterns.clear();
     p->m_dirpatterns.clear();
     for (i = p->m_filters.begin(); i != p->m_filters.end(); ++i) {
-        string s = i->second;
+        std::string s = i->second;
         if (s.length()) {
             AnalyzerConfigurationPrivate::Pattern p;
             p.include = i->first;
@@ -156,13 +156,13 @@ AnalyzerConfiguration::setFilters(
             if (sp == s.length()-1) { // directory pattern (it ends with '/')
                 // if the path contains another '/', match the entire path
                 sp = s.rfind('/', s.length()-2);
-                p.matchfullpath =  sp != string::npos;
+                p.matchfullpath =  sp != std::string::npos;
                 // remove the terminating '/'
                 p.pattern = s.substr(0, s.length()-1);
                 this->p->m_dirpatterns.push_back(p);
             } else { // file pattern
                 // if the path contains a '/', match the entire path
-                p.matchfullpath =  sp != string::npos;
+                p.matchfullpath =  sp != std::string::npos;
                 p.pattern = s;
                 this->p->m_patterns.push_back(p);
             }
