@@ -358,7 +358,12 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
     if ((size = in->size()) >= 0)
       ar.addValue(factory->durationProperty, (uint32_t)(size/(fc->bit_rate/8)));
   }
+// 2016-04-11 - 6f69f7a / 9200514 - lavf 57.33.100 / 57.5.0 - avformat.h
+#if LIBAVFORMAT_VERSION_INT >= AV_VERSION_INT(57, 33, 100)
+  if(fc->nb_streams==1 && fc->streams[0]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
+#else
   if(fc->nb_streams==1 && fc->streams[0]->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
+#endif
     ar.addValue(factory->typeProperty, STRIGI_NFO "Audio");
     ar.addValue(factory->typeProperty, STRIGI_NMM_DRAFT "MusicPiece");
   } else {
@@ -367,8 +372,13 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
 
   for(uint32_t i=0; i<fc->nb_streams; i++) {
     const AVStream &stream = *fc->streams[i];
+// 2016-04-11 - 6f69f7a / 9200514 - lavf 57.33.100 / 57.5.0 - avformat.h
+#if LIBAVFORMAT_VERSION_INT >= AV_VERSION_INT(57, 33, 100)
+    const AVCodecParameters &codec = *stream.codecpar;
+#else
     const AVCodecContext &codec = *stream.codec;
-    
+#endif
+
     if (codec.codec_type == AVMEDIA_TYPE_AUDIO || codec.codec_type == AVMEDIA_TYPE_VIDEO) {
       const std::string streamuri = ar.newAnonymousUri();
       ar.addValue(factory->hasPartProperty, streamuri);
