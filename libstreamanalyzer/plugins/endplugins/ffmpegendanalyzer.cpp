@@ -58,7 +58,7 @@ friend class FFMPEGEndAnalyzer;
 public:
     FFMPEGEndAnalyzerFactory() {
 // 2018-02-06 - 0694d87024 - lavf 58.9.100 - avformat.h
-#if (LIBAVFORMAT_VERSION_MAJOR < 59) && (LIBAVFORMAT_VERSION_MINOR < 9)
+#if LIBAVFORMAT_VERSION_INT < AV_VERSION_INT(58, 9, 100)
         av_register_all();
 #endif
     }
@@ -180,7 +180,7 @@ FFMPEGEndAnalyzerFactory::registerFields(FieldRegister& r) {
 // Evil FFMPEG hid av_probe_input_format2, the function that does just this.
 AVInputFormat *probe_format(AVProbeData *pd, int *max_score) {
 // 2010-05-01 - 8e2ee18 - lavf 52.62.0 - probe function
-#if (LIBAVFORMAT_VERSION_MAJOR > 52)
+#if LIBAVFORMAT_VERSION_INT >= AV_VERSION_INT(52, 62, 0)
   return av_probe_input_format2(pd, true, max_score);
 #else
   AVInputFormat *result = NULL;
@@ -223,7 +223,7 @@ FFMPEGEndAnalyzer::checkHeader(const char* header, int32_t headersize) const {
   pd.buf_size = headersize;
   pd.filename = "";
 // 2014-07-29 - 80a3a66 / 3a19405 - lavf 56.01.100 / 56.01.0 - avformat.h
-#if (LIBAVFORMAT_VERSION_MAJOR > 55)
+#if LIBAVFORMAT_VERSION_INT >= AV_VERSION_INT(56, 1, 100)
   pd.mime_type = "";
 #endif
   int max_score = 0;
@@ -313,7 +313,7 @@ FFMPEGEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
   pd.buf_size = buff_size;
   pd.buf = (unsigned char*)buf;
 // 2014-07-29 - 80a3a66 / 3a19405 - lavf 56.01.100 / 56.01.0 - avformat.h
-#if (LIBAVFORMAT_VERSION_MAJOR > 55)
+#if LIBAVFORMAT_VERSION_INT >= AV_VERSION_INT(56, 1, 100)
   pd.mime_type = "";
 #endif
   in->reset(0);
