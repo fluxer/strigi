@@ -176,7 +176,7 @@ PngEndAnalyzer::analyze(AnalysisResult& as, InputStream* in) {
         case 6: bpp = (uint16_t)(4*bpp); break; // RGBA
 
         default: // we don't get any sensible value here
-            bpp = 0;
+            bpp = 0; break;
     }
 
     as.addValue(factory->colorDepthField, (uint32_t)bpp);
