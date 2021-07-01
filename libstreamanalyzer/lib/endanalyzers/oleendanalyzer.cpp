@@ -103,27 +103,30 @@ WordText::cleanText() {
         case 19: // Field start
         case 20: // ?
             *c = '\n';
-	    break;
+            break;
         case 21: // Field end
             *c = ' '; // removing it would be better?
-	    break;
+            break;
         case 30: // Non-breakn hyphen
             *c = '-';
             break;
         case 31: // Non-required hyphen
             *c = '-';
-	    break;
+            break;
         case 160: // Non-breaking space
             *c = ' ';
             break;
         case 194: // beats me, might be artifact from decoding windows 1252
             *c = ' ';
+            break;
         case 0xa7: // ?
         case 3: // ? but should be removed, not replaced
         case 4: // ? but should be removed, not replaced
         case 5: // ? but should be removed, not replaced
             *c = ' ';
-        default:;
+            break;
+        default:
+            break;
         }
         c++;
     }
