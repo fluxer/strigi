@@ -574,6 +574,13 @@
     <rdfs:subPropertyOf rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nco#creator"/>
     <rdfs:domain rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Font"/>
   </rdf:Property>
+  <rdf:Property rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#colorCount">
+    <rdfs:comment>The amount of colors in a image.</rdfs:comment>
+    <rdfs:label>colorCount</rdfs:label>
+    <rdfs:domain rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Visual"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#count"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Property>
   <rdf:Property rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#colorDepth">
     <rdfs:comment>Amount of bits used to express the color of each pixel.</rdfs:comment>
     <rdfs:label>colorDepth</rdfs:label>
