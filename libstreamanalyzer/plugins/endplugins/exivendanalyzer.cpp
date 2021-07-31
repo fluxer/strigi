@@ -304,26 +304,6 @@ ExivEndAnalyzer::analyze(AnalysisResult& ar, ::InputStream* in) {
             }
         }
     }
-#if EXIV2_TEST_VERSION(0,17,91)
-    Exiv2::ExifThumbC thumb(exif);
-    Exiv2::DataBuf thumbnail = thumb.copy();
-#else
-    Exiv2::DataBuf thumbnail = exif.copyThumbnail();
-#endif
-    data = (const char*)thumbnail.pData_;
-    if (data) {
-        StringInputStream thumbstream(data, (int32_t)thumbnail.size_, false);
-        std::string thumbname("thumbnail");
-#if EXIV2_TEST_VERSION(0,17,91)
-        ar.indexChild(thumbname + thumb.extension(), ar.mTime(),
-            &thumbstream);
-        ar.finishIndexChild();
-#else
-        ar.indexChild(thumbname + exif.thumbnailExtension(), ar.mTime(),
-            &thumbstream);
-        ar.finishIndexChild();
-#endif
-    }
 
     return 0;
 }
