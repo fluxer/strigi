@@ -68,12 +68,20 @@ void MimeEventAnalyzer::handleData(const char* data, uint32_t length) {
     if (wasCalled) return;
     wasCalled = true;
 
-    if (p->magic) {
-        const std::string mime = magic_buffer(p->magic, data, length);
-        if (mime.size() > 0) {
-            p->analysisResult->addValue(p->factory->mimetypefield, mime);
-            p->analysisResult->setMimeType(mime);
-        }
+    if (!p->magic) {
+        return;
+    }
+
+    const char* mime = magic_buffer(p->magic, data, length);
+    if (!mime) {
+        // constructing std::string from null will cause a crash
+        return;
+    }
+
+    const std::string mimestring(mime);
+    if (mimestring.size() > 0) {
+        p->analysisResult->addValue(p->factory->mimetypefield, mimestring);
+        p->analysisResult->setMimeType(mimestring);
     }
 }
 
