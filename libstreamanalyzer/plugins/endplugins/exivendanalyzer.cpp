@@ -33,10 +33,6 @@
 #include <time.h>
 #include <iostream>
 
-#if defined(__sun) || defined(sun)
-#define HUGE_VALF HUGE_VAL
-#endif
-
 using namespace Strigi;
 
 /*
