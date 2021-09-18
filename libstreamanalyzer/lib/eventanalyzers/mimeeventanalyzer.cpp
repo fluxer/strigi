@@ -43,10 +43,13 @@ public:
 };
 
 MimeEventAnalyzer::Private::Private(const MimeEventAnalyzerFactory* f)
-    : factory(f)
+    : factory(f),
+    magic(NULL)
 {
     magic = magic_open(MAGIC_MIME_TYPE | MAGIC_ERROR);
-    magic_load(magic, 0);
+    if (magic) {
+        magic_load(magic, NULL);
+    }
 }
 
 MimeEventAnalyzer::Private::~Private() {
@@ -65,10 +68,12 @@ void MimeEventAnalyzer::handleData(const char* data, uint32_t length) {
     if (wasCalled) return;
     wasCalled = true;
 
-    const std::string mime = magic_buffer(p->magic, data, length);
-    if (mime.size() > 0) {
-        p->analysisResult->addValue(p->factory->mimetypefield, mime);
-        p->analysisResult->setMimeType(mime);
+    if (p->magic) {
+        const std::string mime = magic_buffer(p->magic, data, length);
+        if (mime.size() > 0) {
+            p->analysisResult->addValue(p->factory->mimetypefield, mime);
+            p->analysisResult->setMimeType(mime);
+        }
     }
 }
 
