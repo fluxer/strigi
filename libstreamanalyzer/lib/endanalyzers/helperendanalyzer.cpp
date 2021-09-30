@@ -216,6 +216,5 @@ bool
 HelperEndAnalyzer::checkForFile(const AnalysisResult& idx) const {
     if (idx.depth() > 0) return false;
     struct stat s;
-    if (stat(idx.path().c_str(), &s)) return false;
-    return true;
+    return (stat(idx.path().c_str(), &s) == 0);
 }
