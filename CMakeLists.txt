@@ -114,12 +114,6 @@ set_package_properties(XAttr PROPERTIES
     TYPE OPTIONAL
 )
 
-find_package(Regex)
-set_package_properties(Regex PROPERTIES
-    DESCRIPTION "Regular expression system header"
-    TYPE OPTIONAL
-)
-
 find_program(PDFTOTEXT_EXECUTABLE pdftotext)
 add_feature_info(pdftotext
     PDFTOTEXT_EXECUTABLE

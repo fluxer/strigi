@@ -4,12 +4,9 @@ target_link_libraries(dummyindexer streamanalyzer)
 add_library(libdeepfind STATIC deepfind.cpp)
 target_link_libraries(libdeepfind streamanalyzer)
 
-if(REGEX_FOUND)
-    include_directories(${REGEX_INCLUDE_DIR})
-    add_library(libdeepgrep STATIC deepgrep.cpp grepindexreader.cpp grepindexmanager.cpp
-        grepindexwriter.cpp)
-    target_link_libraries(libdeepgrep streamanalyzer)
-endif()
+add_library(libdeepgrep STATIC deepgrep.cpp grepindexreader.cpp grepindexmanager.cpp
+    grepindexwriter.cpp)
+target_link_libraries(libdeepgrep streamanalyzer)
 
 add_executable(greptest grepindexreader.cpp)
 target_link_libraries(greptest streamanalyzer)

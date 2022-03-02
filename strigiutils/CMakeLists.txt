@@ -18,14 +18,12 @@ install(
     RUNTIME DESTINATION ${BIN_DESTINATION}
 )
 
-if(REGEX_FOUND)
-    add_executable(deepgrep dummy.cpp)
-    target_link_libraries(deepgrep libdeepgrep)
-    install(
-        TARGETS deepgrep
-        RUNTIME DESTINATION ${BIN_DESTINATION}
-    )
-endif()
+add_executable(deepgrep dummy.cpp)
+target_link_libraries(deepgrep libdeepgrep)
+install(
+    TARGETS deepgrep
+    RUNTIME DESTINATION ${BIN_DESTINATION}
+)
 
 add_executable(xmlindexer dummy.cpp)
 target_link_libraries(xmlindexer libxmlindexer)
